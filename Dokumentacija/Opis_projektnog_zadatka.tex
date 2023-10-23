@@ -12,6 +12,42 @@
 			\item \textit{moguće nadogradnje projektnog zadatka}
 		\end{packed_item}
 		
-		\textit{Za pomoć pogledati reference navedene u poglavlju „Popis literature“, a po potrebi konzultirati sadržaj na internetu koji nudi dobre smjernice u tom pogledu.}
+		Cilj ovog projekta je razviti programsku podršku za stvaranje web aplikacije „Digitalni poster“ koja će olakšati pregled radova sudionicima stručne konferencije prikazom svakog rada i/ili izlaganja odgovarajućim posterom. 
+		
+		Prilikom pokretanja sustava prikazuje se [\textit{izgled početne stranice: prikaz konferencija koje se nalaze u blizini}]
+		
+		Neregistriranom korisniku odabirom konferencije otvaraju se opće informacije o konferenciji: [\textit{organizator, pokrovitelji, digitalni posteri}]. Uz to, navedena su sva izlaganja [\textit{mogu biti razvrstana po kategorijama ili vremenu predavanja}]: naziv rada, autor, opis. Neregistriranom korisniku je omogućeno prijavljivanje u sustav s postojećim račinom (potrebno je upisati korisničko ime i lozinku) ili kreiranjem novog računa. Za kreiranje novog računa potrebni su sljedeći podaci:
+		\begin{packed_item}
+			\item korisničko ime
+			\item lozinka
+			\item ime
+			\item prezime
+			\item email adresa
+			\item \textit{broj mobitela, mjesto i sl. ako će biti potrebno za funkcionalnost}
+		\end{packed_item}
+		
+		Registracijom u sustav korisniku se dodjeljuju prava posjetitelja konferencije, a naknadno mu se mogu dodijeliti prava autora ili administratora [\textit{biti će potrebno nadodati ostale dogovorene vrste korisnika}]. Registrirani korisnik može pregledati, mijenjati osobne podatke i izbrisati svoj korisnički račun.
+		
+		Posjetitelj prijavom i dolaskom na stručnu konferenciju dobiva jedinstvenu lozinku za pristup sustavu. Unošenjem te lozinke u aplikaciju otvara se [\textit{početna stranica konferencije na kojoj se trenutno nalazi, može biti pregled postera, video sadržaj ili izabrane fotografije}]. Nakon prijave dostupni su im promotivni materijali pokrovitelja konferencije. Posjetitelji mogu pratiti trenutna događanja u glavnoj konferencijskoj dvorani pomoću direktnog videa. Imaju mogućnost glasovanja za svaki pojedini poster koji predstavlja svakog pojedinog predavača na konferenciji. Svaki posjetitelj može glasovati samo jednom tijekom određene konferencije. Glasovanje je moguće samo tijekom određenog razdoblja koje je određeno danima i vremenom održavanja konferencije. Nakon završenog postupka glasovanja, obavljaju se rezultati koji su dostupni svim registriranim korisnicima. 
+		
+		Izabrane fotografije dostupne su registriranim korisnicima tijekom konferencija. Fotografije korisnici mogu spremati lokalno na svoj uređaj. Dostupan im je dio s informacijama o mjestu održavanja konferencije koji između ostalog sadrži podatke o trenutnim vremenskim uvjetima i vremenskoj prognozi za navedenu lokaciju.
+		
+		Uz posjetitelja postoje još \textit{x} vrste korisnika, a to su
+		\begin{packed_item}
+			\item autor rada
+			\item administrator
+			\item \textit{mogući korisnici}
+			\subitem organizator konferencije (ima širi spektar mogućnosti za rad u aplikaciji, omogućeno mu je ažuriranje podataka o izlaganjima, dodaje ili briše sudionike)
+			\subitem pokrovitelj (dostupna im je analitika vezana uz njihov sadržaj)
+			\subitem hotelijer (spomenut tijekom prve laboratorijske vježbe)
+		\end{packed_item}
+		
+		$\underline{Autor}$ koji sudjeluje na stručnom skupu elektroničkom poštom dostavljaju sve potrebne materijale sistemskom administratoru. Autor prima obavijest o rangu svojeg rada prema glasovima posjetitelja. Porukom elektroničke pošte ih se poziva na dodjelu nagrade za prva tri nagrađena rada. Sve sudionike se elektroničkom poštom obavještava o mjestu i vremenu dodjele nagrade.
+		
+		$\underline{Administrator}$ sustava ima najveće ovlasti. On ima pristup bazi s popisom registriranih korisnika i njihovim podacima te ih može brisati. Obavlja prijavu autora, radova i postera. Ima mogućnost ažuriranja tih podataka. Dostupni su mu svi podaci te može definirati sve potrebne uvjete za ispravan rad sustava.
+		
+		Sustav treba podržavati rad više korisnika u stvarnom vremenu. 
+
+		
 		\eject
 		
