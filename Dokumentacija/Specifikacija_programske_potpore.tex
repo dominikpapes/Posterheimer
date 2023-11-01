@@ -111,38 +111,6 @@
 					\newcounter{UseCaseCounter}
 					\setcounter{UseCaseCounter}{1}
 					
-					%UC1
-					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Pristup konferenciji}}
-					\begin{packed_item}
-	
-						\item \textbf{Glavni sudionik: } Neprijavljeni korisnik
-						\item  \textbf{Cilj:} Pristup konferenciji
-						\item  \textbf{Sudionici:} Baza podataka
-						\item  \textbf{Preduvjet:} Korisnik već nije prijavljen
-						\item  \textbf{Opis osnovnog tijeka:}
-						
-						\item[] \begin{packed_enum}
-	
-							\item Korisnik pokreće aplikaciju
-							\item Pojavljuje se obrazac za upis lozinke za pristup konferenciji (isti je za sve korisnike za tu konferenciju)
-							\item Korisnik upiše lozinku te ju potvrđuje
-							\item Obrazac za upis lozinke nestaje i pojavljuje se ekran s prikazom svih postera
-						\end{packed_enum}
-						
-						\item  \textbf{Opis mogućih odstupanja:}
-						
-						\item[] \begin{packed_item}
-	
-							\item[3.a] Korisnik upiše krivu lozinku
-							\item[] \begin{packed_enum}
-								
-								\item Pristup pregledu konferencije je odbijen
-								\item Sustav obavještava korisnika o upisu pogrešne lozinke ili imena
-								
-							\end{packed_enum}
-							
-						\end{packed_item}
-					\end{packed_item}
 					
 					%UC2
 					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Prijava}}
@@ -151,13 +119,12 @@
 						\item \textbf{Glavni sudionik: } Neprijavljeni korisnik
 						\item  \textbf{Cilj:} Pristup svim korisničkim funkcionalnostima aplikacije
 						\item  \textbf{Sudionici:} Baza podataka
-						\item  \textbf{Preduvjet:} Korisnik je registriran
+						\item  \textbf{Preduvjet:} Nema preduvjeta
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 							
-							\item Korisnik pritišće gumb za prijavu na početnoj stranici
-							\item Otvara se novi prozor u koji korisnik upisuje podatke
+							\item Otvara se prozor u koji korisnik upisuje podatke
 							\item Provjera postoji li korisnik u bazi podataka
 							\item Ako korisnik postoji, otvara se prozor s posterima, a korisnik je prijavljen
 						\end{packed_enum}
@@ -166,7 +133,7 @@
 						
 						\item[] \begin{packed_item}
 							
-							\item[4.a] Korisnik ne postoji u bazi podataka
+							\item[3.a] Korisnik ne postoji u bazi podataka
 							\item[] \begin{packed_enum}
 								
 								\item Sustav obavještava korisnika o upisu pogrešne lozinke ili imena
@@ -180,10 +147,10 @@
 					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Registracija}}
 					\begin{packed_item}
 					
-						\item \textbf{Glavni sudionik: } Neprijavljeni korisnik
-						\item  \textbf{Cilj:} Stvoriti korisnički račun za pristup sustavu
+						\item \textbf{Glavni sudionik: } Korisnik posjetitelj
+						\item  \textbf{Cilj:} Stvoriti vlastiti korisnički račun
 						\item  \textbf{Sudionici:} Baza podataka
-						\item  \textbf{Preduvjet:} Korisnik je pristupio konferenciji 
+						\item  \textbf{Preduvjet:} Korisnik je prijavljen s generičkim računom
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
@@ -210,43 +177,27 @@
 					\end{packed_item}	
 				
 					%UC4
-					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Pregled postera}}
+					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Pregled galerije postera}}
 					\begin{packed_item}
 						
 						\item \textbf{Glavni sudionik: } Korisnik
 						\item  \textbf{Cilj:} Pregled svih postavljenih postera
 						\item  \textbf{Sudionici:} Baza podataka
-						\item  \textbf{Preduvjet:} Korisnik je unio ispravnu lozinku događanja
+						\item  \textbf{Preduvjet:} Korisnik je prijavljen
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 							
 							\item Otvara se prozor s posterima
-							\item Unos korisničkog imena i lozinke
-							\item Potvrda o ispravnosti unesenih podataka
-							\item Pristup korisničkim funkcijama
 							
 						\end{packed_enum}
-						
-						\item  \textbf{Opis mogućih odstupanja:}
-						
-						\item[] \begin{packed_item}
 							
-							\item[2.a] Neispravno korisničko ime/lozinka
-							\item[] \begin{packed_enum}
-								
-								\item Sustav obavještava korisnika o neuspjelom upisu i vraća ga na stranicu za registraciju
-								
-							\end{packed_enum}
-							
-							
-						\end{packed_item}
-					\end{packed_item}	
-					
+					\end{packed_item}
+
 					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Pregled osobnih podataka}}
 					\begin{packed_item}
 						
-						\item \textbf{Glavni sudionik: } Prijavljeni korisnik
+						\item \textbf{Glavni sudionik: } Registrirani korisnik
 						\item  \textbf{Cilj:} Pregledati osobne podatke
 						\item  \textbf{Sudionici:} Baza podataka
 						\item  \textbf{Preduvjet:} Korisnik je registriran i prijavljen
@@ -258,36 +209,6 @@
 							\item Aplikacija prikazuje osobne podatke korisnika
 						\end{packed_enum}
 					
-					\end{packed_item}
-					
-					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Promjena osobnih podataka}}
-					\begin{packed_item}
-						
-						\item \textbf{Glavni sudionik: } Prijavljeni korisnik
-						\item  \textbf{Cilj:} Promijeniti osobne podatke
-						\item  \textbf{Sudionici:} Baza podataka
-						\item  \textbf{Preduvjet:} Korisnik je registriran i prijavljen
-						\item  \textbf{Opis osnovnog tijeka:}
-						
-						\item[] \begin{packed_enum}
-							
-							\item Korisnik odabire opciju za promjenu podataka
-							\item Korisnik mijenja svoje osobne podatke
-							\item Korisnik sprema promjene
-							\item Baza podataka se ažurira
-						\end{packed_enum}
-						
-						\item  \textbf{Opis mogućih odstupanja:}
-						
-						\item[] \begin{packed_item}
-							
-							\item[2.a] Korisnik promijeni svoje osobne podatke, ali ne odabere opciju za spremanje promjena
-							\item[] \begin{packed_enum}
-								
-								\item Sustav obavještava korisnika da nije spremio podatke prije izlaska iz prozora
-								
-							\end{packed_enum}
-						\end{packed_item}
 					\end{packed_item}
 					
 					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Brisanje korisničkog računa}}
@@ -322,16 +243,16 @@
 					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Pregled promotivnih materijala}}
 					\begin{packed_item}
 
-						\item \textbf{Glavni sudionik: } Prijavljeni korisnik
+						\item \textbf{Glavni sudionik: } Registrirani korisnik
 						\item  \textbf{Cilj:} Pregledati promotivne materijale pokrovitelja konferencije
 						\item  \textbf{Sudionici:} Baza podataka
-						\item  \textbf{Preduvjet:} Korisnik je registriran
+						\item  \textbf{Preduvjet:} Korisnik je registriran i prijavljen
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 							
-							\item Korisnik odabire opciju za promotivne materijale iz bočne trake stranice
-							\item Otvara se stranica s promotivnim materijalima 
+							\item Korisnik odabire opciju za promotivne materijale
+							\item Otvara se stranica s promotivnim materijalima
 
 						\end{packed_enum}
 
@@ -340,10 +261,10 @@
 					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Pregled informacija o konferenciji}}
 					\begin{packed_item}
 						
-						\item \textbf{Glavni sudionik: } Prijavljeni korisnik
+						\item \textbf{Glavni sudionik: } Registrirani korisnik
 						\item  \textbf{Cilj:} Pregledati informacije o mjestu održavanja konferencije, trenutnim vremenskim uvjetima i vremenskoj prognozi za navedenu lokaciju
 						\item  \textbf{Sudionici:} Baza podataka
-						\item  \textbf{Preduvjet:} Korisnik je pristupio konferenciji
+						\item  \textbf{Preduvjet:} Korisnik je registriran i prijavljen
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
@@ -355,10 +276,10 @@
 					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Pregled galerije fotografija}}
 					\begin{packed_item}
 						
-						\item \textbf{Glavni sudionik: } Prijavljeni korisnik
+						\item \textbf{Glavni sudionik: } Registriran korisnik
 						\item  \textbf{Cilj:} Pregledati galeriju fotografija
 						\item  \textbf{Sudionici:} Baza podataka
-						\item  \textbf{Preduvjet:} Korisnik je pristupio konferenciji, ima korisnički račun te je prijavljen
+						\item  \textbf{Preduvjet:} Korisnik je registriran i prijavljen
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
@@ -380,7 +301,36 @@
 					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Pregled fotografije s konferencije}}
 					\begin{packed_item}
 						
-						\item \textbf{Glavni sudionik: } Prijavljeni korisnik
+						\item \textbf{Glavni sudionik: } Registrirani korisnik
+						\item  \textbf{Cilj:} Pregledati izabranu fotografiju iz galerije fotografija
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Posjetitelj je prijavljen te je otvorena galerija fotografija
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Korisnik odabire fotografiju iz galerije
+							\item Odabrana fotografije prikaže se uvećana
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+							
+							\item[1.a] Nema fotografija u galeriji
+							\item[] \begin{packed_enum}
+								
+								\item Klik na prazno područje galerije ne čini ništa
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+					
+					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Izlaz iz pregleda fotografije s konferencije}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: } Registrirani korisnik
 						\item  \textbf{Cilj:} Pregledati izabranu fotografiju iz galerije fotografija
 						\item  \textbf{Sudionici:} Baza podataka
 						\item  \textbf{Preduvjet:} Posjetitelj je prijavljen te je otvorena galerija fotografija
@@ -409,48 +359,33 @@
 					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Preuzimanje fotografija s konferencije}}
 					\begin{packed_item}
 						
-						\item \textbf{Glavni sudionik: } Prijavljeni korisnik
-						\item  \textbf{Cilj:} Preuzeti izabrane fotografije iz galerije
+						\item \textbf{Glavni sudionik: } Registrirani korisnik
+						\item  \textbf{Cilj:} Preuzeti izabranu fotografiju iz galerije
 						\item  \textbf{Sudionici:} Baza podataka
 						\item  \textbf{Preduvjet:} Posjetitelj je prijavljen, otvorena je galerija fotografija, galerija nije prazna
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 							
-							\item Korisnik odabire opciju "Odaberi fotografije"
-							\item Korisnik označava fotografije koje želi preuzeti
-							\item Korisnik odabire opciju "Preuzmi fotografije"
+							\item Korisnik odabire opciju za preuzimanje fotografije
 							\item Odabrane fotografije se preuzimaju na uređaj
 							
 						\end{packed_enum}
 						
-						\item  \textbf{Opis mogućih odstupanja:}
-						
-						\item[] \begin{packed_item}
-							
-							\item[2.a] Korisnik odabire opciju "Preuzmi fotografije", a nije odabrao nijednu fotografiju
-							\item[] \begin{packed_enum}
-								
-								\item Sustav obavještava korisnika da nije odabrao nijednu fotografiju
-								
-							\end{packed_enum}
-							
-						\end{packed_item}
 					\end{packed_item}
 					
-					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Gledanje video prijenosa}}
+					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Prikaz video prijenosa}}
 					\begin{packed_item}
 						
-						\item \textbf{Glavni sudionik: } Prijavljeni korisnik
+						\item \textbf{Glavni sudionik: } Registrirani korisnik
 						\item  \textbf{Cilj:} Gledati video prijenos konferencije
 						\item  \textbf{Sudionici:} Poslužitelj strujanja
-						\item  \textbf{Preduvjet:} Posjetitelj je prijavljen
+						\item  \textbf{Preduvjet:} Korisnik je registriran i prijavljen
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 							
-							\item Korisnik odabire opciju za video prijenos iz bočne trake stranice
-							\item Otvara se stranica s video prijenosom konferencije
+							\item Korisnik odabire opciju za pokretanje video prijenosa
 							
 						\end{packed_enum}
 						
@@ -468,31 +403,11 @@
 						\end{packed_item}
 					\end{packed_item}
 					
-					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Maksimiziraj video prijenos}}
-					\begin{packed_item}
-						
-						\item \textbf{Glavni sudionik: } Prijavljeni korisnik
-						\item  \textbf{Cilj:} Maksimizirati video prijenos preko cijelog ekrana uređaja
-						\item  \textbf{Sudionici:} Poslužitelj strujanja
-						\item  \textbf{Preduvjet:} Posjetitelj je registriran, video prijenos je otvoren i dostupan
-						\item  \textbf{Opis osnovnog tijeka:}
-						
-						\item[] \begin{packed_enum}
-							
-							\item Korisnik odabire opciju "Maksimiziraj" iz trake za opcije video prijenosa 
-							\item Video prijenos se maksimizira preko cijelog ekrana uređaja
-							
-						\end{packed_enum}
-					
-						
-
-					\end{packed_item}
-					
-					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Pregled digitalnog postera}}
+					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Pregled digitalnog postera ili prezentacije}}
 					\begin{packed_item}
 						
 						\item \textbf{Glavni sudionik: } Korisnik
-						\item  \textbf{Cilj:} Pregledati poster i informacije o njemu
+						\item  \textbf{Cilj:} Pregledati poster
 						\item  \textbf{Sudionici:} Baza podataka
 						\item  \textbf{Preduvjet:} Pregled galerije postera
 						\item  \textbf{Opis osnovnog tijeka:}
@@ -501,27 +416,31 @@
 							
 							\item Korisnik je odabrao digitalni poster
 							\item Korisnik pregledava informacije o digitalnom posteru
-							\item Korisnik može glasati za rad(UC15)
 						\end{packed_enum}
 						
-						\item  \textbf{Opis mogućih odstupanja:}
+					\end{packed_item}
+					
+					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Izlazak iz pregleda digitalnog postera ili prezentacije}}
+					\begin{packed_item}
 						
-						\item[] \begin{packed_item}
+						\item \textbf{Glavni sudionik: } Korisnik
+						\item  \textbf{Cilj:} Izaći iz pregleda digitalnog postera ili prezentacije
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Pregled digitalnog postera ili prezentacije
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
 							
-							\item[2.a] Korisnik je izašao iz pregleda digitalnog postera
-							\item[] \begin{packed_enum}
-								
-								\item Pregled galerije postera(UC7)
-								
-							\end{packed_enum}
-							
-						\end{packed_item}
+							\item Korisnik odabire opciju za izlazak iz pregleda
+							\item Povratak na galeriju digitalnih postera
+						\end{packed_enum}
+						
 					\end{packed_item}
 					
 					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Glasanje}}
 					\begin{packed_item}
 						
-						\item \textbf{Glavni sudionik: } Prijavljeni korisnik
+						\item \textbf{Glavni sudionik: } Registrirani korisnik
 						\item  \textbf{Cilj:} Glasati za rad
 						\item  \textbf{Sudionici:} Baza podataka
 						\item  \textbf{Preduvjet:} Prijava, Pregled digitalnog postera
@@ -539,11 +458,7 @@
 							
 							\item[2.a] Korisnik je već glasao
 							\item[] \begin{packed_enum}
-								\item U sustavu se briše korisnikovo prethodno glasanje i registrira se novo/Korisniku se javlja da je već glasao
-							\end{packed_enum}
-							\item[2.b] Korisnik nije prijavljen
-								\item[] \begin{packed_enum}
-									\item Korisnik posjetitelj dobiva obavijest da mora biti prijavljen kako bi glasao
+								\item U sustavu se briše korisnikovo prethodno glasanje i registrira se novo
 							\end{packed_enum}
 						\end{packed_item}
 					\end{packed_item}
@@ -551,7 +466,7 @@
 					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Pregled rezultata glasanja}}
 					\begin{packed_item}
 						
-						\item \textbf{Glavni sudionik: } Prijavljeni korisnik
+						\item \textbf{Glavni sudionik: } Registrirani korisnik
 						\item  \textbf{Cilj:} Uvid u rezultate glasanja
 						\item  \textbf{Sudionici:} Baza podataka
 						\item  \textbf{Preduvjet:} Prijava, registrirani korisnik
@@ -564,19 +479,6 @@
 							\item Korisnik pregledava rang listu
 						\end{packed_enum}
 						
-						\item  \textbf{Opis mogućih odstupanja:}
-						
-						\item[] \begin{packed_item}
-							
-							\item[1.a] Korisnik nije prijavljen
-							\item[] \begin{packed_enum}
-								
-								\item Korisnika posjetitelja se obaviještava da za pregled rezultata glasanja, treba biti prijavljen
-								\item Korisnika posjetitelja se vraća na pregled galerije postera{UC7}
-								
-							\end{packed_enum}
-							
-						\end{packed_item}
 					\end{packed_item}
 					
 					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Zatvaranje pregleda digitalnog postera}}
@@ -591,7 +493,7 @@
 						\item[] \begin{packed_enum}
 							
 							\item Korisnik odabire opciju izlaska iz pregleda digitalnog postera
-							\item Aplikacija se vraća na Pregled galerije postera(UC7)
+							\item Aplikacija se vraća na pregled galerije postera
 							
 						\end{packed_enum}
 					\end{packed_item}
@@ -610,7 +512,6 @@
 							\item Administrator pritiskom na gumb otvara posebno sučelje za upravljanje posterima
 						\end{packed_enum}
 						
-						\item  \textbf{Opis mogućih odstupanja:}
 						
 					\end{packed_item}
 					
@@ -620,25 +521,25 @@
 						\item \textbf{Glavni sudionik: } Administrator
 						\item  \textbf{Cilj:} Dodavanje novog postera
 						\item  \textbf{Sudionici:} Baza Podataka
-						\item  \textbf{Preduvjet:} Administrator je prijavljen i ima lokalno spremljen poster koji želi dodati, otvoreno je sučelje za upravljanje posterima
+						\item  \textbf{Preduvjet:} Administrator je prijavljen, otvoreno je sučelje za upravljanje posterima
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 							
 							\item Administrator pritišće gumb za dodavanje novog postera
-							\item Otvara se prozor s mogućnošću odabira lokalne datoteke i gumbima "Potvrdi" i "Odustani"
+							\item Otvara se prozor s mogućnošću odabira lokalne datoteke i unosa podataka o posteru
 							\item Administrator odabire željenu datoteku za prijenos u bazu podataka aplikacije
-							\item Administrator pritišće "Potvrdi"
+							\item Administrator potvrđuje promjene
 						\end{packed_enum}
 						
 						\item  \textbf{Opis mogućih odstupanja:}
 						
 						\item[] \begin{packed_item}
 							
-							\item[2.a] Administrator nema lokalnu datoteku
+							\item[2.a] Administrator odustaje od dodavanja postera
 							\item[] \begin{packed_enum}
 								
-								\item Pritišće "Odustani"
+								\item Povratak na sučelje za upravljanje posterima
 							\end{packed_enum}
 							
 						\end{packed_item}
@@ -659,17 +560,15 @@
 							\item Administrator odabire opciju za brisanje digitalnog postera
 							\item Pojavljuje se upit za potvrdu brisanja
 							\item Ako je upit potvrđen poster se briše iz baze podataka, u protivnom se vraća na sučelje za upravljanje posterima
-							\item 
 						\end{packed_enum}
 						
 						\item  \textbf{Opis mogućih odstupanja:}
 						
 						\item[] \begin{packed_item}
 							
-							\item[4.a] Neuspješno brisanje postera iz baze
+							\item[4.a] Administrator odustaje od brisanja
 							\item[] \begin{packed_enum}
 								
-								\item Sustav obavještava administratora o neuspješnom brisanju postera
 								\item Povratak na sučelje za upravljanje posterima
 							\end{packed_enum}
 							
@@ -724,10 +623,9 @@
 								
 							\end{packed_enum}
 							
-							\item[4.a] Neuspješno spremanje promjena u bazu podataka
+							\item[4.a] Administrator odustaje od dodavanja fotografije
 							\item[] \begin{packed_enum}
 								
-								\item Sustav obavještava administratora o neuspješnom spremanju promjena
 								\item Povratak na sučelje za upravljanje fotografijama
 							
 							\end{packed_enum}
@@ -748,7 +646,7 @@
 							
 							\item Administrator odabire fotografiju
 							\item Administrator odabire opciju za brisanje fotografije
-							\item Brisanje odabrane fotografije iz baze podataka
+							\item Potvrda brisanja odabrane fotografije iz baze podataka
 							\item Povratak na sučelje za upravljanje fotografijama
 						\end{packed_enum}
 						
@@ -756,10 +654,9 @@
 						
 						\item[] \begin{packed_item}
 							
-							\item[4.a] Neuspješno spremanje promjena u bazu podataka
+							\item[4.a] Administrator odustaje od brisanja fotografije
 							\item[] \begin{packed_enum}
 								
-								\item Sustav obavještava administratora o neuspješnom spremanju promjena
 								\item Povratak na sučelje za upravljanje fotografijama
 								
 							\end{packed_enum}
@@ -784,147 +681,153 @@
 						
 					\end{packed_item}
 					
-					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Promjena promotivnih materijala}}
+						\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Dodavanje promotivnih materijala}}
 					\begin{packed_item}
 						
 						\item \textbf{Glavni sudionik: }Administrator
-						\item  \textbf{Cilj:} Promijeniti promotivne materijale
+						\item  \textbf{Cilj:} Dodati nove promotivne materijale
 						\item  \textbf{Sudionici:} Baza podataka
 						\item  \textbf{Preduvjet:} Prijavljen je administrator, otvoreno je sučelje za upravljanje promotivnim materijalima
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 							
-							\item U sučelju za upravljanje promotivnim materijalima administrator unosi promjene
-							\item Nakon unešenih promjena administrator odabire opciju za spremanje promjena
-							\item Promjene se spremaju u bazu podataka
-							\item Zatvaranje sučelja za upravljanje promotivnim materijalima
+							\item Administrator odabire opciju za dodavanje novog promotivnog materijala
+							\item Administrator unosi potrebne podatke
+							\item Administrator odabire opciju za spremanje promjena ili za odbacivanje promjena
+							\item Ako je izabrana opcija za spremanje promjena, ažuriraj bazu podataka
+							\item Povratak na sučelje za upravljanje fotografijama
 						\end{packed_enum}
 						
 						\item  \textbf{Opis mogućih odstupanja:}
 						
 						\item[] \begin{packed_item}
 							
-							\item[3.a] Neuspješno spremanje promjena u bazu podataka
+							\item[4.a] Administrator odustaje od dodavanja promotivnih materijala
 							\item[] \begin{packed_enum}
 								
-								\item Sustav obavještava administratora o neuspješnom spremanju promjena
-								\item Povratak na sučelje za upravljanje fotografijama
+								\item Povratak na sučelje za upravljanje promotivnim materijalima
 								
 							\end{packed_enum}
 							
 						\end{packed_item}
 					\end{packed_item}
 					
-					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Promjena lokacije}}
+					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Brisanje promotivnih materijala}}
 					\begin{packed_item}
 						
 						\item \textbf{Glavni sudionik: }Administrator
-						\item  \textbf{Cilj:} Promijeniti lokaciju održavanja konferencije, ujedno mijenja i prognozu
-						\item  \textbf{Sudionici:} Poslužitelj podataka o vremenu
-						\item  \textbf{Preduvjet:} Prijavljen je administrator
-						\item  \textbf{Opis osnovnog tijeka:}
-						
-						\item[] \begin{packed_enum}
-							
-							\item Administrator odabire opciju za promjenu lokacije
-							\item Otvara se sučelje za promjenu lokacije
-							\item Administrator odabire novu lokaciju iz padajućeg izbornika
-							\item Administrator potvrđuje promjene
-							\item Promjene se spremaju u bazu podataka
-							\item Na temelju nove lokacije ažurira se vremenska prognoza
-							\item Zatvaranje sučelja za promjenu lokacije
-						\end{packed_enum}
-						
-						\item  \textbf{Opis mogućih odstupanja:}
-						
-						\item[] \begin{packed_item}
-							
-							\item[5.a] Neuspješno spremanje promjena u bazu podataka
-							\item[] \begin{packed_enum}
-								
-								\item Sustav obavještava administratora o neuspješnom spremanju promjena
-								\item Povratak na sučelje za upravljanje fotografijama
-								
-							\end{packed_enum}
-							
-							\item[6.a] Servis zaslužan za vremensku prognozu ne može dohvatiti podatke
-							\item[] \begin{packed_enum}
-								
-								\item Obavijesti korisnika o nemogućnosti dohvaćanja podataka
-								
-							\end{packed_enum}
-							
-						\end{packed_item}
-					\end{packed_item}
-					
-					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Promjena video prijenosom}}
-					\begin{packed_item}
-						
-						\item \textbf{Glavni sudionik: }Administrator
-						\item  \textbf{Cilj:} Promijeniti video prijenos
-						\item  \textbf{Sudionici:} Poslužitelj video prijenosa
-						\item  \textbf{Preduvjet:} Prijavljen je administrator
-						\item  \textbf{Opis osnovnog tijeka:}
-						
-						\item[] \begin{packed_enum}
-							
-							\item Administrator odabire opciju za promjenu video prijenosa
-							\item Otvara se sučelje za promjenu video prijenosa
-							\item Administrator zadaje URL video prijenosa kojeg želi prikazivati
-							\item Administrator potvrđuje promjene
-							\item Promjene se spremaju u bazu podataka
-							\item Zatvara se sučelje za promjenu video prijenosa
-						\end{packed_enum}
-						
-						\item  \textbf{Opis mogućih odstupanja:}
-						
-						\item[] \begin{packed_item}
-							
-							\item[3.a] Neispravan URL video prijenosa
-							\item[] \begin{packed_enum}
-								Sustav obavještava administratora o neispravnom URL-u video prijenosa
-							\end{packed_enum}
-							
-							\item[5.a] Neuspješno spremanje promjena u bazu podataka
-							\item[] \begin{packed_enum}
-								
-								\item Sustav obavještava administratora o neuspješnom spremanju promjena
-								\item Povratak na sučelje za upravljanje fotografijama
-								
-							\end{packed_enum}
-						\end{packed_item}
-					\end{packed_item}
-					
-					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Pregled prezentacije}}
-					\begin{packed_item}
-						
-						\item \textbf{Glavni sudionik: }Korisnik
-						\item  \textbf{Cilj:} Pregled prezentacije rada
+						\item  \textbf{Cilj:} Brisanje odabranih promotivnih materijala
 						\item  \textbf{Sudionici:} Baza podataka
-						\item  \textbf{Preduvjet:} Pregled galerije postera
+						\item  \textbf{Preduvjet:} Prijavljen je administrator, otvoreno sučelje za upravljanje promotivnim materijalima
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 							
-							\item Korisnik odabire prezentaciju iz galerije radova
-							\item Otvara se novi prozor gdje je prikaz prezentacije
-							\item Korisnik upravlja prezentacijom svojom voljom
-
+							\item Administrator odabire opciju za brisanje promotivnog materijala
+							\item Potvrda brisanja odabranog promotivnog materijala iz baze podataka
+							\item Povratak na sučelje za upravljanje fotografijama
 						\end{packed_enum}
 						
 						\item  \textbf{Opis mogućih odstupanja:}
 						
 						\item[] \begin{packed_item}
 							
-							\item[3.a] Korisnik izlazi iz pregleda prezentacije
+							\item[2.a] Administrator odustaje od brisanja materijala
 							\item[] \begin{packed_enum}
 								
-								\item Aplikacija se vraća na Pregled galerije digitalnih postera
+								\item Povratak na sučelje za upravljanje promotivnim materijalima
 								
-							\end{packed_enum}							
+							\end{packed_enum}
+							
 						\end{packed_item}
-					\end{packed_item}											
+					\end{packed_item}
+					
+					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Dohvat vremenske prognoze}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: } Poslužitelj vremenske prognoze
+						\item  \textbf{Cilj:} Dohvatiti podatke o vremenskoj prognozi
+						\item  \textbf{Sudionici:} -
+						\item  \textbf{Preduvjet:} Prijavljen je registrirani korisnik, aplikacija je pokrenuta
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Nakon prijave registriranog korisnika aplikacija šalje zahtjev za podacima poslužitelju vremenske prognoze
+						\end{packed_enum}
+							
+					\end{packed_item}	
+					
+					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Slanje poruke e-pošte}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: } Poslužitelj e-pošte
+						\item  \textbf{Cilj:} Poslati poruku e-pošte
+						\item  \textbf{Sudionici:} -
+						\item  \textbf{Preduvjet:} Završen postupak glasovanja
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Aplikacija šalje poruku e-pošte korisnicima koji imaju e-adresu u bazi
+						\end{packed_enum}
+						
+					\end{packed_item}
+					
+					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Poziv na dodjelu nagrade }}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: } Poslužitelj e-pošte
+						\item  \textbf{Cilj:} Poslati poruku e-pošte kojom se poziva na dodjelu nagrade
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Završen postupak glasovanja
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Traženje i dohvat e-adresa prva tri rada po broju glasova u bazi podataka
+							\item Slanje poruke e-pošte dohvaćenim e-adresama
+							
+						\end{packed_enum}
+						
+					\end{packed_item}	
+					
+					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Obavijest o mjestu i vremenu dodjele nagrade }}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: } Poslužitelj e-pošte
+						\item  \textbf{Cilj:} Poslati poruku e-pošte kojom obavještava o mjestu i vremenu dodjele nagrade
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Završen postupak glasovanja
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Dohvaćanje e-adresa svih registriranih korisnika
+							\item Slanje poruke e-pošte dohvaćenim e-adresama
+							
+						\end{packed_enum}
+						
+					\end{packed_item}
+					
+					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Obavijest o rangu }}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: } Poslužitelj e-pošte
+						\item  \textbf{Cilj:} Poslati poruku e-pošte kojom obavještava o rangu postera
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Završen postupak glasovanja
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Dohvaćanje e-adresa svih autora postera
+							\item Slanje poruke e-pošte dohvaćenim e-adresama
+							
+						\end{packed_enum}
+						
+					\end{packed_item}
 					
 				\subsubsection{Dijagrami obrazaca uporabe}
 					
