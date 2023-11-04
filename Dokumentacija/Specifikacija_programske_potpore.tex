@@ -25,11 +25,18 @@
 			\noindent \textbf{Aktori i njihovi funkcionalni zahtjevi:}
 			
 			\begin{packed_enum}
-				\item  \underbar{Neregistrirani/Neprijavljeni korisnik (inicijator) može:}
+				\item  \underbar{Neregistrirani korisnik (inicijator) može:}
 				
 				\begin{packed_enum}
 					
 					\item upisati lozinku za konferenciju
+					
+				\end{packed_enum}
+				
+				\item  \underbar{Korisnik posjetitelj (inicijator) može:}
+				
+				\begin{packed_enum}
+					
 					\item registrirati se to jest stvoriti novi korisnički račun za koji su mu potrebni: korisničko ime, lozinka i adresa e-pošte
 					\item prijaviti se
 					\item pregledavati postere, pri čemu ne može glasati
@@ -48,6 +55,14 @@
 					\item vidjeti informacije o mjestu održavanja koje uključuju vremenske uvjete i vremensku prognozu
 					\item pristupiti rezultatima jednom kad postanu dostupni
 				
+				\end{packed_enum}
+				
+				\item  \underbar{Korisnik (inicijator):}
+				
+				\begin{packed_enum}
+					
+					\item generalizacija korisnika posjetitelja i registriranog korisnika
+					
 				\end{packed_enum}
 				
 				\item \underbar{Administrator (inicijator) može:}
@@ -123,7 +138,7 @@
 					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Pristup konferenciji}}
 					\begin{packed_item}
 						
-						\item \textbf{Glavni sudionik: } Neprijavljeni korisnik
+						\item \textbf{Glavni sudionik: } Neregistrirani korisnik
 						\item  \textbf{Cilj:} Pristupiti konferenciji kao korisnik posjetitelj
 						\item  \textbf{Sudionici:} Baza podataka
 						\item  \textbf{Preduvjet:} Nema preduvjeta
@@ -155,7 +170,7 @@
 					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Prijava}}
 					\begin{packed_item}
 						
-						\item \textbf{Glavni sudionik: } Korisnik posjetitelj
+						\item \textbf{Glavni sudionik: } Registrirani korisnik
 						\item  \textbf{Cilj:} Pristup svim korisničkim funkcionalnostima aplikacije
 						\item  \textbf{Sudionici:} Baza podataka
 						\item  \textbf{Preduvjet:} Nema preduvjeta
@@ -1032,8 +1047,13 @@
 					
 					\textit{Prikazati odnos aktora i obrazaca uporabe odgovarajućim UML dijagramom. Nije nužno nacrtati sve na jednom dijagramu. Modelirati po razinama apstrakcije i skupovima srodnih funkcionalnosti.}
 					\begin{figure}
-						\includegraphics[width=\linewidth]{Slike/UseCaseDiagram.png}
-						\caption{Početni dijagram obrazaca uporabe}
+						\includegraphics[width=\linewidth]{Slike/UCDiagramUserProfiles.png}
+						\caption{UC dijagram za opis korisničkih računa}
+					\end{figure}
+					
+					\begin{figure}
+						\includegraphics[width=\linewidth]{Slike/UCDiagramAdmin.png}
+						\caption{UC dijagram za opis administrativnih mogućnosti}
 					\end{figure}
 				\eject		
 				
