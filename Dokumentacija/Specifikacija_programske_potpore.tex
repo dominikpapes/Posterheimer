@@ -781,6 +781,99 @@
 						\end{packed_item}
 					\end{packed_item}
 					
+					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Upravljanje video prijenosom}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: }Administrator
+						\item  \textbf{Cilj:} Promijeniti video prijenos
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Prijavljen je administrator
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Administrator odabire opciju za upravljanje video prijenosom
+							\item Otvara se sučelje za upravljanje video prijenosom
+							\item Administrator mijenja URL video prijenosa
+							\item Administrator potvrđuje promjene
+							\item Izlazak iz sučelja za upravljanje video prijenosom
+						\end{packed_enum}
+						
+						\item[] \begin{packed_item}
+							
+							\item[4.a] Administrator odustaje od promjene video prijenosa
+							\item[] \begin{packed_enum}
+								
+								\item Izlazak iz sučelja za upravljanje video prijenosom
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+						
+					\end{packed_item}
+					
+					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Upravljanje trajanjem konferencije}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: }Administrator
+						\item  \textbf{Cilj:} Promijeniti trajanje konferencije
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Prijavljen je administrator
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Administrator odabire opciju za upravljanjem trajanja konferencije
+							\item Otvara se sučelje za upravljanjem trajanja konferencije
+							\item Administrator odabire vrijeme početka i kraja konferencije
+							\item Administrator potvrđuje promjene
+							\item Izlazak iz sučelja za upravljanjem trajanja
+						\end{packed_enum}
+						
+						\item[] \begin{packed_item}
+							
+							\item[4.a] Administrator odustaje od promjene trajanja
+							\item[] \begin{packed_enum}
+								
+								\item Izlazak iz sučelja za upravljanjem trajanja
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+						
+					\end{packed_item}
+					
+					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Upravljanje lokacijom}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: }Administrator
+						\item  \textbf{Cilj:} Promijeniti lokaciju konferencije
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Prijavljen je administrator
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Administrator odabire opciju za upravljanjem lokacije konferencije
+							\item Otvara se sučelje za upravljanje lokacijom
+							\item Administrator odabire točnu lokaciju konferencije
+							\item Administrator potvrđuje promjene
+							\item Izlazak iz sučelja za upravljanje lokacijom
+						\end{packed_enum}
+						
+						\item[] \begin{packed_item}
+							
+							\item[4.a] Administrator odustaje od promjene lokacije
+							\item[] \begin{packed_enum}
+								
+								\item Izlazak iz sučelja za upravljanje lokacijom
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+						
+					\end{packed_item}
+					
 					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Dohvat vremenske prognoze}}
 					\begin{packed_item}
 						
@@ -880,7 +973,7 @@
 							
 							\item Korisnik odabire opciju za stvaranje nove konferencije
 							\item Korisnik se prijavljuje podacima za prijavu natkorisnika
-							\item Otvara se obrazac za unos naziva konferencije i dodavanje administratora konferencije
+							\item Otvara se obrazac za unos naziva i trajanja konferencije i dodavanje administratora konferencije
 							\item Natkorisnik potvrđuje promjene
 							\item Povratak na zaslon za odabir konferencije
 							
@@ -939,7 +1032,7 @@
 					
 					\textit{Prikazati odnos aktora i obrazaca uporabe odgovarajućim UML dijagramom. Nije nužno nacrtati sve na jednom dijagramu. Modelirati po razinama apstrakcije i skupovima srodnih funkcionalnosti.}
 					\begin{figure}
-						\includegraphics[width=\linewidth]{UseCaseDiagram.png}
+						\includegraphics[width=\linewidth]{Slike/UseCaseDiagram.png}
 						\caption{Početni dijagram obrazaca uporabe}
 					\end{figure}
 				\eject		
