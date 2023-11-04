@@ -1042,7 +1042,25 @@
 				\textbf{\textit{dio 1. revizije}}\\
 				
 				\textit{Nacrtati sekvencijske dijagrame koji modeliraju najvažnije dijelove sustava (max. 4 dijagrama). Ukoliko postoji nedoumica oko odabira, razjasniti s asistentom. Uz svaki dijagram napisati detaljni opis dijagrama.}
+				
+				\subsubsection{Obrazac uporabe UC18 - Upravljanje digitalnim posterima}
+				Administrator odabire opciju "Galerija postera". Poslužitelj dohvaća popis postera iz baze podataka te ih prikazuje administratoru. Administratoru se uz postere prikazuje i gumb predviđen za upravljanje digitalnim posterima. Pritiskom na gumb otvara se posebno sučelje za upravljanje digitalnim posterima. Sučelje omogućava dodavanje i brisanje digitalnih postera.
+				
+				\subsubsection{Obrazac uporabe UC19 - Dodavanje digitalnog postera}
+				Administrator pritišće gumb za dodavanje novog postera. Poslužitelj zatraži unos osnovnih podataka o posteru i  prijenos lokalne datoteke postera - administratoru se upit prikazuje kao novo otvoreni prozor. Administrator unosi podatke. Poslužitelj traži potvrdu promjena i čeka odgovor administratora. Nakon potvrde promjena poslužitelj će spremiti podatke vezane uz poster u bazu podataka. Baza podataka vraća potvrdu izmjene.
+				
+				\subsubsection{Obrazac uporabe UC20 - Brisanje digitalnog postera}
+				Administrator odabire digitalni poster koji želi obrisati. Poslužitelj dohvaća podatke o posteru iz baze podataka. Administrator odabire opciju brisanja digitalnog postera. Poslužitelj šalje upit za potvrdu brisanja. Nakon što administrator potvrdi brisanje postera, poslužitelj ga briše iz baze podataka. Baza podataka vraća potvrdu izmjene. 
+				
+				\begin{figure}
+					\includegraphics[width=\linewidth]{Dijagrami/UC_Upravljanje_digitalnim_posterima.png}
+					\caption{Sekvencijski dijagram za UC18, UC19 i UC20}
+				\end{figure}
+				
 				\eject
+				
+
+				
 	
 		\section{Ostali zahtjevi}
 		
