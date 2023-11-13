@@ -2,13 +2,6 @@
 		
 	\section{Funkcionalni zahtjevi}
 			
-			\textbf{\textit{dio 1. revizije}}\\
-			
-			\textit{Navesti \textbf{dionike} koji imaju \textbf{interes u ovom sustavu} ili  \textbf{su nositelji odgovornosti}. To su prije svega korisnici, ali i administratori sustava, naručitelji, razvojni tim.}\\
-				
-			\textit{Navesti \textbf{aktore} koji izravno \textbf{koriste} ili \textbf{komuniciraju sa sustavom}. Oni mogu imati inicijatorsku ulogu, tj. započinju određene procese u sustavu ili samo sudioničku ulogu, tj. obavljaju određeni posao. Za svakog aktora navesti funkcionalne zahtjeve koji se na njega odnose.}\\
-			
-			
 			\noindent \textbf{Dionici:}
 			
 			\begin{packed_enum}
@@ -126,11 +119,6 @@
 			
 				
 			\subsection{Obrasci uporabe}
-				
-				\textbf{\textit{dio 1. revizije}}
-				
-				\subsubsection{Opis obrazaca uporabe}
-					\textit{Funkcionalne zahtjeve razraditi u obliku obrazaca uporabe. Svaki obrazac je potrebno razraditi prema donjem predlošku. Ukoliko u nekom koraku može doći do odstupanja, potrebno je to odstupanje opisati i po mogućnosti ponuditi rješenje kojim bi se tijek obrasca vratio na osnovni tijek.}\\
 					
 					\newcounter{UseCaseCounter}
 					\setcounter{UseCaseCounter}{1}
@@ -480,44 +468,44 @@
 						
 					\end{packed_item}
 					
-					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Glasanje}}
+					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Glasovanje}}
 					\begin{packed_item}
 						
 						\item \textbf{Glavni sudionik: } Registrirani korisnik
-						\item  \textbf{Cilj:} Glasati za rad
+						\item  \textbf{Cilj:} Glasovati za rad
 						\item  \textbf{Sudionici:} Baza podataka
 						\item  \textbf{Preduvjet:} Prijava, Pregled digitalnog postera
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 							
-							\item Korisnik odabire opciju glasanja
-							\item U sustavu se evidentira korisnikovo glasanje
+							\item Korisnik odabire opciju glasovanja
+							\item U sustavu se evidentira korisnikovo glasovanje
 						\end{packed_enum}
 						
 						\item  \textbf{Opis mogućih odstupanja:}
 						
 						\item[] \begin{packed_item}
 							
-							\item[2.a] Korisnik je već glasao
+							\item[2.a] Korisnik je već glasovao
 							\item[] \begin{packed_enum}
-								\item U sustavu se briše korisnikovo prethodno glasanje i registrira se novo
+								\item U sustavu se briše korisnikovo prethodno glasovanje i registrira se novo
 							\end{packed_enum}
 						\end{packed_item}
 					\end{packed_item}
 					
-					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Pregled rezultata glasanja}}
+					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Pregled rezultata glasovanja}}
 					\begin{packed_item}
 						
 						\item \textbf{Glavni sudionik: } Registrirani korisnik
-						\item  \textbf{Cilj:} Uvid u rezultate glasanja
+						\item  \textbf{Cilj:} Uvid u rezultate glasovanja
 						\item  \textbf{Sudionici:} Baza podataka
 						\item  \textbf{Preduvjet:} Prijava, registrirani korisnik
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 							
-							\item Korisnik odabire opciju rezultati glasanja u izborniku
+							\item Korisnik odabire opciju rezultati glasovanja u izborniku
 							\item Otvara se zasebna stranica gdje je rang lista autora/radova
 							\item Korisnik pregledava rang listu
 						\end{packed_enum}
@@ -1045,7 +1033,6 @@
 					
 				\subsubsection{Dijagrami obrazaca uporabe}
 					
-					\textit{Prikazati odnos aktora i obrazaca uporabe odgovarajućim UML dijagramom. Nije nužno nacrtati sve na jednom dijagramu. Modelirati po razinama apstrakcije i skupovima srodnih funkcionalnosti.}
 					\begin{figure}
 						\includegraphics[width=\linewidth]{Slike/UCDiagramUserProfiles.png}
 						\caption{UC dijagram za opis korisničkih računa}
@@ -1064,10 +1051,6 @@
 				\eject		
 				
 			\subsection{Sekvencijski dijagrami}
-				
-				\textbf{\textit{dio 1. revizije}}\\
-				
-				\textit{Nacrtati sekvencijske dijagrame koji modeliraju najvažnije dijelove sustava (max. 4 dijagrama). Ukoliko postoji nedoumica oko odabira, razjasniti s asistentom. Uz svaki dijagram napisati detaljni opis dijagrama.}
 				
 				\subsubsection{Obrazac uporabe UC15 - Glasanje}
 				Registrirani korisnik odabire opciju za pregled svih postera. U galeriji postera odabire jedan poster. Pojavljuje se opcija za glasanje za odabrani poster. Klikom na tu opciju aplikacija šalje zahtjev bazi podataka kojim provjerava je li prijavljeni korisnik već glasao, ako je, briše se prethodno zabilježeni glas te se bilježi novi. Korisnik  je obaviješten o svom glasanju.
@@ -1115,9 +1098,6 @@
 			
 		\section{Ostali zahtjevi}
 		
-			\textbf{\textit{dio 1. revizije}}\\
-		 
-			 \textit{Nefunkcionalni zahtjevi i zahtjevi domene primjene dopunjuju funkcionalne zahtjeve. Oni opisuju \textbf{kako se sustav treba ponašati} i koja \textbf{ograničenja} treba poštivati (performanse, korisničko iskustvo, pouzdanost, standardi kvalitete, sigurnost...). Primjeri takvih zahtjeva u Vašem projektu mogu biti: podržani jezici korisničkog sučelja, vrijeme odziva, najveći mogući podržani broj korisnika, podržane web/mobilne platforme, razina zaštite (protokoli komunikacije, kriptiranje...)... Svaki takav zahtjev potrebno je navesti u jednoj ili dvije rečenice.}
 			 \begin{itemize}
 			 	\item Maksimalni broj glasovanja po osobi je 1
 			 	\item Glasovanje je moguće samo tijekom određenog vremenskog razdoblja koje je određeno danima i vremenom održavanja konferencije
