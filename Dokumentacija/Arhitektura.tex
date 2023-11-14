@@ -4,35 +4,31 @@ Arhitektura je podijeljena u tri pod sustava:
 \begin{itemize}
 	\item Web poslužitelj
 	\item Web aplikacija
-	\item Baza podataka	
+	\item Baza podataka
 \end{itemize}
 
 \begin{figure}
-	\centering
-	\includegraphics[width=0.5\textwidth]{Slike/ArhitekturaSustava}
-	\caption{Arhitektura sustava}
-	\label{fig:example}
+	\includegraphics[width=\linewidth]{Slike/ArhitekturaSustava}
+	\caption{Reprezentacija arhitekture sustava}
 \end{figure}
 
-\textbf{Web preglednik} je program koji korisniku omogućuje pregled web-stranica, njenih multimedijskih sadržaja kao i slanje zahtjeva web poslužitelju. On ujedno i prevodi kod u kojem je napisana stranica u nešto raumljivo.
+\indent Internetski preglednik služi za pregled web-stranica i njihovog višemedijskog sadržaja, a one komuniciraju s poslužiteljima slanjem zahtjeva i primanjem odgovora. Preglednik ima sposobnost interpretacije koda kojim je pisana stranica u ljudski čitljiv oblik.
 \newline
-\indent\textbf{Web poslužitelj} kao posrednik između korisnika i aplikacije je osnova rada aplikacije. Komunikacija se ostvaruje HTTP  (engl. \textit{Hyper Text Transfer Protocol}) protokolom.
+\indent Web poslužitelj je posrednik između korisnika i aplikacije, te služi kao osnova rada aplikacije. Komunikacija se ostvaruje korisničkim HTTP (engl. \textit{Hyper Text Transfer Protocol}) zahtjevima koji obično u zaglavlju imaju definiranu GET ili POST metodu za dohvaćanje odnosno predaju podataka. Poslužitelj na njih odgovara dostavom traženog sadržaja.
 \newline
-\indent\textbf{Web aplikacija} pomaže korisniku u obradi željenih zahtjeva. Web aplikacija po potrebi pristupa bazi podataka nakon čega korisniku vraća HTML dokument kojeg korisnik vidi u web pregledniku.
-Programski jezik koji smo odabrali je Java zajedno sa Spring radnim okvirom i JavaScript. Odabrano razvojno okružje je Microsoft visual studio code i Intellij IDEA. Arhitektura sustava će se temeljiti na stilističkoj varijaciji arhitekture zasnovane na događajima (engl. \textit{event based architecture}) - MVC obrazcu.
-\indent MVC (Model-View-Controller) obrazac je podržan od strane Spring radnog okvira i kao takav ima gotove predloške koji nam olakšavaju razvoj web aplikacije.
+\indent Web aplikacija po nalogu poslužitelja pristupa ili mijenja podatke iz baze podataka i vraća HTML dokument koji se potom prikazuje korisniku u sučelju preglednika.
+Programski jezik koji smo odabrali za razvoj pozadinskog dijela aplikacije je "Java" zajedno sa "Spring" radnim okvirom, a za dizajn korisničkog sučelja odabrali smo "JavaScript", s radnim okvirom "React". Odabrano razvojno okružje je "IntelliJ IDEA". Arhitektura sustava će se temeljiti na stilističkoj varijaciji arhitekture zasnovane na događajima (engl. \textit{event based architecture}) - MVC obrazcu. Spring radni okvir podržava MVC (Model-View-Controller) obrazac, te kao takav ima gotove predloške koji nam olakšavaju razvoj web aplikacije.
 \newline
-MVC obrazac omogućuje nezavisan razvoj pojedinih dijelova aplikacije što znatno olakšava ispitivanje kao i razvijanje i dodavanje novih svojstava u sustav.
+
+\indent MVC obrazac omogućuje odvojen razvoj navedenih slojeva aplikacije što znatno olakšava ispitivanje, razvijanje i dodavanje novih svojstava u sustav.
 \newline
 Dijelovi MVC obrazca su:
 \begin{itemize}
-	\item Model - Centralna komponenta sustava predstavlja dinamičke strukture podataka koje su neovisne o ciljevima korisnika. Izravno upravlja podacima, logikom, i pravilima aplikacije, a isto tako prima ulazne podatke od kontrolera.
-	\item View - Bilo kakav prikaz podataka, poput grafa. Moguci su različiti prikazi iste informacije poput grafičkog ili tabličnog prikaza podataka. 
-	\item Controller - Prima ulaze i prilagođava ih za prosljeđivanje Modelu ili Viewu.
-	Upravlja korisničkim zahtjevima i temeljem njih izvodi daljnju interakciju s ostalim elementima sustava.
+	\item Model(\textit{Model}) - rješava problem interakcije korisnika s bazom podataka, predstavlja bazu i služi za komunikaciju upravljača s bazom, te je na taj način zadužen za logiku vezanu za podatke i njihov prijenos
+	\item Prikaz(\textit{View}) - prikaz podataka i njihovih reprezentacija na korisničkom sučelju
+	\item Upravljač(\textit{Controller}) - povezuje komponente modela i prikaza i služi kao posrednik između tih komponenata i korisnika, a sam nije zadužen za obradu podataka, međudjeluje s modelom kako bi dohvatio podatke i s prikazom kako bi ih prikazao korisniku
 \end{itemize}
 
-				
 		\section{Baza podataka}
 			
 		Za potrebe našeg sustava koristiti ćemo relacijsku bazu podataka koja svojom strukturom olakšava modeliranje stvarnog svijeta. Gradivna jedinka baze je relacija, odnosno tablica koja je definirana svojim imenom i skupom atributa. Zadaća baze podataka je brza i jednostavna pohrana, izmjena i dohvat podataka za daljnju obradu.
