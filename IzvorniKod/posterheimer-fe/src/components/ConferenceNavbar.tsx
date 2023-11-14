@@ -1,21 +1,32 @@
-import { Navbar } from "react-bootstrap";
-import { Nav } from "react-bootstrap";
-import { Container } from "react-bootstrap";
+import { Navbar, Nav, Container } from "react-bootstrap";
 
 interface Props {
   conference: string;
+  handleClickHome: () => void;
+  handleClickConference: () => void;
+  handleClickPosters: () => void;
+  handleClickPhotos: () => void;
+  handleClickPatrons: () => void;
 }
 
-function ConferenceNavbar({ conference }: Props) {
+function ConferenceNavbar({
+  conference,
+  handleClickHome,
+  handleClickConference,
+  handleClickPhotos,
+  handleClickPosters,
+  handleClickPatrons,
+}: Props) {
   return (
     <>
       <Navbar bg="dark" data-bs-theme="dark">
         <Container>
-          <Navbar.Brand href="#home">{conference}</Navbar.Brand>
+          <Navbar.Brand onClick={handleClickHome}>Posterheimer</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#features">Features</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
+            <Nav.Link onClick={handleClickConference}>{conference}</Nav.Link>
+            <Nav.Link onClick={handleClickPosters}>Posteri</Nav.Link>
+            <Nav.Link onClick={handleClickPhotos}>Fotografije</Nav.Link>
+            <Nav.Link onClick={handleClickPatrons}>Pokrovitelji</Nav.Link>
           </Nav>
         </Container>
       </Navbar>

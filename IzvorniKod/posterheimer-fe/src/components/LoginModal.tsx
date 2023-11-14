@@ -15,7 +15,7 @@ function LoginModal({ conference, showModal, handleClose }: Props) {
 
   const handleLogin = () => {
     // Perform login logic
-    navigate("/conference");
+    navigate("/conference", { state: conference });
     console.log("Logging in with:", username, password);
     // Close the modal after logging in
   };
