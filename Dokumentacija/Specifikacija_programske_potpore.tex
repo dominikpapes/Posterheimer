@@ -802,6 +802,8 @@
 							\item Izlazak iz sučelja za upravljanje video prijenosom
 						\end{packed_enum}
 						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
 						\item[] \begin{packed_item}
 							
 							\item[4.a] Administrator odustaje od promjene video prijenosa
@@ -815,7 +817,7 @@
 						
 					\end{packed_item}
 					
-					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Upravljanje trajanjem konferencije}}
+					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Upravljanje podacima o konferenciji}}
 					\begin{packed_item}
 						
 						\item \textbf{Glavni sudionik: }Administrator
@@ -833,43 +835,24 @@
 							\item Izlazak iz sučelja za upravljanjem trajanja
 						\end{packed_enum}
 						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
 						\item[] \begin{packed_item}
 							
-							\item[4.a] Administrator odustaje od promjene trajanja
+							\item[1.a] Administrator odabire opciju za upravljanjem lokacije konferencije
 							\item[] \begin{packed_enum}
 								
-								\item Izlazak iz sučelja za upravljanjem trajanja
+								\item Otvara se sučelje za upravljanje lokacijom
+								\item Administrator odabire lokaciju konferencije
+								\item Administrator potvrđuje promjene
+								\item Izlazak iz sučelja za upravljanje lokacijom
 								
 							\end{packed_enum}
 							
-						\end{packed_item}
-						
-					\end{packed_item}
-					
-					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Upravljanje lokacijom}}
-					\begin{packed_item}
-						
-						\item \textbf{Glavni sudionik: }Administrator
-						\item  \textbf{Cilj:} Promijeniti lokaciju konferencije
-						\item  \textbf{Sudionici:} Baza podataka
-						\item  \textbf{Preduvjet:} Prijavljen je administrator
-						\item  \textbf{Opis osnovnog tijeka:}
-						
-						\item[] \begin{packed_enum}
-							
-							\item Administrator odabire opciju za upravljanjem lokacije konferencije
-							\item Otvara se sučelje za upravljanje lokacijom
-							\item Administrator odabire točnu lokaciju konferencije
-							\item Administrator potvrđuje promjene
-							\item Izlazak iz sučelja za upravljanje lokacijom
-						\end{packed_enum}
-						
-						\item[] \begin{packed_item}
-							
-							\item[4.a] Administrator odustaje od promjene lokacije
+							\item[4.a] Administrator odustaje od promjene trajanja/lokacije
 							\item[] \begin{packed_enum}
 								
-								\item Izlazak iz sučelja za upravljanje lokacijom
+								\item Izlazak iz sučelja za upravljanjem trajanja/lokacijom
 								
 							\end{packed_enum}
 							
@@ -904,61 +887,11 @@
 						
 						\item[] \begin{packed_enum}
 							
-							\item Aplikacija šalje poruku e-pošte korisnicima koji imaju e-adresu u bazi
-						\end{packed_enum}
-						
-					\end{packed_item}
-					
-					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Poziv na dodjelu nagrade }}
-					\begin{packed_item}
-						
-						\item \textbf{Glavni sudionik: } Poslužitelj e-pošte
-						\item  \textbf{Cilj:} Poslati poruku e-pošte kojom se poziva na dodjelu nagrade
-						\item  \textbf{Sudionici:} Baza podataka
-						\item  \textbf{Preduvjet:} Završen postupak glasovanja
-						\item  \textbf{Opis osnovnog tijeka:}
-						
-						\item[] \begin{packed_enum}
-							
-							\item Traženje i dohvat e-adresa prva tri rada po broju glasova u bazi podataka
-							\item Slanje poruke e-pošte dohvaćenim e-adresama
-							
-						\end{packed_enum}
-						
-					\end{packed_item}	
-					
-					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Obavijest o mjestu i vremenu dodjele nagrade }}
-					\begin{packed_item}
-						
-						\item \textbf{Glavni sudionik: } Poslužitelj e-pošte
-						\item  \textbf{Cilj:} Poslati poruku e-pošte kojom obavještava o mjestu i vremenu dodjele nagrade
-						\item  \textbf{Sudionici:} Baza podataka
-						\item  \textbf{Preduvjet:} Završen postupak glasovanja
-						\item  \textbf{Opis osnovnog tijeka:}
-						
-						\item[] \begin{packed_enum}
-							
-							\item Dohvaćanje e-adresa svih registriranih korisnika
-							\item Slanje poruke e-pošte dohvaćenim e-adresama
-							
-						\end{packed_enum}
-						
-					\end{packed_item}
-					
-					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Obavijest o rangu }}
-					\begin{packed_item}
-						
-						\item \textbf{Glavni sudionik: } Poslužitelj e-pošte
-						\item  \textbf{Cilj:} Poslati poruku e-pošte kojom obavještava o rangu postera
-						\item  \textbf{Sudionici:} Baza podataka
-						\item  \textbf{Preduvjet:} Završen postupak glasovanja
-						\item  \textbf{Opis osnovnog tijeka:}
-						
-						\item[] \begin{packed_enum}
-							
-							\item Dohvaćanje e-adresa svih autora postera
-							\item Slanje poruke e-pošte dohvaćenim e-adresama
-							
+							\item Traženje i dohvat adresa e-pošte autora prvih triju radova po broju glasova iz baze podataka
+							\item Slanje poziva na dodjelu nagrade autorima nagrađenih radova e-porukom i notifikacijom na aplikaciji
+							\item Slanje obavijesti o mjestu i vremenu dodjele nagrade svim registriranim korisnicima e-porukom i notifikacijom na aplikaciji
+							\item Dohvaćanje adresa e-pošte svih autora natjecateljskih radova
+							\item Slanje obavijesti o rangu svim sudionicima natjecanja e-porukom i notifikacijom na aplikaciji
 						\end{packed_enum}
 						
 					\end{packed_item}

@@ -159,20 +159,25 @@
 			
 		\section{Dijagram razreda}
 			
-			Na slikama 4.2 i 4.3 su prikazani  razredi koji pripadaju \textit{backend} dijelu MVC arhitekture. Razredi prikazani na slici 4.2 nasljeđuju Controller razred. Metode implementirane u tim razredima manipuliraju s DTO (\textit{Data transfer object}), a oni su dohvaćeni pomoću metoda implementiranih u Model razredima. Metode implementiranih u Model razredima. Metode implenetirane u Controller razredima vraćaju JSON datoteke s html status kodom.
+			Slike 4.2, 4.3 i 4.4 prikazuju dijagrame razreda pozadinskog dijela MVC arhitekture. Slike 4.2 i 4.3 prikazuju upravljačke razrede, te DTO(\textit{Data Transfer Object} razrede koji se dohvaćaju metodama iz razreda modela. Metode iz upravljačkih razreda vraćaju JSON datoteke sa statusnom html šifrom.
 			
-			Zbog lakše organizacije, razredi su podijeljeni logički po pravu pristupa metodama određenih aktora, kako bi se smanjila prenapučenost unutar dijagrama, prikazane su samo ovisnosti između razreda koji pripadaju istom dijelu dijagrama. Iz naziva i tipova atributa u razredima može se zaključiti vrsta ovisnosti među različitim razredima. 
+			Dijagrami su zbog preglednosti podijeljeni po slojevima, odnosno na pojedinom dijagramu prikazane su samo ovisnosti između razreda istog MVC sloja, a prema nazivima samih razreda mogu se logički povezati funkcionalnosti među slojevima.
 			
 			\begin{figure} [h]
 				\includegraphics[width=\linewidth]{Slike/ClassDiagramControllers}
-				\caption{Dijagram razreda - dio Controllers}
+				\caption{Dijagram razreda - Upravljači}
 			\end{figure}
 			
-			Model razredi preslikavaju strukturu baze podataka u aplikaciji. Implementirane metode direktno komuniciraju s bazom podataka te vraćaju tražene podatke. Razred Korisnik predstavlja neregistriranog korisnika koji se može registrirati u sustav unoseći osnove informacije. Razred RegistriraniKorisnik predstavlja korisnika koji je registriran u sustav i koji može koristiti njegove osnove funkcionalnosti. Razred Administratora predstavlja administratora sustava koji ima najveće ovlasti. Razred Natkorisnika predstavlja natkorisnika koji ima mogućnost upravljanja konferencijama i postavljanje administratora. Razred Konferencija predstavlja skup podataka koji su potrebni za registraciju konferencije i koji se prikazuju korisnicima. Razred Poster predstavlja skup podataka koji su potrebni za dodavanje postera i koji se prikazuju korisnicima. Razred Fotografije predstavlja skup podataka vezan uz pojedinačnu fotografiju konferencije. Razred Pokrovitelj predstavlja pokrovitelja konferencije. 
+			\begin{figure} [h]
+				\includegraphics[width=\linewidth]{Slike/DarioClassDiagramDTO}
+				\caption{Dijagram razreda - DTO}
+			\end{figure}
+			
+			Razredi dijagrama "Modeli" preslikavaju entitete i atribute baze podataka, te njihove metode komuniciraju izravno s bazom i iz nje vraćaju ili u nju ubacuju sadržaj. Razred Korisnik predstavlja neregistriranog korisnika koji se može registrirati u sustav unoseći osnove informacije. Razred RegistriraniKorisnik predstavlja korisnika koji je registriran u sustav i koji može koristiti njegove osnove funkcionalnosti. Razred Administratora predstavlja administratora sustava koji ima najveće ovlasti. Razred Natkorisnika predstavlja natkorisnika koji ima mogućnost upravljanja konferencijama i postavljanje administratora. Razred Konferencija predstavlja skup podataka koji su potrebni za registraciju konferencije i koji se prikazuju korisnicima. Razred Poster predstavlja skup podataka koji su potrebni za dodavanje postera i koji se prikazuju korisnicima. Razred Fotografije predstavlja skup podataka vezan uz pojedinačnu fotografiju konferencije. Razred Pokrovitelj predstavlja pokrovitelja konferencije. 
 			
 			\begin{figure} [h]
-				\includegraphics[width=\linewidth]{Slike/ClassDiagram}
-				\caption{Dijagram razreda - dio Models}
+				\includegraphics[width=\linewidth]{Slike/ClassDiagramModels}
+				\caption{Dijagram razreda - Modeli}
 			\end{figure}
 			
 			\textbf{\textit{dio 2. revizije}}\\			
