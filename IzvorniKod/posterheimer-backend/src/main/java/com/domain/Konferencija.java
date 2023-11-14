@@ -1,9 +1,6 @@
 package com.domain;
 
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
@@ -19,7 +16,7 @@ public class Konferencija {
     private LocalDateTime datumVrijemeZavrsetka;
 
     @OneToMany(mappedBy = "konferencija")
-    private Set<RegistriraniKorisnik> users;
+    private Set<Korisnik> users;
 
     public Konferencija() {
     }
@@ -74,11 +71,11 @@ public class Konferencija {
         return mjesto;
     }
 
-    public Set<RegistriraniKorisnik> getUsers() {
+    public Set<Korisnik> getUsers() {
         return users;
     }
 
-    public void setUser(RegistriraniKorisnik user) {
+    public void setUser(Korisnik user) {
         this.users.add(user);
     }
 

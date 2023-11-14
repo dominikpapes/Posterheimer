@@ -1,9 +1,7 @@
 package com.service.impl;
 
 import com.dao.KonferencijaRepository;
-import com.dao.RegistriraniKorisnikRepository;
 import com.domain.Konferencija;
-import com.domain.RegistriraniKorisnik;
 import com.service.EntityMissingException;
 import com.service.KonferencijeService;
 import com.service.RequestDeniedException;

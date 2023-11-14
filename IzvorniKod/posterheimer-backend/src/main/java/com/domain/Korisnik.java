@@ -1,14 +1,10 @@
 package com.domain;
 
-import com.dao.KonferencijaRepository;
-import com.rest.KonferencijaController;
-import com.service.KonferencijeService;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 @Entity
-public class RegistriraniKorisnik {
+public class Korisnik {
     @Id
     private String email;
     private String ime;
@@ -21,10 +17,10 @@ public class RegistriraniKorisnik {
     @NotNull
     private String lozinka;
 
-    public RegistriraniKorisnik() {
+    public Korisnik() {
     }
 
-    public RegistriraniKorisnik(String email,String lozinka, String ime, String prezime, Integer konferencijaId){
+    public Korisnik(String email, String lozinka, String ime, String prezime, Integer konferencijaId){
         this.ime=ime;
         this.email=email;
         this.prezime=prezime;
@@ -73,7 +69,7 @@ public class RegistriraniKorisnik {
 
     @Override
     public String toString() {
-        return "RegistriraniKorisnik{" +
+        return "Korisnik{" +
                 ", email='" + email + '\'' +
                 ", ime='" + ime + '\'' +
                 ", prezime='" + prezime + '\'' +

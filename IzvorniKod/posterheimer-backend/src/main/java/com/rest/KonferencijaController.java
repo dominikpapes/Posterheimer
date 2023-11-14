@@ -1,8 +1,7 @@
 package com.rest;
 import com.domain.Konferencija;
-import com.domain.RegistriraniKorisnik;
+import com.domain.Korisnik;
 import com.service.KonferencijeService;
-import com.service.RegistriraniKorisnikService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.access.annotation.Secured;
@@ -28,7 +27,7 @@ public class KonferencijaController {
         return konferencijeService.fetch(idKonferencija);
     }
     @GetMapping("/{idKonferencija}/users")
-    public Set<RegistriraniKorisnik> getUsers(@PathVariable("id") Integer idKonferencija) {
+    public Set<Korisnik> getUsers(@PathVariable("id") Integer idKonferencija) {
         return konferencijeService.fetch(idKonferencija).getUsers();
     }
 

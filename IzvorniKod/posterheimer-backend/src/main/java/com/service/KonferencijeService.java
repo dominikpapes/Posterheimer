@@ -1,7 +1,6 @@
 package com.service;
 
 import com.domain.Konferencija;
-import com.domain.RegistriraniKorisnik;
 
 import java.util.List;
 import java.util.Optional;
