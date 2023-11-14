@@ -6,7 +6,7 @@ import com.service.KonferencijeService;
 import com.service.RegistriraniKorisnikService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-//import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
