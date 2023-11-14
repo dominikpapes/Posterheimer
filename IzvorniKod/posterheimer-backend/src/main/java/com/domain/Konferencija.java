@@ -14,6 +14,8 @@ public class Konferencija {
     private String mjesto;
     private LocalDateTime datumVrijemePocetka;
     private LocalDateTime datumVrijemeZavrsetka;
+    private String genericUsername;
+    private String genericPassword;
 
     @OneToMany(mappedBy = "konferencija")
     private Set<Korisnik> users;
@@ -21,7 +23,9 @@ public class Konferencija {
     public Konferencija() {
     }
 
-    public Konferencija(Integer idKonferencija, String imeKonferencija, String mjesto, LocalDateTime datumVrijemePocetka, LocalDateTime datumVrijemeZavrsetka){
+    public Konferencija(Integer idKonferencija, String imeKonferencija, String mjesto,
+                        LocalDateTime datumVrijemePocetka, LocalDateTime datumVrijemeZavrsetka,
+                        String genericPassword,String genericUsername){
         Assert.hasText(imeKonferencija,"Ime konferencije must be set.");
         Assert.isTrue(idKonferencija instanceof Integer,"Id konferencije must be integer");
         this.idKonferencija=idKonferencija;
@@ -29,6 +33,8 @@ public class Konferencija {
         this.mjesto=mjesto;
         this.datumVrijemePocetka=datumVrijemePocetka;
         this.datumVrijemeZavrsetka=datumVrijemeZavrsetka;
+        this.genericPassword=genericPassword;
+        this.genericUsername=genericUsername;
     }
 
     public void setDatumVrijemePocetka(LocalDateTime datumVrijemePocetka) {
@@ -41,6 +47,22 @@ public class Konferencija {
 
     public void setDatumVrijemeZavrsetka(LocalDateTime datumVrijemeZavrsetka) {
         this.datumVrijemeZavrsetka = datumVrijemeZavrsetka;
+    }
+
+    public void setGenericUsername(String genericUsername) {
+        this.genericUsername = genericUsername;
+    }
+
+    public String getGenericUsername() {
+        return genericUsername;
+    }
+
+    public void setGenericPassword(String genericPassword) {
+        this.genericPassword = genericPassword;
+    }
+
+    public String getGenericPassword() {
+        return genericPassword;
     }
 
     public void setImeKonferencija(String imeKonferencija) {

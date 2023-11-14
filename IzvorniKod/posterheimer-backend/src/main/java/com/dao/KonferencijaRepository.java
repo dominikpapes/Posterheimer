@@ -24,4 +24,6 @@ public interface KonferencijaRepository
 
         @Query("SELECT COUNT(k) > 0 FROM Konferencija k WHERE k.imeKonferencija <> :imeKonferencija")
         boolean existsByImeKonferencijaNot(@Param("imeKonferencija") String konferencijaIme);
+
+
     }
