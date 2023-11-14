@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import LoginModal from "./LoginModal";
 
 interface Props {
   items: string[];
@@ -9,16 +10,27 @@ interface Props {
 
 function ListGroup({ items, heading, onSelectItem }: Props) {
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const navigate = useNavigate();
+  const [showLogin, setShowLogin] = useState(false);
 
   const propToSend = { conference: items[selectedIndex] };
 
   const handleClickLogin = () => {
-    navigate("/login");
+    setShowLogin(true);
+  };
+
+  const handleClickCloseModal = () => {
+    setShowLogin(false);
   };
 
   return (
     <>
+      {showLogin && (
+        <LoginModal
+          conference={items[selectedIndex]}
+          showModal={showLogin}
+          handleClose={handleClickCloseModal}
+        />
+      )}
       <h1>{heading}</h1>
       <ul className="list-group">
         {items.map((item, index) => (

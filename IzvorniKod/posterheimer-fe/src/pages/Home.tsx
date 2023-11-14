@@ -1,4 +1,4 @@
-import ListGroup from "./components/ListGroup";
+import ListGroup from "../components/ListGroup";
 
 function Home() {
   let items = ["Konferencija 1", "Konferencija 2"];
