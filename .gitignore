@@ -10,3 +10,9 @@
 *.synctex.gz
 
 *.toc
+
+.idea
+
+node_modules
+
+target
