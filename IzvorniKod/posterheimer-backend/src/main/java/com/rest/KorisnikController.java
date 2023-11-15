@@ -6,6 +6,7 @@ import com.service.KonferencijeService;
 import com.service.KorisnikService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -21,17 +22,18 @@ public class KorisnikController {
     private KonferencijeService konferencijeService;
 
     @GetMapping("")
+    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
     public List<Korisnik> korisnikList() {
         return korisnikService.listAll();
     }
 
     @GetMapping("/{email}")
+    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN","ROLE_USER"})
     public Korisnik getKorisnik(@PathVariable("email") String korisnikEmail) {
         return korisnikService.fetch(korisnikEmail);
     }
 
     @PostMapping("")
-    //@Secured("ROLE_ADMIN")
     public ResponseEntity<Korisnik> createKorisnik(@RequestBody Korisnik korisnik) {
         Optional<Konferencija> existingKonferencija = konferencijeService.findById(korisnik.getKonferencijaId());
         if (existingKonferencija.isPresent()) {
@@ -45,15 +47,15 @@ public class KorisnikController {
     }
 
     @PutMapping("/{email}")
-    //@Secured("ROLE_USER")
-    public Korisnik korisnik(@PathVariable("email") String newEmail, @RequestBody Korisnik korisnik) {
-        if (!korisnik.getEmail().equals(newEmail))
+    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN","ROLE_USER"})
+    public Korisnik changeKorisnikEmail(@PathVariable("email") String newEmail, @RequestBody Korisnik korisnik) {
+        if (korisnik.getEmail().equals(newEmail))
             throw new IllegalArgumentException("");
         return korisnikService.updateKorisnik(korisnik,newEmail);
     }
 
     @DeleteMapping("/{email}")
-    //@Secured("ROLE_ADMIN")
+    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN","ROLE_USER"})
     public Korisnik deleteKorisnik(@PathVariable("email") String email) {
         return korisnikService.deleteKorisnik(email);
     }

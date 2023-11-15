@@ -52,12 +52,15 @@ public class KorisnikServiceJpa implements KorisnikService {
     public Korisnik updateKorisnik(Korisnik korisnik, String newEmail) {
         validate(korisnik);
         String korisnikEmail = korisnik.getEmail();
+        Assert.isTrue(newEmail.matches(EMAIL_FORMAT), "Invalid email format: '" + newEmail + "'");
         if (!korisnikRepository.existsByEmail(korisnikEmail))
             throw new EntityMissingException(Korisnik.class, korisnikEmail);
-        if (korisnikRepository.existsByEmailNot(newEmail))
+        if (korisnikRepository.existsByEmail(newEmail))
             throw new RequestDeniedException(
-                    "Registrirani korisnik with email " + korisnik.getEmail() + " already exists"
+                    "Registrirani korisnik with email " + newEmail + " already exists"
             );
+        korisnikRepository.delete(korisnik);
+        korisnik.setEmail(newEmail);
         return korisnikRepository.save(korisnik);
     }
 

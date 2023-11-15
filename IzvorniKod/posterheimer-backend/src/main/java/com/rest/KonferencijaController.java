@@ -41,29 +41,29 @@ public class KonferencijaController {
         return konferencijeService.fetch(idKonferencija);
     }
     @GetMapping("/{idKonferencija}/users")
+    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
     public Set<Korisnik> getUsers(@PathVariable("idKonferencija") Integer idKonferencija) {
         return konferencijeService.fetch(idKonferencija).getUsers();
     }
-    @GetMapping("/{idKonferencija}/{genericUsername}/{genericPassword}")
-    public boolean loginGeneric(@PathVariable("id") Integer idKonferencija,@PathVariable("genericUsername") String genericUsername,
-                      @PathVariable("genericPassword") String genericPassword){
+    @GetMapping("/{idKonferencija}/{genericPassword}")
+    public boolean loginGeneric(@PathVariable("idKonferencija") Integer idKonferencija, @PathVariable("genericPassword") String genericPassword){
         try{
         Konferencija saved=konferencijeService.fetch(idKonferencija);
-        return saved.getGenericUsername().equals(genericUsername)&&saved.getGenericPassword().equals(genericPassword);}
+        return saved.getGenericPassword().equals(genericPassword);}
         catch (EntityMissingException exception){
             throw new EntityMissingException(Konferencija.class,idKonferencija);
         }
     }
 
     @PostMapping("")
-    @Secured("ROLE_SUPERUSER")
+  //  @Secured("ROLE_SUPERUSER")
     public ResponseEntity<Konferencija> createKonferencija(@RequestBody Konferencija konferencija) {
         Konferencija saved = konferencijeService.createKonferencija(konferencija);
         return ResponseEntity.created(URI.create("/konferencije/" + saved.getIdKonferencija())).body(saved);
     }
 
     @PutMapping("/{id}")
-    @Secured("ROLE_SUPERUSER")
+  //  @Secured("ROLE_SUPERUSER")
     public Konferencija konferencija(@PathVariable("id") Integer id, @RequestBody Konferencija konferencija) {
         if (!(konferencija.getIdKonferencija().equals(id)))
             throw new IllegalArgumentException("");
@@ -72,7 +72,7 @@ public class KonferencijaController {
 
 
     @DeleteMapping("/{id}")
-    //@Secured("ROLE_ADMIN")
+ //   @Secured("ROLE_SUPERUSER")
     public Konferencija deleteKonferencija(@PathVariable("id") Integer idKonferencija) {
         return konferencijeService.deleteKonferencija(idKonferencija);
     }
