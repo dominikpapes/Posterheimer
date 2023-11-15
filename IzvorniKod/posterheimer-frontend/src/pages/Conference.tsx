@@ -4,11 +4,7 @@ import { useState } from "react";
 import Posters from "../components/Posters";
 import Photos from "../components/Photos";
 import Patrons from "../components/Patrons";
-
-const api = {
-  key: "aa1ef53b0bb7d2e72fe42357e59adacb",
-  base: "https://api.openweathermap.org/data/2.5",
-};
+import Weather from "../components/Weather";
 
 function Conference() {
   const location = useLocation();
@@ -63,7 +59,7 @@ function Conference() {
         handleClickPhotos={handlePhotos}
         handleClickPatrons={handlePatrons}
       />
-      {showConference && <p>Informacije o konferenciji</p>}
+      {showConference && <Weather location="Zagreb" />}
       {showPosters && <Posters />}
       {showPhotos && <Photos />}
       {showPatrons && <Patrons />}
