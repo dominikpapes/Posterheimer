@@ -1,6 +1,6 @@
 import ConferenceNavbar from "../components/ConferenceNavbar";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { createContext, useState } from "react";
 import Posters from "../components/Posters";
 import Photos from "../components/Photos";
 import Patrons from "../components/Patrons";
@@ -68,3 +68,5 @@ function Conference() {
 }
 
 export default Conference;
+
+export const ConferenceContext = createContext(null);
