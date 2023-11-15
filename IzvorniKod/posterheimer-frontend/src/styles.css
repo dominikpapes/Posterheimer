@@ -1,0 +1,13 @@
+* {
+  box-sizing: border-box;
+}
+
+.weather-image {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.weather-card {
+  display: flex;
+  align-items: center;
+}
