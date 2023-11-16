@@ -29,9 +29,9 @@ public class KonferencijaController {
                     Map<String, Object> konferencijaMap = new HashMap<>();
                     konferencijaMap.put("idKonferencija", konferencija.getIdKonferencija());
                     konferencijaMap.put("imeKonferencija", konferencija.getImeKonferencija());
-                    konferencijaMap.put("mjesto", konferencija.getMjesto());
-                    konferencijaMap.put("datumVrijemePocetka", konferencija.getDatumVrijemePocetka());
-                    konferencijaMap.put("datumVrijemeZavrsetka", konferencija.getDatumVrijemeZavrsetka());
+                    //konferencijaMap.put("mjesto", konferencija.getMjesto());
+                    //konferencijaMap.put("datumVrijemePocetka", konferencija.getDatumVrijemePocetka());
+                    //konferencijaMap.put("datumVrijemeZavrsetka", konferencija.getDatumVrijemeZavrsetka());
                     return konferencijaMap;
                 }).collect(Collectors.toList());
     }

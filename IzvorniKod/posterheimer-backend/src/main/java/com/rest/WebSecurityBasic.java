@@ -34,6 +34,7 @@ public class WebSecurityBasic {
                 .requestMatchers(new AntPathRequestMatcher("/konferencije")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/konferencije/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/korisnici/**")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/posteri/**")).permitAll()
                 .anyRequest().authenticated());
         http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
