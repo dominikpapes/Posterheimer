@@ -28,10 +28,15 @@ public class WebSecurityBasic {
 
     @Bean
     @Profile("basic-security")
+    @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/konferencije")).permitAll()
+<<<<<<< HEAD
+            
+=======
+                .requestMatchers(new AntPathRequestMatcher("/api/konferencije")).permitAll()
+>>>>>>> 8357985cae95f6ca8d86d172fd85fd59419f1554
                 .anyRequest().authenticated());
         http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
@@ -70,7 +75,6 @@ public class WebSecurityBasic {
 
     @Bean
     @Profile({ "basic-security", "form-security" })
-    @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain h2ConsoleSecurityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(PathRequest.toH2Console()).permitAll()
