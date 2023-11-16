@@ -9,6 +9,7 @@ interface Props {
 function RegisterModal() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [pin, setPin] = useState("");
 
   function handleRegister() {
     console.log("registering");
@@ -28,6 +29,7 @@ function RegisterModal() {
               placeholder="Upišite email adresu"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </Form.Group>
           <Form.Group controlId="formPassword">
@@ -37,24 +39,24 @@ function RegisterModal() {
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </Form.Group>
-          <Form.Group controlId="formEmail">
+          <Form.Group controlId="formPin">
             <Form.Label>PIN konferencije</Form.Label>
             <Form.Control
               type="password"
               placeholder="Upišite PIN konferencije"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={pin}
+              onChange={(e) => setPin(e.target.value)}
+              required
             />
           </Form.Group>
+          <Button variant="primary" onClick={handleRegister}>
+            Register
+          </Button>
         </Form>
       </Modal.Body>
-      <Modal.Footer>
-        <Button variant="primary" onClick={handleRegister}>
-          Register
-        </Button>
-      </Modal.Footer>
     </>
   );
 }

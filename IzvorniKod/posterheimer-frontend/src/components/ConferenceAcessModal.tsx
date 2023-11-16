@@ -6,12 +6,6 @@ import { SelectedConferenceContext } from "./ListGroup";
 import AccessModal from "./AccessModal";
 import RegisterModal from "./RegisterModal";
 
-interface LoginScreenFunctionsProps {
-  handleSwitchLogin: () => void;
-  handleSwitchRegister: () => void;
-  handleAccess: () => void;
-}
-
 interface Props {
   showModal: boolean;
   handleClose: () => void;
@@ -58,7 +52,3 @@ function ConferenceAcessModal({ showModal, handleClose }: Props) {
 }
 
 export default ConferenceAcessModal;
-
-export const LoginScreenFunctionsContext = createContext<
-  LoginScreenFunctionsProps | undefined
->(undefined);

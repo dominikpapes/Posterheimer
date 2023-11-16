@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { SelectedConferenceContext } from "./ListGroup";
-import { LoginScreenFunctionsContext } from "./ConferenceAcessModal";
 
 interface Props {
   handleLogin: () => void;
@@ -12,23 +11,31 @@ interface Props {
 
 function AccessModal() {
   const conference = useContext(SelectedConferenceContext);
-  const functions = useContext(LoginScreenFunctionsContext);
   const [pin, setPin] = useState("");
   const navigate = useNavigate();
 
-  function handleLogin() {
-    // Perform login logic
-    navigate("/conference", { state: conference });
-    // Close the modal after logging in
-  }
+  const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    fetch(`api/konferencije/${conference?.idKonferencija}/${pin}`)
+      .then((res) => res.json())
+      .then((access) => {
+        if (access) {
+          navigate("/conference", { state: conference?.idKonferencija });
+        } else {
+          console.log("access denied");
+        }
+      })
+      .catch((exc) => console.log(exc));
+  };
+  // Close the modal after logging in
 
   return (
     <>
       <Modal.Header closeButton>
-        <Modal.Title>Pristupi - {conference}</Modal.Title>
+        <Modal.Title>Pristupi - {conference?.imeKonferencija}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
+        <Form onSubmit={handleLogin}>
           <Form.Group className="mb-3" controlId="pin">
             <Form.Label>PIN:</Form.Label>
             <Form.Control
@@ -37,15 +44,12 @@ function AccessModal() {
               onChange={(e) => setPin(e.target.value)}
             />
           </Form.Group>
+          <Button variant="primary" type="submit">
+            Pristupi
+          </Button>
         </Form>
       </Modal.Body>
-      <Modal.Footer>
-        <Button variant="primary" onClick={handleLogin}>
-          Pristupi
-        </Button>
-      </Modal.Footer>
     </>
   );
 }
-
 export default AccessModal;
