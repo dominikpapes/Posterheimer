@@ -1,12 +1,20 @@
+import { useEffect, useState } from "react";
 import ListGroup from "../components/ListGroup";
 
 function Home() {
-  let items = ["Konferencija 1", "Konferencija 2"];
+  const [conferences, setConferences] = useState([]);
+
+  useEffect(() => {
+    fetch("api/konferencije")
+      .then((res) => res.json())
+      .then((conferences) => setConferences(conferences));
+  }, []);
+
   const onSelectKonferencija = () => {};
   return (
     <div className="container text-center">
       <ListGroup
-        items={items}
+        conferences={conferences}
         heading="Dostupne konferencije"
         onSelectItem={onSelectKonferencija}
       ></ListGroup>

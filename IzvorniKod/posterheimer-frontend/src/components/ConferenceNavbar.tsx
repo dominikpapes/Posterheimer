@@ -1,7 +1,7 @@
 import { Navbar, Nav, Container } from "react-bootstrap";
 
 interface Props {
-  conference: string;
+  conference: string | undefined;
   handleClickHome: () => void;
   handleClickConference: () => void;
   handleClickPosters: () => void;

@@ -3,30 +3,41 @@ import { Modal, Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 import { SelectedConferenceContext } from "./ListGroup";
-import { LoginScreenFunctionsContext } from "./ConferenceAcessModal";
 
 function LoginModal() {
   const conference = useContext(SelectedConferenceContext);
-  const functions = useContext(LoginScreenFunctionsContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
 
-  function handleLogin() {
+  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     // Perform login logic
-    navigate("/conference", { state: conference });
-    console.log("Logging in with:", username, password);
+    event.preventDefault();
+    const credentials = btoa(`${username}:${password}`);
+    const response = await fetch("/api/konferencije/2", {
+      headers: {
+        Authorization: `Basic ${credentials}`,
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.text();
+      console.log(data);
+      navigate("/conference", { state: conference?.idKonferencija });
+    } else {
+      console.error("Authentication failed");
+    }
     // Close the modal after logging in
-  }
+  };
 
   return (
     <>
       <Modal.Header closeButton>
-        <Modal.Title>Login - {conference}</Modal.Title>
+        <Modal.Title>Login - {conference?.imeKonferencija}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
+        <Form onSubmit={handleLogin}>
           <Form.Group className="mb-3" controlId="username">
             <Form.Label>Email:</Form.Label>
             <Form.Control
@@ -43,13 +54,11 @@ function LoginModal() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </Form.Group>
+          <Button variant="primary" type="submit">
+            Login
+          </Button>
         </Form>
       </Modal.Body>
-      <Modal.Footer>
-        <Button variant="primary" onClick={handleLogin}>
-          Login
-        </Button>
-      </Modal.Footer>
     </>
   );
 }

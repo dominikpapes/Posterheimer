@@ -38,12 +38,10 @@ function Weather({ location }: Props) {
   function loadWeatherData() {
     axios
       .get<WeatherData>(
-        `${api.base}weather?q=${location}&units=metric&APPID=${api.key}`
+        `${api.base}weather?q=Zagreb&units=metric&APPID=${api.key}`
       )
       .then((response) => {
         setWeather(response.data);
-        console.log(response.data);
-        console.log(weather);
       });
   }
 

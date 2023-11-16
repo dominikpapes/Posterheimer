@@ -1,22 +1,22 @@
 import { useState, createContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import LoginModal from "./LoginModal";
 import ConferenceAcessModal from "./ConferenceAcessModal";
 
-interface Props {
-  items: string[];
-  heading: string;
-  onSelectItem: (item: string) => void;
+interface Conference {
+  idKonferencija: number;
+  imeKonferencija: string;
 }
 
-function ListGroup({ items, heading, onSelectItem }: Props) {
+interface Props {
+  conferences: Conference[];
+  heading: string;
+  onSelectItem: (item: {}) => void;
+}
+
+function ListGroup({ conferences, heading, onSelectItem }: Props) {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [showModal, setShowModal] = useState(false);
-  const [showAcess, setShowAccess] = useState(false);
-  const [showLogin, setShowLogin] = useState(false);
-  const [showRegister, setShowRegister] = useState(false);
 
-  const selectedConference = items[selectedIndex];
+  const selectedConference = conferences[selectedIndex];
 
   const handleClickAcess = () => {
     setShowModal(true);
@@ -38,7 +38,7 @@ function ListGroup({ items, heading, onSelectItem }: Props) {
       </SelectedConferenceContext.Provider>
       <h1>{heading}</h1>
       <ul className="list-group">
-        {items.map((item, index) => (
+        {conferences.map((item, index) => (
           <li
             className={
               selectedIndex === index
@@ -49,9 +49,9 @@ function ListGroup({ items, heading, onSelectItem }: Props) {
               setSelectedIndex(index);
               onSelectItem(item);
             }}
-            key={item}
+            key={item.idKonferencija}
           >
-            <div className="float-start">{item}</div>
+            <h3 className="float-start">{item.imeKonferencija}</h3>
             <div
               className="btn btn-success float-end"
               onClick={handleClickAcess}
@@ -67,4 +67,6 @@ function ListGroup({ items, heading, onSelectItem }: Props) {
 
 export default ListGroup;
 
-export const SelectedConferenceContext = createContext<string>("");
+export const SelectedConferenceContext = createContext<Conference | undefined>(
+  undefined
+);

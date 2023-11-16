@@ -1,19 +1,38 @@
 import ConferenceNavbar from "../components/ConferenceNavbar";
 import { useLocation, useNavigate } from "react-router-dom";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import Posters from "../components/Posters";
 import Photos from "../components/Photos";
 import Patrons from "../components/Patrons";
 import Weather from "../components/Weather";
 
+interface Conference {
+  idKonferencija: string;
+  imeKonferencija: string;
+  mjesto: string;
+  datumVrijemePocetka: Date;
+  datumVrijemeZavrsetka: Date;
+}
+
 function Conference() {
   const location = useLocation();
-  const [showConference, setShowConference] = useState(true);
-  const [showPosters, setShowPosters] = useState(false);
-  const [showPhotos, setShowPhotos] = useState(false);
-  const [showPatrons, setShowPatrons] = useState(false);
+  const [componentToShow, setComponentToShow] = useState("conference");
+  const [conference, setConference] = useState<Conference>({
+    idKonferencija: "",
+    imeKonferencija: "",
+    mjesto: "",
+    datumVrijemePocetka: new Date(),
+    datumVrijemeZavrsetka: new Date(),
+  });
 
   const navigate = useNavigate();
+  const conferenceId = location.state;
+
+  useEffect(() => {
+    fetch(`api/konferencije/${conferenceId}`)
+      .then((res) => res.json())
+      .then((conference) => setConference(conference));
+  }, []);
 
   function handleHome() {
     // log out
@@ -21,48 +40,37 @@ function Conference() {
   }
 
   function handleConference() {
-    setShowConference(true);
-    setShowPosters(false);
-    setShowPhotos(false);
-    setShowPatrons(false);
+    setComponentToShow("conference");
   }
 
   function handlePosters() {
-    setShowConference(false);
-    setShowPosters(true);
-    setShowPhotos(false);
-    setShowPatrons(false);
+    setComponentToShow("posters");
   }
 
   function handlePhotos() {
-    setShowConference(false);
-    setShowPosters(false);
-    setShowPhotos(true);
-    setShowPatrons(false);
+    setComponentToShow("photos");
   }
 
   function handlePatrons() {
-    setShowConference(false);
-    setShowPosters(false);
-    setShowPhotos(false);
-    setShowPatrons(true);
+    setComponentToShow("patrons");
   }
 
-  const conferenceName = location.state;
   return (
     <>
       <ConferenceNavbar
-        conference={conferenceName}
+        conference={conference.imeKonferencija}
         handleClickHome={handleHome}
         handleClickConference={handleConference}
         handleClickPosters={handlePosters}
         handleClickPhotos={handlePhotos}
         handleClickPatrons={handlePatrons}
       />
-      {showConference && <Weather location="Zagreb" />}
-      {showPosters && <Posters />}
-      {showPhotos && <Photos />}
-      {showPatrons && <Patrons />}
+      {componentToShow === "conference" && (
+        <Weather location={conference.mjesto} />
+      )}
+      {componentToShow === "posters" && <Posters />}
+      {componentToShow === "photos" && <Photos />}
+      {componentToShow === "patrons" && <Patrons />}
     </>
   );
 }
