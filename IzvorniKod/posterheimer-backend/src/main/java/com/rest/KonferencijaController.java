@@ -66,7 +66,7 @@ public class KonferencijaController {
     }*/
 
     @PostMapping("")
-  //@Secured("ROLE_SUPERUSER")
+    //@Secured("ROLE_SUPERUSER")
     public ResponseEntity<Konferencija> createKonferencija(@RequestBody Konferencija konferencija) {
         Korisnik tempKorisnik = new Korisnik(konferencija.getGenericUsername(), pwdEncoder.encode(konferencija.getGenericPassword()), konferencija.getIdKonferencija().toString(), konferencija.getImeKonferencija(), konferencija.getIdKonferencija(), false, true);
         korisnikService.createKorisnik(tempKorisnik);
