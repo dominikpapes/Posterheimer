@@ -19,6 +19,8 @@ public class Konferencija {
 
     @OneToMany(mappedBy = "konferencija")
     private Set<Korisnik> users;
+    @OneToMany(mappedBy = "konferencija")
+    private Set<Poster> posters;
 
     public Konferencija() {
     }
@@ -99,6 +101,14 @@ public class Konferencija {
 
     public void setUser(Korisnik user) {
         this.users.add(user);
+    }
+
+    public void setPoster(Poster poster) {
+        this.posters.add(poster);
+    }
+
+    public Set<Poster> getPosters() {
+        return posters;
     }
 
     @Override

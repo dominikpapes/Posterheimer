@@ -40,7 +40,7 @@ public class KorisnikServiceJpa implements KorisnikService {
     public Korisnik createKorisnik(Korisnik korisnik) {
         validate(korisnik);
         Assert.notNull(korisnik.getEmail(),
-                "Email must be not null: " + korisnik.getEmail());
+                "Email must be not null!");
         if (korisnikRepository.countByEmail(korisnik.getEmail()) > 0)
             throw new RequestDeniedException(
                     "Korisnik with email " + korisnik.getEmail() + " already exists"
