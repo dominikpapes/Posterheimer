@@ -17,16 +17,20 @@ function LoginModal() {
     const credentials = btoa(`${username}:${password}`);
     let key = "credentials";
     localStorage.setItem(key, credentials);
-    const response = await fetch("/api/konferencije/2", {
-      headers: {
-        Authorization: `Basic ${credentials}`,
-      },
-    });
+    console.log(conference?.idKonferencija);
+    const response = await fetch(
+      `/api/konferencije/${conference?.idKonferencija}`,
+      {
+        headers: {
+          Authorization: `Basic ${credentials}`,
+        },
+      }
+    );
 
     if (response.ok) {
-      const data = await response.text();
+      const data = await response.json();
       console.log(data);
-      navigate("/conference", { state: conference?.idKonferencija });
+      navigate("/conference", { state: data.idKonferencija });
     } else {
       console.error("Authentication failed");
     }

@@ -16,7 +16,7 @@ function AccessModal() {
 
   const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    fetch(`api/konferencije/${conference?.idKonferencija}/${pin}`)
+    fetch(`api/konferencije/${conference?.idKonferencija}`)
       .then((res) => res.json())
       .then((access) => {
         if (access) {

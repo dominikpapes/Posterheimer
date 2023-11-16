@@ -27,6 +27,7 @@ function Conference() {
 
   const navigate = useNavigate();
   const conferenceId = location.state;
+  console.log("konfId" + conferenceId);
 
   useEffect(() => {
     fetch(`api/konferencije/${conferenceId}`)
