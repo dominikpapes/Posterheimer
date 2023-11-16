@@ -32,11 +32,7 @@ public class WebSecurityBasic {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-<<<<<<< HEAD
-            
-=======
-                .requestMatchers(new AntPathRequestMatcher("/api/konferencije")).permitAll()
->>>>>>> 8357985cae95f6ca8d86d172fd85fd59419f1554
+                .requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
                 .anyRequest().authenticated());
         http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
