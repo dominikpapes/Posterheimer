@@ -45,7 +45,7 @@ public class KonferencijaController {
     public Set<Korisnik> getUsers(@PathVariable("idKonferencija") Integer idKonferencija) {
         return konferencijeService.fetch(idKonferencija).getUsers();
     }
-    @GetMapping("/{idKonferencija}/{genericPassword}")
+    /*@GetMapping("/{idKonferencija}/{genericPassword}")
     public boolean loginGeneric(@PathVariable("idKonferencija") Integer idKonferencija, @PathVariable("genericPassword") String genericPassword){
         try{
         Konferencija saved=konferencijeService.fetch(idKonferencija);
@@ -53,10 +53,10 @@ public class KonferencijaController {
         catch (EntityMissingException exception){
             throw new EntityMissingException(Konferencija.class,idKonferencija);
         }
-    }
+    }*/
 
     @PostMapping("")
-  //  @Secured("ROLE_SUPERUSER")
+  //@Secured("ROLE_SUPERUSER")
     public ResponseEntity<Konferencija> createKonferencija(@RequestBody Konferencija konferencija) {
         Konferencija saved = konferencijeService.createKonferencija(konferencija);
         return ResponseEntity.created(URI.create("/konferencije/" + saved.getIdKonferencija())).body(saved);
