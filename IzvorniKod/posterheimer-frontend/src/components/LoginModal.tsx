@@ -14,10 +14,13 @@ function LoginModal() {
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     // Perform login logic
     event.preventDefault();
+
     const credentials = btoa(`${username}:${password}`);
+    console.log(credentials);
     let key = "credentials";
+
     localStorage.setItem(key, credentials);
-    console.log(conference?.idKonferencija);
+
     const response = await fetch(
       `/api/konferencije/${conference?.idKonferencija}`,
       {
@@ -29,7 +32,6 @@ function LoginModal() {
 
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
       navigate("/conference", { state: data.idKonferencija });
     } else {
       console.error("Authentication failed");

@@ -2,7 +2,7 @@ import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
-  conference: string | undefined;
+  conference: any; // konferencija
   handleClickHome: () => void;
   handleClickConference: () => void;
   handleClickPosters: () => void;
@@ -20,7 +20,16 @@ function ConferenceNavbar({
 }: Props) {
   const navigate = useNavigate();
   const handleRegister = () => {
-    navigate("/register");
+    navigate("/register", {
+      state: {
+        idKonferencija: conference.idKonferencija,
+        imeKonferencija: conference.imeKonferencija,
+        mjesto: conference.mjesto,
+        datumVrijemePocetka: conference.datumVrijemePocetka,
+        datumVrijemeZavrsetka: conference.datumVrijemeZavrsetka,
+        // Add other properties as needed
+      },
+    });
   };
   return (
     <>
@@ -28,7 +37,9 @@ function ConferenceNavbar({
         <Container>
           <Navbar.Brand onClick={handleClickHome}>Posterheimer</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link onClick={handleClickConference}>{conference}</Nav.Link>
+            <Nav.Link onClick={handleClickConference}>
+              {conference.imeKonferencija}
+            </Nav.Link>
             <Nav.Link onClick={handleClickPosters}>Posteri</Nav.Link>
             <Nav.Link onClick={handleClickPhotos}>Fotografije</Nav.Link>
             <Nav.Link onClick={handleClickPatrons}>Pokrovitelji</Nav.Link>
