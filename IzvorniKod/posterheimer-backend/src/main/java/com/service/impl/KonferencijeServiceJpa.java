@@ -20,7 +20,7 @@ public class KonferencijeServiceJpa implements KonferencijeService {
 
     @Override
     public List<Konferencija> listAll() {
-        return konferencijaRepository.findAll();
+        return konferencijaRepository.findAllKonferencije();
     }
 
     @Override

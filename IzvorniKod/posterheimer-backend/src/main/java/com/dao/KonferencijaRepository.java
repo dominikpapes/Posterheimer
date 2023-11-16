@@ -5,11 +5,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface KonferencijaRepository
     extends JpaRepository<Konferencija, Integer>
 
     {
-
+        @Query("SELECT k.idKonferencija, k.datumVrijemePocetka, k.datumVrijemeZavrsetka, k.genericPassword, k.genericUsername, k.imeKonferencija, k.mjesto FROM Konferencija k")
+        List<Konferencija> findAllKonferencije();
         @Query("SELECT COUNT(k) FROM Konferencija k WHERE k.idKonferencija = :id")
         long countByIdKonferencije(@Param("id") Integer id);
 
