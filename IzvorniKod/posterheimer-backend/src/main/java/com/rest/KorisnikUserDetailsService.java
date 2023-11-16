@@ -43,6 +43,11 @@ public class KorisnikUserDetailsService implements UserDetailsService {
         if (korisnik.isAdmin()) {
             return commaSeparatedStringToAuthorityList("ROLE_ADMIN");
         }
+
+        if (korisnik.isVisitor()) {
+            return commaSeparatedStringToAuthorityList("ROLE_VISITOR");
+        }
+
         return commaSeparatedStringToAuthorityList("ROLE_USER");
     }
 }

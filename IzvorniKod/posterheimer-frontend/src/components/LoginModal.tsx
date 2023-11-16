@@ -15,6 +15,8 @@ function LoginModal() {
     // Perform login logic
     event.preventDefault();
     const credentials = btoa(`${username}:${password}`);
+    let key = "credentials";
+    localStorage.setItem(key, credentials);
     const response = await fetch("/api/konferencije/2", {
       headers: {
         Authorization: `Basic ${credentials}`,
