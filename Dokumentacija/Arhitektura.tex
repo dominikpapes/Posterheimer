@@ -40,12 +40,12 @@ Dijelovi MVC obrazca su:
 			\item Poster
 			\item Pokrovitelj
 			\item Pokrovitelj-Konferencije
-			\item Fotografije
+			\item Fotografija
 		\end{itemize}
 		
 			\subsection{Opis tablica}
 				
-				\noindent\textbf{Konferencija } Ovaj entitet sadržava sve važne informacije o stručnoj konferenciji. Sadrži atribute: Identifikator konferencije, ime konferencije, datum i vrijeme početka konferencije, datum i vrijeme završetka konferencije i mjesto održavanja konferencije. Ovaj entitet u vezi je \textit{One-to-Many} s entitetom Korisnik preko identifikatora konferencije, u vezi \textit{One-to-Many} s entitetom Poster preko identifikatora konferencije, u vezi \textit{One-to-Many} s entitetom Fotografije preko identifikatora konferencije i u vezi \textit{Many-to-Many} s entitetom Pokrovitelj preko identifikatora konferencije. 
+				\noindent\textbf{Konferencija } Ovaj entitet sadržava sve važne informacije o stručnoj konferenciji. Sadrži atribute: Identifikator konferencije, ime konferencije, datum i vrijeme početka konferencije, datum i vrijeme završetka konferencije, mjesto održavanja konferencije, generičko korisničko ime i lozinku koja se koristi za pristup konferenciji. Ovaj entitet u vezi je \textit{One-to-Many} s entitetom Korisnik preko identifikatora konferencije, u vezi \textit{One-to-Many} s entitetom Poster preko identifikatora konferencije, u vezi \textit{One-to-Many} s entitetom Fotografija preko identifikatora konferencije i u vezi \textit{Many-to-Many} s entitetom Pokrovitelj preko identifikatora konferencije. 
 				
 				\begin{longtblr}[
 					label=none,
@@ -56,15 +56,17 @@ Dijelovi MVC obrazca su:
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 					\hline \SetCell[c=3]{c}{\textbf{Konferencija}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}idKonferencije & INT	&  	jedinstveni brojčani identifikator konferencije  	\\ \hline
-					ime Konferencije	& VARCHAR &   jedinstveno ime konferencije	\\ \hline 
+					\SetCell{LightGreen}idKonferencija & INT	&  	jedinstveni brojčani identifikator konferencije  	\\ \hline
+					ime Konferencija	& VARCHAR &   jedinstveno ime konferencije	\\ \hline 
 					datumVrijeme Početka & DATETIME & datum i vrijeme početka konferencije  \\ \hline
 					datumVrijeme Završetka & DATETIME & datum i vrijeme završetka konferencije \\ \hline
 					mjesto	& VARCHAR & ime mjesta u kojem se održava konferencija \\ \hline 
+					generic Username	& VARCHAR & generičko korisničko ime koje koriste svi posjetitelji konferencije prije izrade vlastitog korisničkog računa  \\ \hline 
+					generic Password & VARCHAR & hash lozinka generičkog korisničkog računa \\ \hline
 				\end{longtblr}
 				
 				
-				\noindent\textbf{Korisnik } Ovaj entitet sadržava sve važne informacije o korisniku aplikacije. Sadrži atribute: Korisničko ime, lozinku, ime, prezime, e-mail adresu korisnika, razinu ovlasti korisnika, identifikator konferencije na kojoj korisnik sudjeluje i identifikator postera za koji je korisnik glasao.  Ovaj entitet je u vezi \textit{Many-to-One} s entitetom Konferencija preko identifikatora konferencije, u vezi \textit{Many-to-One} s entitetom Poster preko identifikatora postera i u vezi \textit{One-to-One} s entitetom Poster preko korisničkog imena. 
+				\noindent\textbf{Korisnik } Ovaj entitet sadržava sve važne informacije o korisniku aplikacije. Sadrži atribute: E-mail adresu korisnika, lozinku, ime, prezime, oznaku ima li korisnik ovlasti administratora, identifikator konferencije na kojoj korisnik sudjeluje i identifikator postera za koji je korisnik glasao.  Ovaj entitet je u vezi \textit{Many-to-One} s entitetom Konferencija preko identifikatora konferencije i u vezi \textit{Many-to-One} s entitetom Poster preko identifikatora postera. 
 				
 				\begin{longtblr}[
 					label=none,
@@ -75,17 +77,16 @@ Dijelovi MVC obrazca su:
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 					\hline \SetCell[c=3]{c}{\textbf{Korisnik}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}korisničko Ime & VARCHAR	&  jedinstveni identifikator korisnika 	\\ \hline
+					\SetCell{LightGreen}email & VARCHAR	&  e-mail adresa služi kao jedinstveni identifikator korisnika 	\\ \hline
 					lozinka	& VARCHAR & hash lozinka  	\\ \hline 
 					ime & VARCHAR & ime korisnika  \\ \hline 
 					prezime & VARCHAR	& prezime korisnika 		\\ \hline 
-					email & VARCHAR	& e-mail adresa korisnika  		\\ \hline 
-					razina ovlasti & INT &  razina ovlasti korisnika		\\ \hline 
-					\SetCell{LightBlue} idKonferencije	& INT & jedinstveni identifikator konferencije na kojoj korisnik sudjeluje (konferencija.idKonferencije)  	\\ \hline 
-					\SetCell{LightBlue} odabranPoster & INT & jedinstveni identifikator postera za koji je korisnik glasao (poster.id), ukoliko korisnik nije glasao vrijednost atributa je NULL \\ \hline
+					admin & BOOLEAN &  oznaka ima li ovlasti administratora		\\ \hline 
+					\SetCell{LightBlue} idKonferencija	& INT & jedinstveni identifikator konferencije na kojoj korisnik sudjeluje (konferencija.idKonferencija)  	\\ \hline 
+					\SetCell{LightBlue} glasaoZa & VARCHAR & jedinstveni identifikator postera za koji je korisnik glasao (poster.imePoster), ukoliko korisnik nije glasao vrijednost atributa je NULL \\ \hline
 				\end{longtblr}
 				
-				\noindent \textbf{Poster } Ovaj entitet sadržava sve važne informacije o radu i/ili izlaganju koje je prikazano odgovarajućim posterom ili prezentacijom. Sadrži atribute: Identifikator postera, ime rada, broj glasova za poster, oznaku ima li prezentaciju, "prikaz" koji sadrži poster ili prezentaciju, identifikator konferencije na kojoj se rad izlaže i identifikator korisnika koji je autor rada. Ovaj entitet je u vezi \textit{Many-to-One} s entitetom Konferencija preko identifikatora konferencije, u vezi \textit{One-to-Many} s entitetom Korisnik preko identifikatora postera i u vezi \textit{One-to-One} s entitetom Korisnik preko korisničkog imena. 
+				\noindent \textbf{Poster } Ovaj entitet sadržava sve važne informacije o radu i/ili izlaganju koje je prikazano odgovarajućim posterom ili prezentacijom. Sadrži atribute: Ime postera, put do datoteke postera, e-mail adresu kojom je autor poslao poster i identifikator konferencije na kojoj se rad izlaže. Ovaj entitet je u vezi \textit{Many-to-One} s entitetom Konferencija preko identifikatora konferencije i u vezi \textit{One-to-Many} s entitetom Korisnik preko identifikatora postera. 
 				
 				
 				\begin{longtblr}[
@@ -97,17 +98,14 @@ Dijelovi MVC obrazca su:
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 					\hline \SetCell[c=3]{c}{\textbf{Poster}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}id & INT	&  jedinstveni brojčani identifikator	\\ \hline
-					brojGlasova	& INT & broj glasova za poster  	\\ \hline 
-					imeRada & VARCHAR & ime rada kojeg poster prikazuje \\ \hline
-					prezentacija & BOOLEAN & oznaka ima li prezentaciju  \\ \hline 
-					prikaz & LONGBLOB	& slika postera ukoliko je vrijednost atributa prezentacija jednaka FALSE, inače je priložena prezentacija u PDF obliku 		\\ \hline 
-					\SetCell{LightBlue} idKonferencije	& INT & jedinstveni brojčani identifikator konferencije kojoj poster pripada (konferencija.idKonferencije)  	\\ \hline 
-					\SetCell{LightBlue} autor	& VARCHAR & jedinstveni identifikator autora rada kojeg poster prikazuje (korisnik.korisničkoIme)  	\\ \hline 
+					\SetCell{LightGreen}imePoster & VARCHAR	&  ime postera služi kao jedinstveni identifikator	\\ \hline
+					filePath & VARCHAR & put do PDF datoteke postera  \\ \hline 
+					Autor & VARCHAR & e-mail adresa autora \\ \hline
+					\SetCell{LightBlue} idKonferencije	& INT & jedinstveni brojčani identifikator konferencije kojoj poster pripada (konferencija.idKonferencija)  	\\ \hline 
 				\end{longtblr}
 				
 				
-				\noindent \textbf{Pokrovitelj } Ovaj entitet sadržava sve važne informacije o pokrovitelju. Sadrži atribute: Identifikator pokrovitelja, ime pokrovitelja i promotivne materijale. Ovaj entitet je u vezi \textit{Many-to-Many} s entitetom Konferencija.
+				\noindent \textbf{Pokrovitelj } Ovaj entitet sadržava sve važne informacije o pokrovitelju. Sadrži atribute: Ime pokrovitelja i promotivne materijale. Ovaj entitet je u vezi \textit{Many-to-Many} s entitetom Konferencija.
 				
 				
 				\begin{longtblr}[
@@ -119,10 +117,8 @@ Dijelovi MVC obrazca su:
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 					\hline \SetCell[c=3]{c}{\textbf{Pokrovitelj}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}idPokrovitelja & INT & jedinstveni brojčani identifikator pokrovitelja  	\\ \hline
-					ime
-					Pokrovitelja	& VARCHAR & jedinstveno ime pokrovitelja   	\\ \hline 
-					promo & LONGBLOB & promotivni materijal; slika loga pokrovitelja   \\ \hline 
+					\SetCell{LightGreen}ime Pokrovitelja & VARCHAR & jedinstveni identifikator pokrovitelja  	\\ \hline
+					promotivni Materijal & VARCHAR & put do datoteke, promotivni materijal je logotip pokrovitelja   \\ \hline 
 				\end{longtblr}
 				
 				
@@ -138,8 +134,9 @@ Dijelovi MVC obrazca su:
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 					\hline \SetCell[c=3]{c}{\textbf{Pokrovitelj-Konferencije}}	 \\ \hline[3pt]
-					\SetCell{LightBlue} idPokrovitelja	& INT & jedinstveni brojčani identifikator pokrovitelja (pokrovitelj.idPokrovitelja)     	\\ \hline
-					\SetCell{LightBlue}idKonferencije	& INT & jedinstveni brojčani identifikator konferencije (konferencija.idKonferencije)  	\\ \hline 
+					\SetCell{LightBlue} ime
+					Pokrovitelja	& VARCHAR & jedinstveni identifikator pokrovitelja (pokrovitelj.imePokrovitelja)     	\\ \hline
+					\SetCell{LightBlue}idKonferencija	& INT & jedinstveni brojčani identifikator konferencije (konferencija.idKonferencija)  	\\ \hline 
 
 				\end{longtblr}
 				
@@ -157,8 +154,8 @@ Dijelovi MVC obrazca su:
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 					\hline \SetCell[c=3]{c}{\textbf{Fotografije}}	 \\ \hline[3pt]
 					\SetCell{LightGreen}id & INT & jedinstveni brojčani identifikator fotografije   	\\ \hline
-					slika	& LONGBLOB &  fotografija s konferencije	\\ \hline 
-					\SetCell{LightBlue} idKonferencije	& INT & jedinstveni brojčani identifikator konferencije (konferencija.idKonferencija)  	\\ \hline 
+					filePath	& VARCHAR &  put do fotografije	\\ \hline 
+					\SetCell{LightBlue} idKonferencija	& INT & jedinstveni brojčani identifikator konferencije (konferencija.idKonferencija)  	\\ \hline 
 				\end{longtblr}
 			
 			\subsection{Dijagram baze podataka}
