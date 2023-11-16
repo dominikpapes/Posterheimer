@@ -10,7 +10,7 @@ public class Korisnik {
     private String ime;
     private String prezime;
     private boolean admin;
-
+    private boolean visitor;
     @ManyToOne
     @JoinColumn(name = "konferencijaId")
     private Konferencija konferencija;
@@ -21,12 +21,13 @@ public class Korisnik {
     public Korisnik() {
     }
 
-    public Korisnik(String email, String lozinka, String ime, String prezime, Integer konferencijaId, boolean admin){
+    public Korisnik(String email, String lozinka, String ime, String prezime, Integer konferencijaId, boolean admin, boolean visitor){
         this.ime=ime;
         this.email=email;
         this.prezime=prezime;
         this.lozinka=lozinka;
         this.admin=admin;
+        this.visitor = visitor;
     }
 
     public Integer getKonferencijaId() {
@@ -75,6 +76,14 @@ public class Korisnik {
 
     public boolean isAdmin() {
         return admin;
+    }
+
+    public boolean isVisitor() {
+        return visitor;
+    }
+
+    public void setVisitor(boolean visitor) {
+        this.visitor = visitor;
     }
 
     @Override

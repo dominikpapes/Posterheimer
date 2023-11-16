@@ -3,10 +3,13 @@ import com.domain.Konferencija;
 import com.domain.Korisnik;
 import com.service.EntityMissingException;
 import com.service.KonferencijeService;
+import com.service.KorisnikService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.parameters.P;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -21,6 +24,12 @@ import java.util.stream.Collectors;
 public class KonferencijaController {
     @Autowired
     private KonferencijeService konferencijeService;
+
+    @Autowired
+    private KorisnikService korisnikService;
+
+    @Autowired
+    private  PasswordEncoder pwdEncoder;
 
     @GetMapping("")
     public List<Map<String, Object>> konferencije() {
@@ -37,6 +46,7 @@ public class KonferencijaController {
     }
 
     @GetMapping("/{idKonferencija}")
+    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN", "ROLE_USER", "ROLE_VISITOR"})
     public Konferencija getKonferencijaById(@PathVariable("idKonferencija") Integer idKonferencija) {
         return konferencijeService.fetch(idKonferencija);
     }
@@ -58,6 +68,8 @@ public class KonferencijaController {
     @PostMapping("")
   //@Secured("ROLE_SUPERUSER")
     public ResponseEntity<Konferencija> createKonferencija(@RequestBody Konferencija konferencija) {
+        Korisnik tempKorisnik = new Korisnik(konferencija.getGenericUsername(), pwdEncoder.encode(konferencija.getGenericPassword()), konferencija.getIdKonferencija().toString(), konferencija.getImeKonferencija(), konferencija.getIdKonferencija(), false, true);
+        korisnikService.createKorisnik(tempKorisnik);
         Konferencija saved = konferencijeService.createKonferencija(konferencija);
         return ResponseEntity.created(URI.create("/konferencije/" + saved.getIdKonferencija())).body(saved);
     }

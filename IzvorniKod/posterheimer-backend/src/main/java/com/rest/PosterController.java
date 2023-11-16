@@ -24,6 +24,7 @@ public class PosterController {
     KonferencijeService konferencijeService;
 
     @GetMapping("")
+    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN", "ROLE_USER", "ROLE_VISITOR"})
     public List<Poster> posterList(){
         return posterService.listAll();
     }
