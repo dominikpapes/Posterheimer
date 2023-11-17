@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "yarn install && tsc && vite build",
     "preview": "vite preview",
-    "start-prod": "node app.js"
+    "start-prod": "vite build"
   },
   "dependencies": {
     "axios": "^0.26.0",
