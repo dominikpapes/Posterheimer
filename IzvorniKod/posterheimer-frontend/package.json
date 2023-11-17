@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "yarn install && vite build",
     "preview": "vite preview",
-    "start-prod": "node app.cjs",
+    "start-prod": "vite preview",
     "start": "vite"
   },
   "dependencies": {
