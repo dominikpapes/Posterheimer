@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "yarn install && tsc && vite build",
     "preview": "vite preview",
-    "start-prod": "vite build"
+    "start-prod": "vite preview"
   },
   "dependencies": {
     "axios": "^0.26.0",
