@@ -9,27 +9,6 @@ import java.util.Set;
 @Entity
 public class Konferencija {
     @Id
-<<<<<<< Updated upstream
-    @Column(name = "idKonferencija")
-    private Integer idKonferencija;
-
-    @Column(name = "imeKonferencija")
-    private String imeKonferencija;
-
-    @Column(name = "mjesto")
-    private String mjesto;
-
-    @Column(name = "datumVrijemePocetka")
-    private LocalDateTime datumVrijemePocetka;
-
-    @Column(name = "datumVrijemeZavrsetka")
-    private LocalDateTime datumVrijemeZavrsetka;
-
-    @Column(name = "genericUsername")
-    private String genericUsername;
-
-    @Column(name = "genericPassword")
-=======
     @Column(name="id_konferencija")
     private Integer idKonferencija;
     @Column(name="ime_konferencija")
@@ -43,7 +22,6 @@ public class Konferencija {
     @Column(name="generic_username")
     private String genericUsername;
     @Column(name="generic_password")
->>>>>>> Stashed changes
     private String genericPassword;
 
     @OneToMany(mappedBy = "konferencija")
