@@ -9,19 +9,25 @@ import java.util.Set;
 @Entity
 public class Konferencija {
     @Id
-    @Column(name="id_konferencija")
+    @Column(name = "idKonferencija")
     private Integer idKonferencija;
-    @Column(name="ime_konferencija")
+
+    @Column(name = "imeKonferencija")
     private String imeKonferencija;
-    @Column(name="mjesto")
+
+    @Column(name = "mjesto")
     private String mjesto;
-    @Column(name="datum_vrijeme_pocetka")
+
+    @Column(name = "datumVrijemePocetka")
     private LocalDateTime datumVrijemePocetka;
-    @Column(name="datum_vrijeme_zavrsetka")
+
+    @Column(name = "datumVrijemeZavrsetka")
     private LocalDateTime datumVrijemeZavrsetka;
-    @Column(name="generic_username")
+
+    @Column(name = "genericUsername")
     private String genericUsername;
-    @Column(name="generic_password")
+
+    @Column(name = "genericPassword")
     private String genericPassword;
 
     @OneToMany(mappedBy = "konferencija")
