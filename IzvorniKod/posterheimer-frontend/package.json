@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "yarn install && react-scripts build",
+    "build": "yarn install && vite build",
     "preview": "vite preview",
     "start-prod": "node app.cjs",
     "start": "vite"
