@@ -963,10 +963,11 @@
 						\end{packed_item}
 						
 					\end{packed_item}
-					
+				
+				\clearpage
 				\subsubsection{Dijagrami obrazaca uporabe}
 					
-					\begin{figure}
+					\begin{figure} [hbt!]
 						\includegraphics[width=\linewidth]{Slike/UCDiagramUserProfiles.png}
 						\caption{UC dijagram za opis korisničkih računa}
 					\end{figure}
@@ -982,13 +983,12 @@
 					\end{figure}
 				
 				\eject		
-				
+			
+			\clearpage
 			\subsection{Sekvencijski dijagrami}
 				
 				\subsubsection{Obrazac uporabe UC15 - Glasovanje}
-				Registrirani korisnik odabire opciju za pregled svih postera. U galeriji postera odabire jedan poster. Pojavljuje se opcija za glasovanje za odabrani poster. Klikom na tu opciju aplikacija šalje zahtjev bazi podataka kojim provjerava je li prijavljeni korisnik već glasao, ako je, briše se prethodno zabilježeni glas te se bilježi novi. Korisnik  je obaviješten o svom glasanju.
-				
-				\newpage
+				Registrirani korisnik odabire opciju za pregled svih postera. U galeriji postera odabire jedan poster. Pojavljuje se opcija za glasovanje za odabrani poster. Klikom na tu opciju aplikacija šalje zahtjev bazi podataka kojim provjerava je li prijavljeni korisnik već glasao, te ako jest briše se prethodno zabilježeni glas i bilježi se novi. Aplikacija obavještava korisnika o uspješnom glasanju.
 				
 				\begin{figure}[hp!]
 				\includegraphics[width=\linewidth]{Slike/SD_Glasanje.png}
@@ -998,13 +998,13 @@
 				\newpage
 				
 				\subsubsection{Obrazac uporabe UC18 - Upravljanje digitalnim posterima}
-				Administrator odabire opciju "Galerija postera". Poslužitelj dohvaća popis postera iz baze podataka te ih prikazuje administratoru. Administratoru se uz postere prikazuje i gumb predviđen za upravljanje digitalnim posterima. Pritiskom na gumb otvara se posebno sučelje za upravljanje digitalnim posterima. Sučelje omogućava dodavanje i brisanje digitalnih postera.
+				Administrator odabire opciju "Galerija postera". Poslužitelj dohvaća popis postera iz baze podataka te ih prikazuje administratoru, kome se uz njih prikazuje i gumb predviđen za upravljanje digitalnim posterima. Pritiskom na njega otvara se posebno sučelje za upravljanje digitalnim posterima koje omogućava dodavanje i brisanje digitalnih postera.
 				
 				\subsubsection{Obrazac uporabe UC19 - Dodavanje digitalnog postera}
-				Administrator pritišće gumb za dodavanje novog postera. Poslužitelj zatraži unos osnovnih podataka o posteru i  prijenos lokalne datoteke postera - administratoru se upit prikazuje kao novo otvoreni prozor. Administrator unosi podatke. Poslužitelj traži potvrdu promjena i čeka odgovor administratora. Nakon potvrde promjena poslužitelj će spremiti podatke vezane uz poster u bazu podataka. Baza podataka vraća potvrdu izmjene.
+				Administrator pritišće gumb za dodavanje novog postera. Poslužitelj zatraži unos osnovnih podataka o posteru i  prijenos lokalne datoteke postera - administratoru se upit prikazuje kao novo otvoreni prozor. Administrator unosi podatke. Poslužitelj traži potvrdu promjena i čeka odgovor. Nakon potvrde promjena poslužitelj sprema podatke vezane uz poster u bazu podataka, a ona vraća potvrdu izmjene.
 				
 				\subsubsection{Obrazac uporabe UC20 - Brisanje digitalnog postera}
-				Administrator odabire digitalni poster koji želi obrisati. Poslužitelj dohvaća podatke o posteru iz baze podataka. Administrator odabire opciju brisanja digitalnog postera. Poslužitelj šalje upit za potvrdu brisanja. Nakon što administrator potvrdi brisanje postera, poslužitelj ga briše iz baze podataka. Baza podataka vraća potvrdu izmjene. 
+				Administrator odabire digitalni poster koji želi obrisati. Poslužitelj dohvaća podatke o posteru iz baze podataka. Administrator odabire opciju brisanja digitalnog postera. Poslužitelj šalje upit za potvrdu brisanja. Nakon što administrator potvrdi brisanje postera, poslužitelj ga briše iz baze podataka koja vraća potvrdu izmjene.
 				
 				\newpage
 				
@@ -1016,9 +1016,7 @@
 				\newpage
 				
 				\subsubsection{Obrazac uporabe UC31 - Slanje poruke e-pošte}
-				Nakon što je glasovanje završeno šalju se tri tipa automatiziranih poruka e-pošte. Prvim 3 autorima po broju glasova šalje se poziv na dodjelu nagrade. Svim autorima, bez obzira na njihov rang šalje se poruka o njihovom rangu. Svim registriranim korisnicima šalje se obavijest o mjestu i vremenu dodjele nagrade. Iste poruke se pojavljuju kao obavijesti u aplikaciji.
-				
-				\newpage
+				Nakon što je glasovanje završeno šalju se tri vrste automatiziranih poruka e-pošte. Prvim trima autorima po broju glasova šalje se poziv na dodjelu nagrade. Svim autorima, bez obzira na njihov rang šalje se poruka o njihovom rangu. Svim registriranim korisnicima šalje se obavijest o mjestu i vremenu dodjele nagrade. Iste poruke se pojavljuju kao obavijesti u aplikaciji.
 				
 				\begin{figure}[hp!]
 					\includegraphics[width=\linewidth]{Slike/SD_SlanjeEPoste.png}
@@ -1033,20 +1031,18 @@
 		
 			 \begin{itemize}
 			 	\item Maksimalni broj glasovanja po osobi je 1
-			 	\item Glasovanje je moguće samo tijekom određenog vremenskog razdoblja koje je određeno danima i vremenom održavanja konferencije
+			 	\item Glasovanje je moguće samo tijekom određenog vremenskog razdoblja koje je određeno trajanjem konferencije
 			 	\item Sustav treba podržavati rad više korisnika u stvarnom vremenu.
 			 	\item Korisničko sučelje i sustav moraju podržavati hrvatsku abecedu (dijakritičke
 			 	znakove) pri unosu i prikazu tekstualnog sadržaja
 			 	\item Izvršavanje dijela programa u kojem se pristupa bazi podataka ne smije trajati dulje od nekoliko sekundi
 			 	\item Sustav treba biti implementiran kao web aplikacija koristeći objektno-orijentirane
 			 	jezike
-			 	\item Neispravno korištenje korisničkog sučelja ne smije narušiti funkcionalnost i
-			 	rad sustava
-			 	\item Sustav treba biti jednostavan za korištenje, korisnici se moraju znati koristiti
-			 	sučeljem bez opširnih uputa
+			 	\item Neispravno korištenje korisničkog sučelja ne smije narušiti funkcionalnost i rad sustava
+			 	\item Sustav treba biti jednostavan za korištenje, korisnici se moraju znati koristiti sučeljem bez opširnih uputa
 			 	\item Nadogradnja sustava ne smije narušavati postojeće funkcionalnosti sustava
 			 	\item Veza s bazom podataka mora biti kvalitetno zaštićena, brza i otporna na vanjske greške
-			 	\item Pristup sustavu mora biti omogućen iz javne mreže pomoću HTTPS
+			 	\item Pristup sustavu mora biti omogućen iz javne mreže protokolom HTTPS
 			 \end{itemize}
 			 
 			 

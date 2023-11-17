@@ -1,16 +1,11 @@
 \chapter{Arhitektura i dizajn sustava}		
-Arhitektura je podijeljena u tri pod sustava:
+Arhitektura je podijeljena u tri podsustava:
 
 \begin{itemize}
 	\item Web poslužitelj
 	\item Web aplikacija
 	\item Baza podataka
 \end{itemize}
-
-\begin{figure}
-	\includegraphics[width=\linewidth]{Slike/ArhitekturaSustava}
-	\caption{Reprezentacija arhitekture sustava}
-\end{figure}
 
 \indent Internetski preglednik služi za pregled web-stranica i njihovog višemedijskog sadržaja, a one komuniciraju s poslužiteljima slanjem zahtjeva i primanjem odgovora. Preglednik ima sposobnost interpretacije koda kojim je pisana stranica u ljudski čitljiv oblik.
 \newline
@@ -20,6 +15,7 @@ Arhitektura je podijeljena u tri pod sustava:
 Programski jezik koji smo odabrali za razvoj pozadinskog dijela aplikacije je "Java" zajedno sa "Spring" radnim okvirom, a za dizajn korisničkog sučelja odabrali smo "JavaScript", s radnim okvirom "React". Odabrano razvojno okružje je "IntelliJ IDEA". Arhitektura sustava će se temeljiti na stilističkoj varijaciji arhitekture zasnovane na događajima (engl. \textit{event based architecture}) - MVC obrazcu. Spring radni okvir podržava MVC (Model-View-Controller) obrazac, te kao takav ima gotove predloške koji nam olakšavaju razvoj web aplikacije.
 \newline
 
+\clearpage
 \indent MVC obrazac omogućuje odvojen razvoj navedenih slojeva aplikacije što znatno olakšava ispitivanje, razvijanje i dodavanje novih svojstava u sustav.
 \newline
 Dijelovi MVC obrazca su:
@@ -28,6 +24,13 @@ Dijelovi MVC obrazca su:
 	\item Prikaz(\textit{View}) - prikaz podataka i njihovih reprezentacija na korisničkom sučelju
 	\item Upravljač(\textit{Controller}) - povezuje komponente modela i prikaza i služi kao posrednik između tih komponenata i korisnika, a sam nije zadužen za obradu podataka, međudjeluje s modelom kako bi dohvatio podatke i s prikazom kako bi ih prikazao korisniku
 \end{itemize}
+
+\begin{figure} [hbt!]
+	\includegraphics[width=\linewidth]{Slike/ArhitekturaSustava}
+	\caption{Reprezentacija arhitekture sustava}
+\end{figure}
+
+		\clearpage
 
 		\section{Baza podataka}
 			
@@ -42,6 +45,8 @@ Dijelovi MVC obrazca su:
 			\item Pokrovitelj-Konferencije
 			\item Fotografija
 		\end{itemize}
+		
+		\clearpage
 		
 		\subsection{Opis tablica}
 	
@@ -65,6 +70,7 @@ Dijelovi MVC obrazca su:
 		generic\_ password & VARCHAR & hash lozinka generičkog korisničkog računa \\ \hline
 	\end{longtblr}
 	
+	\clearpage
 	
 	\noindent\textbf{Korisnik } Ovaj entitet sadržava sve važne informacije o korisniku aplikacije. Sadrži atribute: E-mail adresu korisnika, lozinku, ime, prezime, oznaku ima li korisnik ovlasti administratora, oznaku radi li se o generičkom računu, identifikator konferencije na kojoj korisnik sudjeluje i identifikator postera za koji je korisnik glasao.  Ovaj entitet je u vezi \textit{Many-to-One} s entitetom Konferencija preko identifikatora konferencije i u vezi \textit{Many-to-One} s entitetom Poster preko identifikatora postera. 
 	
@@ -87,6 +93,8 @@ Dijelovi MVC obrazca su:
 		\SetCell{LightBlue} glasao\_za & VARCHAR & jedinstveni identifikator postera za koji je korisnik glasao (poster.imePoster), ukoliko korisnik nije glasao vrijednost atributa je NULL \\ \hline
 	\end{longtblr}
 	
+	\clearpage
+	
 	\noindent \textbf{Poster } Ovaj entitet sadržava sve važne informacije o radu i/ili izlaganju koje je prikazano odgovarajućim posterom ili prezentacijom. Sadrži atribute: Ime postera, put do datoteke postera, ime i prezime autora, e-mail adresu kojom je autor poslao poster i identifikator konferencije na kojoj se rad izlaže. Ovaj entitet je u vezi \textit{Many-to-One} s entitetom Konferencija preko identifikatora konferencije i u vezi \textit{One-to-Many} s entitetom Korisnik preko identifikatora postera. 
 	
 	
@@ -107,6 +115,7 @@ Dijelovi MVC obrazca su:
 		\SetCell{LightBlue} id\_konferencija	& INT & jedinstveni brojčani identifikator konferencije kojoj poster pripada (konferencija.id\_konferencija)  	\\ \hline 
 	\end{longtblr}
 	
+	\clearpage
 	
 	\noindent \textbf{Pokrovitelj } Ovaj entitet sadržava sve važne informacije o pokrovitelju. Sadrži atribute: Ime pokrovitelja i promotivne materijale. Ovaj entitet je u vezi \textit{Many-to-Many} s entitetom Konferencija.
 	
@@ -123,7 +132,6 @@ Dijelovi MVC obrazca su:
 		\SetCell{LightGreen}ime\_ pokrovitelja & VARCHAR & jedinstveni identifikator pokrovitelja  	\\ \hline
 		promotivni\_ materijal & VARCHAR & put do datoteke, promotivni materijal je logotip pokrovitelja   \\ \hline 
 	\end{longtblr}
-	
 	
 	\noindent \textbf{Pokrovitelj-Konferencije } Ovaj entitet sadržava sve informacije o odnosu konferencije i pokrovitelja odnosno kojoj konferenciji pokrovitelj pripada.
 	
@@ -161,6 +169,7 @@ Dijelovi MVC obrazca su:
 		\SetCell{LightBlue} id\_konferencija	& INT & jedinstveni brojčani identifikator konferencije (konferencija.id\_konferencija)  	\\ \hline 
 	\end{longtblr}
 	
+	\clearpage
 			
 			\subsection{Dijagram baze podataka}
 				
@@ -180,22 +189,22 @@ Dijelovi MVC obrazca su:
 			
 			Razredi dijagrama "Modeli" preslikavaju entitete i atribute baze podataka. Razred Korisnik predstavlja općeniti model korisnika aplikacije koji može biti posjetitelj konferencije ili administrator. Može se registrirati u sustav unoseći osnove informacije. Razred Konferencija predstavlja skup podataka koji su potrebni za registraciju konferencije i koji se prikazuju korisnicima. Razred Poster predstavlja skup podataka koji su potrebni za dodavanje postera i koji se prikazuju korisnicima. Razred Fotografija predstavlja skup podataka vezan uz pojedinačnu fotografiju konferencije. Razred Pokrovitelj predstavlja pokrovitelja konferencije.
 			
-			\begin{figure}
+			\begin{figure} [hbt!]
 				\includegraphics[width=\linewidth]{Slike/ClassDiagramControllerPremaKodu}
 				\caption{Dijagram razreda - Upravljači}
 			\end{figure}
 			
-			\begin{figure}
+			\begin{figure} [hbt!]
 				\includegraphics[width=\linewidth]{Slike/ClassDiagramRepositoryPremaKodu}
 				\caption{Dijagram razreda - DAO}
 			\end{figure}
 			
-			\begin{figure} 
+			\begin{figure} [hbt!]
 				\includegraphics[width=\linewidth]{Slike/ClassDiagramModelPremaKodu}
 				\caption{Dijagram razreda - Modeli}
 			\end{figure}
 			
-			
+			\clearpage
 			 
 			\textbf{\textit{dio 2. revizije}}\\			
 			
