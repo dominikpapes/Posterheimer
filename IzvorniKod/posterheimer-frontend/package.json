@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "yarn install && react-scripts build",
     "preview": "vite preview",
-    "start-prod": "vite preview",
+    "start-prod": "node app.cjs",
     "start": "vite"
   },
   "dependencies": {

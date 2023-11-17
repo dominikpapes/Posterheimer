@@ -7,7 +7,7 @@ const app = express();
 
 // Configuration
 const PORT = process.env.PORT || 3000;
-const HOST = process.env.HOST || "localhost";
+const HOST = process.env.HOST || "0.0.0.0";
 const API_BASE_URL = process.env.API_BASE_URL || "http://localhost:8080";
 
 
