@@ -69,11 +69,10 @@ public class KonferencijaController {
   //@Secured("ROLE_SUPERUSER")
     public ResponseEntity<Konferencija> createKonferencija(@RequestBody Konferencija konferencija) {
         Korisnik tempKorisnik = new Korisnik(konferencija.getGenericUsername(), pwdEncoder.encode(konferencija.getGenericPassword()), konferencija.getIdKonferencija().toString(), konferencija.getImeKonferencija(), false, true);
-
         konferencija.setGenericPassword(tempKorisnik.getLozinka());
         tempKorisnik.setKonferencija(konferencija);
-        korisnikService.createKorisnik(tempKorisnik);
         Konferencija saved = konferencijeService.createKonferencija(konferencija);
+        korisnikService.createKorisnik(tempKorisnik);
         return ResponseEntity.created(URI.create("/konferencije/" + saved.getIdKonferencija())).body(saved);
     }
 
