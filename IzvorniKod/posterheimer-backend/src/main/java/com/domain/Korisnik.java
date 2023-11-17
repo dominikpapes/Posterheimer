@@ -12,6 +12,7 @@ public class Korisnik {
     private boolean admin;
     private boolean visitor;
     @ManyToOne
+    @JoinColumn(name="id_konferencija")
     private Konferencija konferencija;
 
     @NotNull
