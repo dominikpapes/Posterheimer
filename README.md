@@ -27,4 +27,4 @@ Trenutna verzija aplikacije ostvaruje uspješnu komunikaciju backend i frontend 
 
 Poveznica za pristup aplikaciji:
 
-https://posterheimer-service-fe.onrender.com/
+https://posterheimer.onrender.com/
