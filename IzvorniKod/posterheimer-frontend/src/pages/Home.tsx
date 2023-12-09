@@ -8,6 +8,7 @@ function Home() {
     fetch("api/konferencije")
       .then((res) => res.json())
       .then((conferences) => setConferences(conferences));
+    console.log("KONFERENCIJE " + conferences);
   }, []);
 
   const onSelectKonferencija = () => {};

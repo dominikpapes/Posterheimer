@@ -52,6 +52,7 @@ public class PosterController {
     public Poster getPoster(@PathVariable("imePoster") String imePoster) {
         return posterService.fetch(imePoster);
     }
+
     @DeleteMapping("{imePostera}")
     @Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
     public Poster deletePoster(@PathVariable("imePostera") String imePostera){

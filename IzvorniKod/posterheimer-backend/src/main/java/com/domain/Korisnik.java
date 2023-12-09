@@ -14,7 +14,7 @@ public class Korisnik {
 
     //ovdje pisemo relacije
     @ManyToOne
-    @JoinColumn(name = "konferencijaId")
+    @JoinColumn(name="id_konferencija")
     private Konferencija konferencija;
 
     @NotNull
@@ -24,7 +24,7 @@ public class Korisnik {
     public Korisnik() {
     }
 
-    public Korisnik(String email, String lozinka, String ime, String prezime, Integer konferencijaId, boolean admin, boolean visitor){
+    public Korisnik(String email, String lozinka, String ime, String prezime, boolean admin, boolean visitor){
         this.ime=ime;
         this.email=email;
         this.prezime=prezime;

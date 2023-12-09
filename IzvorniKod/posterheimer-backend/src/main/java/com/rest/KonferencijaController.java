@@ -67,17 +67,11 @@ public class KonferencijaController {
     @PostMapping("")
   //@Secured("ROLE_SUPERUSER")
     public ResponseEntity<Konferencija> createKonferencija(@RequestBody Konferencija konferencija) {
-
-        //moramo stvoriti novog generickog usera za konferenciju koju stvaramo
-        Korisnik tempKorisnik = new Korisnik(konferencija.getGenericUsername(), pwdEncoder.encode(konferencija.getGenericPassword()),
-                konferencija.getIdKonferencija().toString(), konferencija.getImeKonferencija(),
-                konferencija.getIdKonferencija(), false, true);
-
-        //pozivamo service korisnika da stvori tog korisnika
-        korisnikService.createKorisnik(tempKorisnik);
-
-        //stvaramo tu novu konferenciju pozivom service konferencije
+        Korisnik tempKorisnik = new Korisnik(konferencija.getGenericUsername(), pwdEncoder.encode(konferencija.getGenericPassword()), konferencija.getIdKonferencija().toString(), konferencija.getImeKonferencija(), false, true);
+        konferencija.setGenericPassword(tempKorisnik.getLozinka());
+        tempKorisnik.setKonferencija(konferencija);
         Konferencija saved = konferencijeService.createKonferencija(konferencija);
+        korisnikService.createKorisnik(tempKorisnik);
         return ResponseEntity.created(URI.create("/konferencije/" + saved.getIdKonferencija())).body(saved);
     }
 

@@ -61,6 +61,7 @@ const Register = () => {
 
     console.log("Form submitted:", formData);
     // You can perform registration logic, API calls, etc. here
+    navigate("/");
   };
 
   return (
