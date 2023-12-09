@@ -24,6 +24,7 @@ public class KonferencijeServiceJpa implements KonferencijeService {
         return konferencijaRepository.findAll();
     }
 
+    //imena metoda govore manje vise sama za sebe
     @Override
         public Optional<Konferencija> findById(Integer konferencijaId) {
         return konferencijaRepository.findById(konferencijaId);
@@ -39,6 +40,7 @@ public class KonferencijeServiceJpa implements KonferencijeService {
     @Override
     public Konferencija createKonferencija(Konferencija konferencija) {
         validate(konferencija);
+        //gledamo unique uvjete da su ispunjeni
         if (konferencijaRepository.countByIdKonferencije(konferencija.getIdKonferencija()) > 0)
             throw new RequestDeniedException(
                     "Konferencija with id " + konferencija.getIdKonferencija() + " already exists"
@@ -73,6 +75,7 @@ public class KonferencijeServiceJpa implements KonferencijeService {
         konferencijaRepository.delete(konferencija);
         return konferencija;
     }
+    //validiramo konferenciju da ima dobro definirane atribute
     private void validate(Konferencija konferencija) {
         Assert.notNull(konferencija, "Konferencija object must be given");
         Integer idKonferencija=konferencija.getIdKonferencija();

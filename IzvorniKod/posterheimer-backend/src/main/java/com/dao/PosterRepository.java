@@ -9,7 +9,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface PosterRepository extends JpaRepository<Poster,String> {
-    Optional<Poster> findByImePoster(String imePoster);
+    @Query("SELECT p FROM Poster p WHERE p.imePoster = :imePoster")
+    Optional<Poster> findByImePoster(@Param("imePoster") String imePoster);
 
     @Query("SELECT COUNT(p) FROM Poster p WHERE p.imePoster = :imePoster")
     int countByImePoster(@Param("imePoster") String imePoster);
