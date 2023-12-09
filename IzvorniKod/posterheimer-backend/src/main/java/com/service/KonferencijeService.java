@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface KonferencijeService {
+    //ovo je samo interface sa svim metodama u JPA je sve detaljno
     List<Konferencija> listAll();
 
     Konferencija fetch(Integer idKonferencija);

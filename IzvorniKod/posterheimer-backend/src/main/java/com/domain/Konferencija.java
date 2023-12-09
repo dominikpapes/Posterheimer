@@ -17,11 +17,13 @@ public class Konferencija {
     private String genericUsername;
     private String genericPassword;
 
+    //Ovdje pisemo relacije između klasa
     @OneToMany(mappedBy = "konferencija")
     private Set<Korisnik> users;
     @OneToMany(mappedBy = "konferencija")
     private Set<Poster> posters;
 
+    //konstruktori
     public Konferencija() {
     }
 

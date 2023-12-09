@@ -11,6 +11,8 @@ public class Korisnik {
     private String prezime;
     private boolean admin;
     private boolean visitor;
+
+    //ovdje pisemo relacije
     @ManyToOne
     @JoinColumn(name = "konferencijaId")
     private Konferencija konferencija;
@@ -18,6 +20,7 @@ public class Korisnik {
     @NotNull
     private String lozinka;
 
+    //konstruktori
     public Korisnik() {
     }
 

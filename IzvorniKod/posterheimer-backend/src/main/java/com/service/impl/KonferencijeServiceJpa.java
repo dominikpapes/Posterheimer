@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 @Service
 public class KonferencijeServiceJpa implements KonferencijeService {
+    //odi se vecinom poziva repository konferencije
     @Autowired
     private KonferencijaRepository konferencijaRepository;
 

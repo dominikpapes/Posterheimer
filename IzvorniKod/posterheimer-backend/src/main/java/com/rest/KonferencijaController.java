@@ -19,9 +19,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+
+//Controller je prvi sloj, s njega se salje u service sloj
 @RestController
 @RequestMapping("/konferencije")
 public class KonferencijaController {
+    //definiramo service od drugih objekata ukoliko ih trebamo pozivati
     @Autowired
     private KonferencijeService konferencijeService;
 
@@ -31,6 +34,7 @@ public class KonferencijaController {
     @Autowired
     private  PasswordEncoder pwdEncoder;
 
+    //dostavi mi listu svih konferencija, treba implementirati DTOove kako bi bilo pojednostavnjeno bez mapiranja
     @GetMapping("")
     public List<Map<String, Object>> konferencije() {
         return konferencijeService.listAll().stream()
@@ -45,37 +49,40 @@ public class KonferencijaController {
                 }).collect(Collectors.toList());
     }
 
+    //dostavljamo konferenciju prema njenom IDu
     @GetMapping("/{idKonferencija}")
     @Secured({"ROLE_SUPERUSER","ROLE_ADMIN", "ROLE_USER", "ROLE_VISITOR"})
     public Konferencija getKonferencijaById(@PathVariable("idKonferencija") Integer idKonferencija) {
         return konferencijeService.fetch(idKonferencija);
     }
+    //dobavljamo listu svih usera od konferencije s poslanim IDom npr .../3/users poslat ce se sve od one s IDom 3,
+    // secured govori tko moze pristupit tome
     @GetMapping("/{idKonferencija}/users")
     @Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
     public Set<Korisnik> getUsers(@PathVariable("idKonferencija") Integer idKonferencija) {
         return konferencijeService.fetch(idKonferencija).getUsers();
     }
-    @GetMapping("/{idKonferencija}/{genericPassword}")
-    public boolean loginGeneric(@PathVariable("idKonferencija") Integer idKonferencija, @PathVariable("genericPassword") String genericPassword){
-        try{
-        Konferencija saved=konferencijeService.fetch(idKonferencija);
-        return saved.getGenericPassword().equals(genericPassword);}
-        catch (EntityMissingException exception){
-            throw new EntityMissingException(Konferencija.class,idKonferencija);
-        }
-    }
 
+    //editanje konferencija cemo omogucit samo superuseru kad rijesimo superusera
     @PostMapping("")
-  //  @Secured("ROLE_SUPERUSER")
+  //@Secured("ROLE_SUPERUSER")
     public ResponseEntity<Konferencija> createKonferencija(@RequestBody Konferencija konferencija) {
-        Korisnik tempKorisnik = new Korisnik(konferencija.getGenericUsername(), pwdEncoder.encode(konferencija.getGenericPassword()), konferencija.getIdKonferencija().toString(), konferencija.getImeKonferencija(), konferencija.getIdKonferencija(), false, true);
+
+        //moramo stvoriti novog generickog usera za konferenciju koju stvaramo
+        Korisnik tempKorisnik = new Korisnik(konferencija.getGenericUsername(), pwdEncoder.encode(konferencija.getGenericPassword()),
+                konferencija.getIdKonferencija().toString(), konferencija.getImeKonferencija(),
+                konferencija.getIdKonferencija(), false, true);
+
+        //pozivamo service korisnika da stvori tog korisnika
         korisnikService.createKorisnik(tempKorisnik);
+
+        //stvaramo tu novu konferenciju pozivom service konferencije
         Konferencija saved = konferencijeService.createKonferencija(konferencija);
         return ResponseEntity.created(URI.create("/konferencije/" + saved.getIdKonferencija())).body(saved);
     }
 
     @PutMapping("/{id}")
-  //  @Secured("ROLE_SUPERUSER")
+  //@Secured("ROLE_SUPERUSER")
     public Konferencija konferencija(@PathVariable("id") Integer id, @RequestBody Konferencija konferencija) {
         if (!(konferencija.getIdKonferencija().equals(id)))
             throw new IllegalArgumentException("");
@@ -84,7 +91,7 @@ public class KonferencijaController {
 
 
     @DeleteMapping("/{id}")
- //   @Secured("ROLE_SUPERUSER")
+  //@Secured("ROLE_SUPERUSER")
     public Konferencija deleteKonferencija(@PathVariable("id") Integer idKonferencija) {
         return konferencijeService.deleteKonferencija(idKonferencija);
     }
