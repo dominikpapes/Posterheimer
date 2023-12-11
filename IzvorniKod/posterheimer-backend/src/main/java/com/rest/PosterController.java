@@ -24,12 +24,12 @@ public class PosterController {
     KonferencijeService konferencijeService;
 
     @GetMapping("")
-    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN", "ROLE_USER", "ROLE_VISITOR"})
+    //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN", "ROLE_USER", "ROLE_VISITOR"})
     public List<Poster> posterList(){
         return posterService.listAll();
     }
     //TODO SRUSI CITAV BACKEND, NIS NE MOZE RESPOND POSLAT, NE MICAT COMMENT
-    /*@PostMapping("")
+    @PostMapping("")
     public ResponseEntity<Poster> createPoster(@RequestBody Poster poster) {
         Optional<Poster> existingPoster = posterService.findByImePoster(poster.getImePoster());
         Optional<Konferencija> existingKonf = konferencijeService.findById(poster.getKonferencija().getIdKonferencija());
@@ -46,7 +46,7 @@ public class PosterController {
         }
         else
             return ResponseEntity.notFound().build();
-    }*/
+    }
     @GetMapping("{imePoster}")
     //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN","ROLE_USER"})
     public Poster getPoster(@PathVariable("imePoster") String imePoster) {

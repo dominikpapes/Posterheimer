@@ -1,5 +1,6 @@
 package com.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.util.Assert;
 
@@ -26,8 +27,10 @@ public class Konferencija {
 
     //Ovdje pisemo relacije između klasa
     @OneToMany(mappedBy = "konferencija")
+    @JsonIgnore
     private Set<Korisnik> users;
     @OneToMany(mappedBy = "konferencija")
+    @JsonIgnore
     private Set<Poster> posters;
 
     //konstruktori
