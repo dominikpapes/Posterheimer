@@ -11,4 +11,8 @@
 
 *.toc
 
-.idea/
+.idea
+
+node_modules
+
+target

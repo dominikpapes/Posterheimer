@@ -14,19 +14,25 @@ function LoginModal() {
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     // Perform login logic
     event.preventDefault();
+
     const credentials = btoa(`${username}:${password}`);
+    console.log(credentials);
     let key = "credentials";
+
     localStorage.setItem(key, credentials);
-    const response = await fetch("/api/konferencije/2", {
-      headers: {
-        Authorization: `Basic ${credentials}`,
-      },
-    });
+
+    const response = await fetch(
+      `/api/konferencije/${conference?.idKonferencija}`,
+      {
+        headers: {
+          Authorization: `Basic ${credentials}`,
+        },
+      }
+    );
 
     if (response.ok) {
-      const data = await response.text();
-      console.log(data);
-      navigate("/conference", { state: conference?.idKonferencija });
+      const data = await response.json();
+      navigate("/conference", { state: data.idKonferencija });
     } else {
       console.error("Authentication failed");
     }

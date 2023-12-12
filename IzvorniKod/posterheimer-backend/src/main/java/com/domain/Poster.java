@@ -1,7 +1,9 @@
 package com.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -15,6 +17,8 @@ public class Poster {
     private String posterEmail;
 
     @OneToOne
+    @JoinColumn(name="id_konferencija")
+    //@JsonIgnore
     private Konferencija konferencija;
     public Poster(){
     }

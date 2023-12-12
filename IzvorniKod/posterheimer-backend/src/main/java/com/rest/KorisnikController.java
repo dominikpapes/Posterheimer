@@ -7,6 +7,7 @@ import com.service.KorisnikService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -20,6 +21,8 @@ public class KorisnikController {
     private KorisnikService korisnikService;
     @Autowired
     private KonferencijeService konferencijeService;
+    @Autowired
+    private PasswordEncoder encoder;
 
     @GetMapping("")
     @Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
@@ -35,6 +38,7 @@ public class KorisnikController {
 
     @PostMapping("")
     public ResponseEntity<Korisnik> createKorisnik(@RequestBody Korisnik korisnik) {
+        korisnik.setLozinka(encoder.encode(korisnik.getLozinka()));
         Optional<Konferencija> existingKonferencija = konferencijeService.findById(korisnik.getKonferencijaId());
         if (existingKonferencija.isPresent()) {
             korisnik.setKonferencija(existingKonferencija.get());

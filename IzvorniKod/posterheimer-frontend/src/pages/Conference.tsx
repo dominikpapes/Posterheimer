@@ -25,11 +25,19 @@ function Conference() {
     datumVrijemeZavrsetka: new Date(),
   });
 
+  let key = "credentials";
+  let credentials = localStorage.getItem(key);
+
   const navigate = useNavigate();
   const conferenceId = location.state;
+  console.log("konfId" + conferenceId);
 
   useEffect(() => {
-    fetch(`api/konferencije/${conferenceId}`)
+    fetch(`api/konferencije/${conferenceId}`, {
+      headers: {
+        Authorization: `Basic ${credentials}`,
+      },
+    })
       .then((res) => res.json())
       .then((conference) => setConference(conference));
   }, []);
@@ -58,7 +66,7 @@ function Conference() {
   return (
     <>
       <ConferenceNavbar
-        conference={conference.imeKonferencija}
+        conference={conference}
         handleClickHome={handleHome}
         handleClickConference={handleConference}
         handleClickPosters={handlePosters}

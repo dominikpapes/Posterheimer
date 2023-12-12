@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class Pokrovitelj {
+    //todo
     @Id
     private String imePokrovitelja;
     private String promotivniMaterijal;
