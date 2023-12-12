@@ -12,7 +12,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: API_BASE_URL_DEPLOY,
+        target: API_BASE_URL_LOCAL,
         changeOrigin: true
       }
     }
