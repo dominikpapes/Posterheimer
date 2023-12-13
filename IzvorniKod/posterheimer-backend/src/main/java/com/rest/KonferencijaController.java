@@ -49,7 +49,7 @@ public class KonferencijaController {
 
     //dostavljamo konferenciju prema njenom IDu
     @GetMapping("/{idKonferencija}")
-    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN", "ROLE_USER", "ROLE_VISITOR"})
+//    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN", "ROLE_USER", "ROLE_VISITOR"})
     public Konferencija getKonferencijaById(@PathVariable("idKonferencija") Integer idKonferencija) {
         return konferencijeService.fetch(idKonferencija);
     }

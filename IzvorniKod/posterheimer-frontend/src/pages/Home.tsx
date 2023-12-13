@@ -1,24 +1,23 @@
 import { useEffect, useState } from "react";
-import ListGroup from "../components/ListGroup";
+import ConferencesList from "../components/ConferencesList";
 
 function Home() {
   const [conferences, setConferences] = useState([]);
 
   useEffect(() => {
-    fetch("api/konferencije")
+    fetch("/api/konferencije")
       .then((res) => res.json())
-      .then((conferences) => setConferences(conferences));
-    console.log("KONFERENCIJE " + conferences);
+      .then((confs) => setConferences(confs));
   }, []);
 
   const onSelectKonferencija = () => {};
   return (
     <div className="container text-center">
-      <ListGroup
+      <ConferencesList
         conferences={conferences}
         heading="Dostupne konferencije"
         onSelectItem={onSelectKonferencija}
-      ></ListGroup>
+      ></ConferencesList>
     </div>
   );
 }

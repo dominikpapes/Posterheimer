@@ -3,14 +3,6 @@ import axios from "axios";
 
 import "../styles.css";
 
-import clear_icon from "../assets/clear.png";
-import cloud_icon from "../assets/cloud.png";
-import drizzle_icon from "../assets/drizzle.png";
-import humidity_icon from "../assets/humidity.png";
-import rain_icon from "../assets/rain.png";
-import snow_icon from "../assets/snow.png";
-import wind_icon from "../assets/wind.png";
-
 const api = {
   key: "aa1ef53b0bb7d2e72fe42357e59adacb",
   base: "https://api.openweathermap.org/data/2.5/",
@@ -35,7 +27,7 @@ interface Props {
 function Weather({ location }: Props) {
   const [weather, setWeather] = useState<WeatherData | null>(null);
 
-  function loadWeatherData() {
+  function loadWeatherData_old() {
     axios
       .get<WeatherData>(
         `${api.base}weather?q=Zagreb&units=metric&APPID=${api.key}`
@@ -43,6 +35,12 @@ function Weather({ location }: Props) {
       .then((response) => {
         setWeather(response.data);
       });
+  }
+
+  function loadWeatherData() {
+    fetch(`${api.base}weather?q=${location}&units=metric&APPID=${api.key}`)
+      .then((response) => response.json())
+      .then((data) => console.log(data));
   }
 
   useEffect(loadWeatherData, []);

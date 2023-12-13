@@ -1,5 +1,6 @@
 import { useState, createContext } from "react";
-import ConferenceAcessModal from "./ConferenceAcessModal";
+import { Modal } from "react-bootstrap";
+import LoginModal from "./LoginModal";
 
 interface Conference {
   idKonferencija: number;
@@ -12,7 +13,7 @@ interface Props {
   onSelectItem: (item: {}) => void;
 }
 
-function ListGroup({ conferences, heading, onSelectItem }: Props) {
+function ConferencesList({ conferences, heading, onSelectItem }: Props) {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [showModal, setShowModal] = useState(false);
 
@@ -29,12 +30,12 @@ function ListGroup({ conferences, heading, onSelectItem }: Props) {
   return (
     <>
       <SelectedConferenceContext.Provider value={selectedConference}>
-        {showModal && (
-          <ConferenceAcessModal
+        <Modal show={showModal} onHide={handleClickCloseModal}>
+          <LoginModal
             showModal={showModal}
             handleClose={handleClickCloseModal}
-          />
-        )}
+          ></LoginModal>
+        </Modal>
       </SelectedConferenceContext.Provider>
       <h1>{heading}</h1>
       <ul className="list-group">
@@ -65,7 +66,7 @@ function ListGroup({ conferences, heading, onSelectItem }: Props) {
   );
 }
 
-export default ListGroup;
+export default ConferencesList;
 
 export const SelectedConferenceContext = createContext<Conference | undefined>(
   undefined

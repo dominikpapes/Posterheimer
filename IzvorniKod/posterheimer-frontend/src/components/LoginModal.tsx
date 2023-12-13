@@ -2,9 +2,14 @@ import React, { useState, useContext } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-import { SelectedConferenceContext } from "./ListGroup";
+import { SelectedConferenceContext } from "./ConferencesList";
 
-function LoginModal() {
+interface Props {
+  showModal: boolean;
+  handleClose: () => void;
+}
+
+function LoginModal({ showModal, handleClose }: Props) {
   const conference = useContext(SelectedConferenceContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
