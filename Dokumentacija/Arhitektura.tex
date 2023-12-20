@@ -221,6 +221,14 @@ Dijelovi MVC obrazca su:
 			
 			\textit{Potrebno je priložiti dijagram stanja i opisati ga. Dovoljan je jedan dijagram stanja koji prikazuje \textbf{značajan dio funkcionalnosti} sustava. Na primjer, stanja korisničkog sučelja i tijek korištenja neke ključne funkcionalnosti jesu značajan dio sustava, a registracija i prijava nisu. }
 			
+			Dijagram stanja prikazuje stanja objekta te prijelaze iz jednog stanja u drugo temeljene na događajima. Na slici 4.6 prikazan je dijagram stanja za registriranog korisnika. Prije same registracije, korisnik je pristupio konferenciji pomoću generičke lozinke. Registriranom korisniku omogućen je pregled samo onih konferencija kojima je pristupio. Nakon uspješnog pristupa konferenciji, korisniku se prikazuje početna stranica konferencije na kojoj može pregledati \textcolor{red}{[dodati stvarnu implementaciju]}. Navigacijska traka korisniku omogućava pristup posterima, fotografijama, pokroviteljima konferencije \textcolor{red}{te osobnim podatcima}. Klikom na "Posteri" prikazuje mu se galerija postera. Korisnik ima mogućnost glasanja za jedan poster unutar zadanog vremena. Klikom na "Fotografije" prikazuje se galerija fotografija. Korisnik može preuzeti odabrane fotografije. Klikom na "Pokrovitelji" prikazuju se pokrovitelji konferencije. \textcolor{red}{Klik na određenog pokrovitelja korisnika vodi do njihove stranice (nalazi se izvan aplikacije)}.  
+			\textcolor{red}{Klikom na ”Osobni podatci” prikazuju mu se njegovi podatci, koje može urediti.}
+			
+			\begin{figure} [hbt!]
+				\includegraphics[width=\linewidth]{Slike/StateMachineDiagram}
+				\caption{Dijagram stanja}
+			\end{figure}
+			
 			
 			\eject 
 		
