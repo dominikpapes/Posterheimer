@@ -20,28 +20,30 @@ function LoginModal({ showModal, handleClose }: Props) {
     // Perform login logic
     event.preventDefault();
 
-    const credentials = btoa(`${username}:${password}`);
-    console.log(credentials);
-    let key = "credentials";
+    // const credentials = btoa(`${username}:${password}`);
+    // console.log(credentials);
+    // let key = "credentials";
 
-    localStorage.setItem(key, credentials);
+    // localStorage.setItem(key, credentials);
 
-    const response = await fetch(
-      `/api/konferencije/${conference?.idKonferencija}`,
-      {
-        headers: {
-          Authorization: `Basic ${credentials}`,
-        },
-      }
-    );
+    // const response = await fetch(
+    //   `/api/konferencije/${conference?.idKonferencija}`,
+    //   {
+    //     headers: {
+    //       Authorization: `Basic ${credentials}`,
+    //     },
+    //   }
+    // );
 
-    if (response.ok) {
-      const data = await response.json();
-      navigate("/conference", { state: data.idKonferencija });
-    } else {
-      console.error("Authentication failed");
-    }
+    // if (response.ok) {
+    //   const data = await response.json();
+    //   navigate("/conference", { state: data.idKonferencija });
+    // } else {
+    //   console.error("Authentication failed");
+    // }
     // Close the modal after logging in
+
+    navigate("/conference");
   };
 
   return (

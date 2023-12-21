@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Modal, Button, Form } from "react-bootstrap";
 
 interface Props {
@@ -11,12 +12,15 @@ function RegisterModal() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigate = useNavigate();
+
   function handleRegister() {
     // const response = await fetch(`/api/konferencije/${con}`, {
     //   headers: {
     //     Authorization: `Basic ${credentials}`,
     //   },
     // });
+    navigate("/conference");
   }
 
   return (
