@@ -14,6 +14,14 @@ interface Conference {
   datumVrijemeZavrsetka: Date;
 }
 
+const mock_conference: Conference = {
+  idKonferencija: "1",
+  imeKonferencija: "Mock Conference",
+  mjesto: "Zagreb",
+  datumVrijemePocetka: new Date(),
+  datumVrijemeZavrsetka: new Date(new Date().setDate(new Date().getDate() + 7)),
+};
+
 function Conference() {
   const location = useLocation();
   const [componentToShow, setComponentToShow] = useState("conference");
@@ -25,22 +33,27 @@ function Conference() {
     datumVrijemeZavrsetka: new Date(),
   });
 
-  let key = "credentials";
-  let credentials = localStorage.getItem(key);
+  // let key = "credentials";
+  // let credentials = localStorage.getItem(key);
 
   const navigate = useNavigate();
-  const conferenceId = location.state;
-  console.log("konfId" + conferenceId);
+  // const conferenceId = location.state;
+  // console.log("konfId" + conferenceId);
 
   useEffect(() => {
-    fetch(`api/konferencije/${conferenceId}`, {
-      headers: {
-        Authorization: `Basic ${credentials}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((conference) => setConference(conference));
+    // fetch(`api/konferencije/${conferenceId}`, {
+    //   headers: {
+    //     Authorization: `Basic ${credentials}`,
+    //   },
+    // })
+    //   .then((res) => res.json())
+    //   .then((conference) => setConference(conference));
+    setConference(mock_conference);
   }, []);
+
+  useEffect(() => {
+    console.log(conference);
+  }, [conference]);
 
   function handleHome() {
     // log out
@@ -73,7 +86,7 @@ function Conference() {
         handleClickPhotos={handlePhotos}
         handleClickPatrons={handlePatrons}
       />
-      {componentToShow === "conference" && (
+      {conference.mjesto && componentToShow === "conference" && (
         <Weather location={conference.mjesto} />
       )}
       {componentToShow === "posters" && <Posters />}
