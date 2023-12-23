@@ -33,9 +33,18 @@ function ConferenceNavbar({
   };
   return (
     <>
-      <Navbar bg="dark" data-bs-theme="dark">
+      <Navbar className="bg-body-tertiary" bg="dark" data-bs-theme="dark">
         <Container>
-          <Navbar.Brand onClick={handleClickHome}>Posterheimer</Navbar.Brand>
+          <Navbar.Brand href="/">
+            <img
+              alt=""
+              src="../../public/logo.png"
+              width="30"
+              height="30"
+              className="d-inline-block align-top"
+            />{" "}
+            Posterheimer
+          </Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link onClick={handleClickConference}>
               {conference.imeKonferencija}

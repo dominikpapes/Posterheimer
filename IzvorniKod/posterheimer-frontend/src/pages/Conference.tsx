@@ -1,8 +1,8 @@
 import ConferenceNavbar from "../components/ConferenceNavbar";
 import { useLocation, useNavigate } from "react-router-dom";
 import { createContext, useEffect, useState } from "react";
-import Posters from "../components/Posters";
-import Photos from "../components/Photos";
+import Posters from "./Posters";
+import Photos from "./Photos";
 import Patrons from "../components/Patrons";
 import Weather from "../components/Weather";
 

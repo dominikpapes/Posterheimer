@@ -19,16 +19,6 @@ interface Props {
 function Weather({ location }: Props) {
   const [weather, setWeather] = useState<WeatherData | null>(null);
 
-  // function loadWeatherData_old() {
-  //   axios
-  //     .get<WeatherData>(
-  //       `${api.base}weather?q=Zagreb&units=metric&APPID=${api.key}`
-  //     )
-  //     .then((response) => {
-  //       setWeather(response.data);
-  //     });
-  // }
-
   function loadWeatherData() {
     fetch(`${api.base}weather?q=${location}&units=metric&APPID=${api.key}`)
       .then((response) => response.json())
