@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navbar, Container } from "react-bootstrap";
 import ConferencesList from "../components/ConferencesList";
+import Titlebar from "../components/Titlebar";
 
 interface Conference {
   idKonferencija: number;
@@ -31,20 +32,7 @@ function Home() {
   const onSelectKonferencija = () => {};
   return (
     <>
-      <Navbar className="bg-body-tertiary" bg="dark" data-bs-theme="dark">
-        <Container>
-          <Navbar.Brand href="/">
-            <img
-              alt=""
-              src="../../public/logo.png"
-              width="30"
-              height="30"
-              className="d-inline-block align-top"
-            />{" "}
-            Posterheimer
-          </Navbar.Brand>
-        </Container>
-      </Navbar>
+      <Titlebar></Titlebar>
       <div className="container text-center">
         <ConferencesList
           conferences={conferences}
