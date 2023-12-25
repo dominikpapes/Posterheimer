@@ -9,6 +9,9 @@ const API_BASE_URL = process.env.API_BASE_URL
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  define: {
+    "process.env.REACT_APP_SITE_KEY": JSON.stringify(process.env.REACT_APP_SITE_KEY)
+  },
   server: {
     proxy: {
       "/api": {
