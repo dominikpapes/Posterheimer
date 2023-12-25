@@ -8,6 +8,11 @@
   margin:0rem 15vw ;
 }
 
+.true-center {
+  display: flex;
+  justify-content: center;
+}
+
 /* WEATHER */
 
 .weather-container {
