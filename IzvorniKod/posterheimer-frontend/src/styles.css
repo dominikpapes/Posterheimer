@@ -10,14 +10,42 @@
 
 /* WEATHER */
 
+.weather-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .weather-image {
   margin-left: auto;
   margin-right: auto;
+
 }
 
 .weather-card {
   display: flex;
   align-items: center;
+  width: 30rem;
+  margin: auto;
+  margin-top: 2rem;
+}
+
+.forecast-container {
+  width: 30rem;
+  margin: auto;
+  margin-top: 2rem;
+}
+
+.forecast-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 8rem;
+  border: 1px gray solid;
+  border-radius: 0.5rem;
+  margin: 0.5rem;
 }
 
 /* POSTERS */
