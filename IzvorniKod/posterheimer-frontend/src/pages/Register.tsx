@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { createRef, useRef, useState } from "react";
 import {
   Container,
   Form,
@@ -14,6 +14,8 @@ import Titlebar from "../components/Titlebar";
 import ConferenceNavbar from "../components/ConferenceNavbar";
 import "../styles.css";
 
+const SITE_KEY = "6LesATwpAAAAAKiOaz64lxp0XYd8a4KcOmcF1loc";
+
 interface RegistrationData {
   email: string;
   password: string;
@@ -26,6 +28,25 @@ const emptyRegistrationData: RegistrationData = {
   konferencijaId: 0,
 };
 
+function registerNewUser(dataToSend: RegistrationData) {
+  const credentials = localStorage.getItem("credentials");
+  console.log(dataToSend);
+  fetch("/api/korisnici", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Basic ${credentials}`,
+    },
+    body: JSON.stringify(dataToSend),
+  })
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error("Problem with fetch:", error);
+    });
+}
+
 const Register = () => {
   const [formData, setFormData] = useState<RegistrationData>(
     emptyRegistrationData
@@ -33,6 +54,8 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [validationError, setValidationError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  const recaptcha = useRef<ReCAPTCHA>();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -47,10 +70,6 @@ const Register = () => {
     });
   };
 
-  const handleCancel = (e: any) => {
-    navigate("/");
-  };
-
   const handleSubmit = (e: any) => {
     e.preventDefault();
 
@@ -61,36 +80,25 @@ const Register = () => {
     }
 
     if (formData.password !== confirmPassword) {
-      setValidationError("Unesene lozinku su različite");
+      setValidationError("Unesene lozinke su različite");
       return;
     }
 
-    // const credentials = localStorage.getItem("credentials");
+    const captchaValue = recaptcha.current?.getValue();
 
-    // console.log(dataToSend);
+    console.log(captchaValue);
 
-    // fetch("/api/korisnici", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: `Basic ${credentials}`,
-
-    //   },
-    //   body: JSON.stringify(dataToSend),
-    // })
-    //   .then((data) => {
-    //     console.log(data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Problem with fetch:", error);
-    //   });
-
-    // console.log("Form submitted:", formData);
-    navigate("/");
+    if (!captchaValue) {
+      alert("Please verify the reCAPTCHA!");
+    } else {
+      // make form submission
+      alert("Form submission successful!");
+    }
   };
 
   return (
     <>
+      <ConferenceNavbar />
       <div className="card p-4 mt-5 app-content">
         <h1>Registracija</h1>
         <Form onSubmit={handleSubmit}>
@@ -139,7 +147,10 @@ const Register = () => {
             />
           </Form.Group>
 
-          <ReCAPTCHA sitekey="6LesATwpAAAAAKiOaz64lxp0XYd8a4KcOmcF1loc" />
+          <ReCAPTCHA
+            ref={recaptcha as React.RefObject<ReCAPTCHA>}
+            sitekey={SITE_KEY}
+          />
 
           <ButtonGroup className="mt-2">
             <Button variant="primary" type="submit" className="ml-2">

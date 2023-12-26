@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { Modal, Button, Card } from "react-bootstrap";
 import "../styles.css";
 
-import pdf_filepath from "../assets/posters/PROGI_2023Posterheimer_rev1(1).pdf";
+import pdf_filepath1 from "../assets/posters/b5_Programsko_inzenjerstvo_i_informacijski_sustavi.pdf";
+import pdf_filepath2 from "../assets/posters/b5_Racunalno_inzenjerstvo.pdf";
+import ConferenceNavbar from "../components/ConferenceNavbar";
 
 interface Poster {
   id: number;
@@ -21,13 +23,13 @@ const empty_poster: Poster = {
 const mock_posters: Poster[] = [
   {
     id: 1,
-    filepath: pdf_filepath,
+    filepath: pdf_filepath1,
     name: "pdf1",
     author: "user1",
   },
   {
     id: 2,
-    filepath: pdf_filepath,
+    filepath: pdf_filepath2,
     name: "pdf2",
     author: "user2",
   },
@@ -43,6 +45,7 @@ function Posters() {
 
   return (
     <>
+      <ConferenceNavbar />
       <div className="poster-grid app-content">
         {mock_posters.map((poster, index) => (
           <div
@@ -74,14 +77,6 @@ function Posters() {
             title={chosenPoster.name}
             className="poster-embed"
           />
-          {/* <div className="file-view">
-            <embed
-              title="Poster"
-              src={chosenPoster.filepath}
-              width="100%"
-              height="50rem"
-            ></embed>
-          </div> */}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="success" onClick={() => setShowPoster(false)}>

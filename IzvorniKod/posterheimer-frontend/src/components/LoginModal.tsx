@@ -2,15 +2,19 @@ import React, { useState, useContext } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-import { SelectedConferenceContext } from "./ConferencesList";
-
 interface Props {
+  conferenceId: number;
+  conferenceName: string;
   showModal: boolean;
   handleClose: () => void;
 }
 
-function LoginModal({ showModal, handleClose }: Props) {
-  const conference = useContext(SelectedConferenceContext);
+function LoginModal({
+  conferenceId,
+  conferenceName,
+  showModal,
+  handleClose,
+}: Props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -19,6 +23,7 @@ function LoginModal({ showModal, handleClose }: Props) {
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     // Perform login logic
     event.preventDefault();
+    localStorage.setItem("conferenceId", conferenceId.toString());
 
     // const credentials = btoa(`${username}:${password}`);
     // console.log(credentials);
@@ -49,7 +54,7 @@ function LoginModal({ showModal, handleClose }: Props) {
   return (
     <>
       <Modal.Header closeButton>
-        <Modal.Title>Login - {conference?.imeKonferencija}</Modal.Title>
+        <Modal.Title>Login - {conferenceName}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleLogin}>

@@ -42,7 +42,7 @@ function Weather({ location }: Props) {
       });
     setTimeout(() => {
       setIsLoading(false);
-    }, 500);
+    }, 1000);
   }
 
   useEffect(() => {

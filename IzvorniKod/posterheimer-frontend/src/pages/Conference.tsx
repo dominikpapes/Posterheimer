@@ -5,6 +5,7 @@ import Posters from "./Posters";
 import Photos from "./Photos";
 import Patrons from "../components/Patrons";
 import Weather from "../components/Weather";
+import Register from "./Register";
 
 interface Conference {
   idKonferencija: string;
@@ -21,6 +22,17 @@ const mock_conference: Conference = {
   datumVrijemePocetka: new Date(),
   datumVrijemeZavrsetka: new Date(new Date().setDate(new Date().getDate() + 7)),
 };
+
+function fetchConference(conferenceId: number) {
+  let conference;
+  fetch(`api/konferencije/${conferenceId}`, {
+    headers: {
+      // Authorization: `Basic ${credentials}`,
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => (conference = data));
+}
 
 function Conference() {
   const location = useLocation();
@@ -41,13 +53,6 @@ function Conference() {
   // console.log("konfId" + conferenceId);
 
   useEffect(() => {
-    // fetch(`api/konferencije/${conferenceId}`, {
-    //   headers: {
-    //     Authorization: `Basic ${credentials}`,
-    //   },
-    // })
-    //   .then((res) => res.json())
-    //   .then((conference) => setConference(conference));
     setConference(mock_conference);
   }, []);
 
@@ -55,43 +60,12 @@ function Conference() {
     console.log(conference);
   }, [conference]);
 
-  function handleHome() {
-    // log out
-    navigate("/");
-  }
-
-  function handleConference() {
-    setComponentToShow("conference");
-  }
-
-  function handlePosters() {
-    setComponentToShow("posters");
-  }
-
-  function handlePhotos() {
-    setComponentToShow("photos");
-  }
-
-  function handlePatrons() {
-    setComponentToShow("patrons");
-  }
-
   return (
     <>
-      <ConferenceNavbar
-        conference={conference}
-        handleClickHome={handleHome}
-        handleClickConference={handleConference}
-        handleClickPosters={handlePosters}
-        handleClickPhotos={handlePhotos}
-        handleClickPatrons={handlePatrons}
-      />
+      <ConferenceNavbar />
       {conference.mjesto && componentToShow === "conference" && (
         <Weather location={conference.mjesto} />
       )}
-      {componentToShow === "posters" && <Posters />}
-      {componentToShow === "photos" && <Photos />}
-      {componentToShow === "patrons" && <Patrons />}
     </>
   );
 }

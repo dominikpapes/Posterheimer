@@ -1,36 +1,8 @@
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link, NavLink, useLocation } from "react-router-dom";
 
-interface Props {
-  conference: any; // konferencija
-  handleClickHome: () => void;
-  handleClickConference: () => void;
-  handleClickPosters: () => void;
-  handleClickPhotos: () => void;
-  handleClickPatrons: () => void;
-}
-
-function ConferenceNavbar({
-  conference,
-  handleClickHome,
-  handleClickConference,
-  handleClickPhotos,
-  handleClickPosters,
-  handleClickPatrons,
-}: Props) {
-  const navigate = useNavigate();
-  const handleRegister = () => {
-    navigate("/register", {
-      state: {
-        idKonferencija: conference.idKonferencija,
-        imeKonferencija: conference.imeKonferencija,
-        mjesto: conference.mjesto,
-        datumVrijemePocetka: conference.datumVrijemePocetka,
-        datumVrijemeZavrsetka: conference.datumVrijemeZavrsetka,
-        // Add other properties as needed
-      },
-    });
-  };
+function ConferenceNavbar() {
+  const conference = localStorage.getItem("conference");
   return (
     <>
       <Navbar className="bg-body-tertiary" bg="dark" data-bs-theme="dark">
@@ -46,18 +18,24 @@ function ConferenceNavbar({
             Posterheimer
           </Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link onClick={handleClickConference}>
-              {conference.imeKonferencija}
+            <Nav.Link as={Link} to="/conference" className="text-link">
+              Konferencija
             </Nav.Link>
-            <Nav.Link onClick={handleClickPosters}>Posteri</Nav.Link>
-            <Nav.Link onClick={handleClickPhotos}>Fotografije</Nav.Link>
-            <Nav.Link onClick={handleClickPatrons}>Pokrovitelji</Nav.Link>
-            <Button onClick={handleRegister}>Registriraj se</Button>
+            <Nav.Link as={Link} to="/posters" className="text-link">
+              Posteri
+            </Nav.Link>
+            <Nav.Link as={Link} to="/photos" className="text-link">
+              Fotografije
+            </Nav.Link>
+            <Button>
+              <Link to="/register" className="text-link">
+                Registracija
+              </Link>
+            </Button>
           </Nav>
         </Container>
       </Navbar>
     </>
   );
 }
-
 export default ConferenceNavbar;

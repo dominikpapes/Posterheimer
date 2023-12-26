@@ -29,14 +29,14 @@ function ConferencesList({ conferences, heading, onSelectItem }: Props) {
 
   return (
     <>
-      <SelectedConferenceContext.Provider value={selectedConference}>
-        <Modal show={showModal} onHide={handleClickCloseModal}>
-          <LoginModal
-            showModal={showModal}
-            handleClose={handleClickCloseModal}
-          ></LoginModal>
-        </Modal>
-      </SelectedConferenceContext.Provider>
+      <Modal show={showModal} onHide={handleClickCloseModal}>
+        <LoginModal
+          conferenceId={selectedConference?.idKonferencija}
+          conferenceName={selectedConference?.imeKonferencija}
+          showModal={showModal}
+          handleClose={handleClickCloseModal}
+        ></LoginModal>
+      </Modal>
       <h1>{heading}</h1>
       <ul className="list-group">
         {conferences.map((item, index) => (
@@ -67,7 +67,3 @@ function ConferencesList({ conferences, heading, onSelectItem }: Props) {
 }
 
 export default ConferencesList;
-
-export const SelectedConferenceContext = createContext<Conference | undefined>(
-  undefined
-);
