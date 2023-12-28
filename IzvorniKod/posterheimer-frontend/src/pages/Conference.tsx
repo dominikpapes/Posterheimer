@@ -1,11 +1,8 @@
 import ConferenceNavbar from "../components/ConferenceNavbar";
 import { useLocation, useNavigate } from "react-router-dom";
 import { createContext, useEffect, useState } from "react";
-import Posters from "./Posters";
-import Photos from "./Photos";
-import Patrons from "../components/Patrons";
 import Weather from "../components/Weather";
-import Register from "./Register";
+import Location from "../components/Location";
 
 interface Conference {
   idKonferencija: string;
@@ -66,10 +63,9 @@ function Conference() {
       {conference.mjesto && componentToShow === "conference" && (
         <Weather location={conference.mjesto} />
       )}
+      <Location />
     </>
   );
 }
 
 export default Conference;
-
-export const ConferenceContext = createContext(null);

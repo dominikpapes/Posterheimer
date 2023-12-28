@@ -6,6 +6,8 @@ import Register from "./pages/Register";
 import Posters from "./pages/Posters";
 import Photos from "./pages/Photos";
 import Patrons from "./components/Patrons";
+import NewConference from "./pages/NewConference";
+import Location from "./components/Location";
 
 const AppRouter = () => {
   return (
@@ -17,6 +19,8 @@ const AppRouter = () => {
         <Route path="/photos" element={<Photos />} />
         <Route path="/patrons" element={<Patrons />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/newConference" element={<NewConference />} />
+        <Route path="/map" element={<Location />} />
       </Routes>
     </Router>
   );

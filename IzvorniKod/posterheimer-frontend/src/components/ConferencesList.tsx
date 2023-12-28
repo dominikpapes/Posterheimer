@@ -1,4 +1,4 @@
-import { useState, createContext } from "react";
+import { useState } from "react";
 import { Modal } from "react-bootstrap";
 import LoginModal from "./LoginModal";
 
@@ -56,6 +56,7 @@ function ConferencesList({ conferences, heading, onSelectItem }: Props) {
             <div
               className="btn btn-success float-end"
               onClick={handleClickAcess}
+              title="Pristupi konferenciji"
             >
               Pristupi
             </div>

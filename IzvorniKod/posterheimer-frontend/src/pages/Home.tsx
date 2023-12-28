@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Navbar, Container } from "react-bootstrap";
 import ConferencesList from "../components/ConferencesList";
 import Titlebar from "../components/Titlebar";
+import { useNavigate } from "react-router-dom";
 
 interface Conference {
   idKonferencija: number;
@@ -21,6 +22,7 @@ const mock_conference = [
 
 function Home() {
   const [conferences, setConferences] = useState<Conference[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // fetch("/api/konferencije")
@@ -39,6 +41,11 @@ function Home() {
           heading="Dostupne konferencije"
           onSelectItem={onSelectKonferencija}
         ></ConferencesList>
+        <i
+          className="fa-solid fa-square-plus fa-5x"
+          title="Nova konferencija"
+          onClick={() => navigate("/newConference")}
+        ></i>
       </div>
     </>
   );
