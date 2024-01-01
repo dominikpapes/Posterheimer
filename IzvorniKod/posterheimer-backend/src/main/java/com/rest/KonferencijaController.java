@@ -1,21 +1,22 @@
 package com.rest;
 import com.domain.Konferencija;
 import com.domain.Korisnik;
-import com.service.EntityMissingException;
+import com.dto.KonferencijaDTOs.KonferencijaIdDTO;
+import com.dto.KonferencijaDTOs.KonferencijaGetDTO;
+import com.dto.KonferencijaDTOs.KonferencijaPostDTO;
+import com.mapper.KonferencijaMappers.KonferencijaGetMapper;
+import com.mapper.KonferencijaMappers.KonferencijaPostMapper;
 import com.service.KonferencijeService;
 import com.service.KorisnikService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -34,39 +35,36 @@ public class KonferencijaController {
     @Autowired
     private  PasswordEncoder pwdEncoder;
 
-    //dostavi mi listu svih konferencija, treba implementirati DTOove kako bi bilo pojednostavnjeno bez mapiranja
+    //dto
     @GetMapping("")
-    public List<Map<String, Object>> konferencije() {
-        return konferencijeService.listAll().stream()
-                .map(konferencija -> {
-                    Map<String, Object> konferencijaMap = new HashMap<>();
-                    konferencijaMap.put("idKonferencija", konferencija.getIdKonferencija());
-                    konferencijaMap.put("imeKonferencija", konferencija.getImeKonferencija());
-                    //konferencijaMap.put("mjesto", konferencija.getMjesto());
-                    //konferencijaMap.put("datumVrijemePocetka", konferencija.getDatumVrijemePocetka());
-                    //konferencijaMap.put("datumVrijemeZavrsetka", konferencija.getDatumVrijemeZavrsetka());
-                    return konferencijaMap;
-                }).collect(Collectors.toList());
+    public List<KonferencijaGetDTO> konferencije() {
+        List<Konferencija> konferencije = konferencijeService.listAll();
+        return konferencije.stream()
+                .map(KonferencijaGetMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
-    //dostavljamo konferenciju prema njenom IDu
+    //dto
     @GetMapping("/{idKonferencija}")
     @Secured({"ROLE_SUPERUSER","ROLE_ADMIN", "ROLE_USER", "ROLE_VISITOR"})
-    public Konferencija getKonferencijaById(@PathVariable("idKonferencija") Integer idKonferencija) {
-        return konferencijeService.fetch(idKonferencija);
+    public KonferencijaGetDTO getKonferencijaById(@PathVariable("idKonferencija") Integer idKonferencija) {
+        Konferencija konferencija = konferencijeService.fetch(idKonferencija);
+        return KonferencijaGetMapper.toDTO(konferencija);
     }
     //dobavljamo listu svih usera od konferencije s poslanim IDom npr .../3/users poslat ce se sve od one s IDom 3,
     // secured govori tko moze pristupit tome
+    //TODO kada se napravi dto za usere onda promijenit
     @GetMapping("/{idKonferencija}/users")
     @Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
     public Set<Korisnik> getUsers(@PathVariable("idKonferencija") Integer idKonferencija) {
         return konferencijeService.fetch(idKonferencija).getUsers();
     }
 
-    //editanje konferencija cemo omogucit samo superuseru kad rijesimo superusera
+    //dto
     @PostMapping("")
   //@Secured("ROLE_SUPERUSER")
-    public ResponseEntity<Konferencija> createKonferencija(@RequestBody Konferencija konferencija) {
+    public ResponseEntity<Konferencija> createKonferencija(@RequestBody KonferencijaPostDTO konferencijaPostDTO) {
+        Konferencija konferencija = KonferencijaPostMapper.toEntity(konferencijaPostDTO);
         Korisnik tempKorisnik = new Korisnik(konferencija.getGenericUsername(), pwdEncoder.encode(konferencija.getGenericPassword()), konferencija.getIdKonferencija().toString(), konferencija.getImeKonferencija(), false, true);
         konferencija.setGenericPassword(tempKorisnik.getLozinka());
         tempKorisnik.setKonferencija(konferencija);
@@ -75,18 +73,24 @@ public class KonferencijaController {
         return ResponseEntity.created(URI.create("/konferencije/" + saved.getIdKonferencija())).body(saved);
     }
 
-    @PutMapping("/{id}")
+
+    /*@PutMapping("/{id}")
   //@Secured("ROLE_SUPERUSER")
     public Konferencija konferencija(@PathVariable("id") Integer id, @RequestBody Konferencija konferencija) {
         if (!(konferencija.getIdKonferencija().equals(id)))
             throw new IllegalArgumentException("");
         return konferencijeService.updateKonferencija(konferencija,id);
-    }
+    }*/
 
-
-    @DeleteMapping("/{id}")
+    //dto
+    @DeleteMapping("")
   //@Secured("ROLE_SUPERUSER")
-    public Konferencija deleteKonferencija(@PathVariable("id") Integer idKonferencija) {
-        return konferencijeService.deleteKonferencija(idKonferencija);
+    public ResponseEntity<?> deleteKonferencija(@RequestBody KonferencijaIdDTO konferencijaIdDTO) {
+        Integer idKonferencija = konferencijaIdDTO.getIdKonferencija();
+        if (idKonferencija == null) {
+            return ResponseEntity.badRequest().body("ID must not be null");
+        }
+        konferencijeService.deleteKonferencija(idKonferencija);
+        return ResponseEntity.noContent().build();
     }
 }

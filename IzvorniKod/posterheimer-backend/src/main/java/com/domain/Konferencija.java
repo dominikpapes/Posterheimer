@@ -26,10 +26,10 @@ public class Konferencija {
     private String genericPassword;
 
     //Ovdje pisemo relacije između klasa
-    @OneToMany(mappedBy = "konferencija")
+    @OneToMany(mappedBy = "konferencija", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Set<Korisnik> users;
-    @OneToMany(mappedBy = "konferencija")
+    @OneToMany(mappedBy = "konferencija", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Set<Poster> posters;
 
