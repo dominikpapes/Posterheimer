@@ -33,6 +33,10 @@ public class Konferencija {
     @JsonIgnore
     private Set<Poster> posters;
 
+    @ManyToMany
+    @JsonIgnore
+    private Set<Pokrovitelj> pokrovitelji;
+
     //konstruktori
     public Konferencija() {
     }
