@@ -6,7 +6,8 @@ import com.dto.PokroviteljDTOs.PokroviteljGetDTO;
 public class PokroviteljGetMapper {
     public static PokroviteljGetDTO toDTO(Pokrovitelj pokrovitelj) {
         return new PokroviteljGetDTO(
-                pokrovitelj.getImePokrovitelja());
+                pokrovitelj.getImePokrovitelja(),
+                pokrovitelj.getPromotivniMaterijal());
     }
 
 }

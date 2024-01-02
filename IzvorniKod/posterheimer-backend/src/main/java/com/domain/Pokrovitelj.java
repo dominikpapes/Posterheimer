@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -13,9 +15,10 @@ public class Pokrovitelj {
     private String imePokrovitelja;
     private String promotivniMaterijal;
 
-    @ManyToMany(mappedBy = "pokrovitelji")
+    @ManyToMany
+    @JoinColumn(name="id_konferencija")
     @JsonIgnore
-    private Set<Konferencija> konferencije;
+    private List<Konferencija> konferencije = new ArrayList<Konferencija>();
 
     public Pokrovitelj() {
 
@@ -40,6 +43,14 @@ public class Pokrovitelj {
 
     public String getPromotivniMaterijal() {
         return promotivniMaterijal;
+    }
+
+    public List<Konferencija> getKonferencije() {
+        return konferencije;
+    }
+
+    public void setKonferencije(Konferencija konferencija) {
+        this.konferencije.add(konferencija);
     }
 
     @Override

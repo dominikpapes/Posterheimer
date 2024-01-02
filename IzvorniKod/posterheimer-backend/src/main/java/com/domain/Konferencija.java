@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -33,9 +34,9 @@ public class Konferencija {
     @JsonIgnore
     private Set<Poster> posters;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "konferencije")
     @JsonIgnore
-    private Set<Pokrovitelj> pokrovitelji;
+    private List<Pokrovitelj> pokrovitelji;
 
     //konstruktori
     public Konferencija() {
@@ -126,6 +127,9 @@ public class Konferencija {
     public Set<Poster> getPosters() {
         return posters;
     }
+
+    public void setPokrovitelj(Pokrovitelj pokrovitelj) { this.pokrovitelji.add(pokrovitelj); }
+    public List<Pokrovitelj> getPokrovitelji() { return pokrovitelji; }
 
     @Override
     public String toString() {
