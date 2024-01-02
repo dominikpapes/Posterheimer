@@ -29,7 +29,7 @@ public class PokroviteljServiceJpa implements PokroviteljService {
     @Override
     public Pokrovitelj fetch(String imePokrovitelja) {
         return pokroviteljRepository.findByImePokrovitelj(imePokrovitelja).orElseThrow(
-                () -> new EntityMissingException(Konferencija.class, imePokrovitelja));
+                () -> new EntityMissingException(Pokrovitelj.class, imePokrovitelja));
     }
 
     @Override
@@ -46,7 +46,6 @@ public class PokroviteljServiceJpa implements PokroviteljService {
     @Override
     public Pokrovitelj updatePokroviteljIme(Pokrovitelj pokrovitelj, String newImePokrovitelja) {
         validate(pokrovitelj);
-        String pokroviteljIme = pokrovitelj.getImePokrovitelja();
         Assert.hasText(newImePokrovitelja, "Pokrovitelj name must be given!");
         if (!pokroviteljRepository.existsByImePokrovitelja(pokrovitelj.getImePokrovitelja()))
             throw new EntityMissingException(Pokrovitelj.class, pokrovitelj.getImePokrovitelja());

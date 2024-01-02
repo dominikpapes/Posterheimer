@@ -33,10 +33,12 @@ public class Konferencija {
     @OneToMany(mappedBy = "konferencija", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Set<Poster> posters;
-
     @ManyToMany(mappedBy = "konferencije")
     @JsonIgnore
     private List<Pokrovitelj> pokrovitelji;
+    @OneToMany(mappedBy = "konferencija", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private Set<Fotografija> fotografije;
 
     //konstruktori
     public Konferencija() {
@@ -116,6 +118,11 @@ public class Konferencija {
         return users;
     }
 
+    public Set<Poster> getPosters() { return posters; }
+    public List<Pokrovitelj> getPokrovitelji() { return pokrovitelji; }
+
+    public Set<Fotografija> getFotografije() { return fotografije; }
+
     public void setUser(Korisnik user) {
         this.users.add(user);
     }
@@ -124,12 +131,11 @@ public class Konferencija {
         this.posters.add(poster);
     }
 
-    public Set<Poster> getPosters() {
-        return posters;
-    }
-
     public void setPokrovitelj(Pokrovitelj pokrovitelj) { this.pokrovitelji.add(pokrovitelj); }
-    public List<Pokrovitelj> getPokrovitelji() { return pokrovitelji; }
+
+    public void setFotografije(Fotografija fotografija) {
+        this.fotografije.add(fotografija);
+    }
 
     @Override
     public String toString() {
