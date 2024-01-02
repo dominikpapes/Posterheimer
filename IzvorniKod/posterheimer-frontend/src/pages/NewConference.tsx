@@ -10,20 +10,28 @@ interface Poster {
 
 interface Conference {
   name: string;
-  location: string;
+  city: string;
+  address: string;
+  zipCode: string;
   dateStart: string;
   dateEnd: string;
+  votingStart: string;
+  votingEnd: string;
   posters: Poster[];
   photos: Blob[];
 }
 
 const emptyConference: Conference = {
   name: "",
-  location: "",
   dateStart: "",
   dateEnd: "",
   posters: [],
   photos: [],
+  votingStart: "",
+  votingEnd: "",
+  city: "",
+  address: "",
+  zipCode: "",
 };
 
 function NewConference() {
@@ -57,18 +65,44 @@ function NewConference() {
               required
             />
           </Form.Group>
+
           <Form.Group className="mb-3" controlId="formConferenceLocation">
-            <Form.Label>Lokacija</Form.Label>
+            <Form.Label>Grad</Form.Label>
             <Form.Control
-              type="location"
+              type="text"
               name="text"
-              placeholder="Unesite lokaciju"
-              value={newConference?.location}
+              placeholder="Unesite grad"
+              value={newConference?.city}
               onChange={handleChange}
               required
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
+
+          <Form.Group className="mb-3" controlId="formConferenceCity">
+            <Form.Label>Adresa</Form.Label>
+            <Form.Control
+              type="text"
+              name="text"
+              placeholder="Unesite adresu"
+              value={newConference?.address}
+              onChange={handleChange}
+              required
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formConferenceZipCode">
+            <Form.Label>Poštanski broj</Form.Label>
+            <Form.Control
+              type="text"
+              name="text"
+              placeholder="Unesite poštanski broj"
+              value={newConference?.zipCode}
+              onChange={handleChange}
+              required
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formDateStart">
             <Form.Label>Vrijeme početka konferencije</Form.Label>
             <Form.Control
               type="date"
@@ -79,13 +113,36 @@ function NewConference() {
               required
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Group className="mb-3" controlId="formDateEnd">
             <Form.Label>Vrijeme završetka konferencije</Form.Label>
             <Form.Control
               type="date"
               name="date"
               placeholder="Unesite ime"
               value={newConference?.dateEnd}
+              onChange={handleChange}
+              required
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formVotingDateStart">
+            <Form.Label>Vrijeme početka glasanja</Form.Label>
+            <Form.Control
+              type="datetime-local"
+              name="date"
+              placeholder="Unesite ime"
+              value={newConference?.votingStart}
+              onChange={handleChange}
+              required
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formVotingDateEnd">
+            <Form.Label>Vrijeme završetka glasanja</Form.Label>
+            <Form.Control
+              type="datetime-local"
+              name="date"
+              placeholder="Unesite ime"
+              value={newConference?.votingEnd}
               onChange={handleChange}
               required
             />

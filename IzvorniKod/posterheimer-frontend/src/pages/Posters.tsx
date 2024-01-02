@@ -39,6 +39,8 @@ function Posters() {
   const [chosenPoster, setChosenPoster] = useState(empty_poster);
   const [showPoster, setShowPoster] = useState(false);
 
+  function addPoster() {}
+
   useEffect(() => {
     setPosters(mock_posters);
   }, []);
@@ -64,6 +66,9 @@ function Posters() {
             </div>
           </div>
         ))}
+        <div className="poster-container" onClick={() => {}}>
+          <i className="fa-solid fa-plus fa-5x"></i>
+        </div>
       </div>
 
       {/* Poster view */}

@@ -2,7 +2,9 @@ import ConferenceNavbar from "../components/ConferenceNavbar";
 import { useLocation, useNavigate } from "react-router-dom";
 import { createContext, useEffect, useState } from "react";
 import Weather from "../components/Weather";
-import Location from "../components/Location";
+
+import loading from "../../public/spinner.gif";
+import { Card } from "react-bootstrap";
 
 interface Conference {
   idKonferencija: string;
@@ -33,7 +35,7 @@ function fetchConference(conferenceId: number) {
 
 function Conference() {
   const location = useLocation();
-  const [componentToShow, setComponentToShow] = useState("conference");
+  const [isLoading, setIsLoading] = useState(true);
   const [conference, setConference] = useState<Conference>({
     idKonferencija: "",
     imeKonferencija: "",
@@ -50,7 +52,11 @@ function Conference() {
   // console.log("konfId" + conferenceId);
 
   useEffect(() => {
+    setIsLoading(true);
     setConference(mock_conference);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
   }, []);
 
   useEffect(() => {
@@ -60,12 +66,30 @@ function Conference() {
   return (
     <>
       <ConferenceNavbar />
-      {conference.mjesto && componentToShow === "conference" && (
-        <Weather location={conference.mjesto} />
+      {isLoading ? (
+        <div className="true-center">
+          <img src={loading} alt="loading" />
+        </div>
+      ) : (
+        <>
+          <div className="conference-content">
+            <div className="conference-info">
+              <h1>{conference.imeKonferencija}</h1>
+              <div>
+                {conference.datumVrijemePocetka.toDateString()} -{" "}
+                {conference.datumVrijemeZavrsetka.toDateString()}
+              </div>
+            </div>
+            {conference.mjesto && <Weather location={conference.mjesto} />}
+            <iframe
+              className="video"
+              src="https://www.youtube.com/embed/tgbNymZ7vqY"
+              title="conference-video"
+            ></iframe>
+          </div>
+        </>
       )}
-      <Location />
     </>
   );
 }
-
 export default Conference;

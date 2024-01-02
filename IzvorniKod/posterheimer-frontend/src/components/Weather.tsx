@@ -20,10 +20,8 @@ interface Props {
 
 function Weather({ location }: Props) {
   const [forecasts, setForecasts] = useState<WeatherData[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   function fetchForecast() {
-    setIsLoading(true);
     fetch(`${api.base}forecast?q=${location}&units=metric&APPID=${api.key}`)
       .then((response) => response.json())
       .then((data) => {
@@ -40,9 +38,6 @@ function Weather({ location }: Props) {
           ]);
         });
       });
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
   }
 
   useEffect(() => {
@@ -53,45 +48,37 @@ function Weather({ location }: Props) {
 
   return (
     <>
-      {isLoading ? (
-        <div className="true-center">
-          <img src={loading} />
-        </div>
-      ) : (
-        <>
-          <div className="weather-card card">
-            <img
-              src={`https://openweathermap.org/img/wn/${forecasts[0]?.icon}@2x.png`}
-              alt=""
-              className="weather-image"
-            />
-            <h2>{location}</h2>
-            <h3>{forecasts[0]?.temperature}°C</h3>
-          </div>
-          <div className="card forecast-container">
-            <Table responsive>
-              <tbody>
-                <tr>
-                  {forecasts.map((forecast, index) => (
-                    <td key={index}>
-                      <div className="forecast-card">
-                        <img
-                          src={`https://openweathermap.org/img/wn/${forecast?.icon}@2x.png`}
-                          alt=""
-                          className="weather-image"
-                        />
-                        <span>{forecast.time.split(" ")[0]}</span>
-                        <span>{forecast.time.split(" ")[1]}</span>
-                        <span>{forecast?.temperature}°C</span>
-                      </div>
-                    </td>
-                  ))}
-                </tr>
-              </tbody>
-            </Table>
-          </div>
-        </>
-      )}
+      <div className="weather-card card">
+        <img
+          src={`https://openweathermap.org/img/wn/${forecasts[0]?.icon}@2x.png`}
+          alt=""
+          className="weather-image"
+        />
+        <h2>{location}</h2>
+        <h3>{forecasts[0]?.temperature}°C</h3>
+      </div>
+      <div className="card forecast-container">
+        <Table responsive>
+          <tbody>
+            <tr>
+              {forecasts.map((forecast, index) => (
+                <td key={index}>
+                  <div className="forecast-card">
+                    <img
+                      src={`https://openweathermap.org/img/wn/${forecast?.icon}@2x.png`}
+                      alt=""
+                      className="weather-image"
+                    />
+                    <span>{forecast.time.split(" ")[0]}</span>
+                    <span>{forecast.time.split(" ")[1]}</span>
+                    <span>{forecast?.temperature}°C</span>
+                  </div>
+                </td>
+              ))}
+            </tr>
+          </tbody>
+        </Table>
+      </div>
     </>
   );
 }
