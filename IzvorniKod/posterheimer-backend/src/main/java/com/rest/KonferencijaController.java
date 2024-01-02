@@ -4,8 +4,10 @@ import com.domain.Korisnik;
 import com.dto.KonferencijaDTOs.KonferencijaIdDTO;
 import com.dto.KonferencijaDTOs.KonferencijaGetDTO;
 import com.dto.KonferencijaDTOs.KonferencijaPostDTO;
+import com.dto.KorisnikDTOs.KorisnikGetDTO;
 import com.mapper.KonferencijaMappers.KonferencijaGetMapper;
 import com.mapper.KonferencijaMappers.KonferencijaPostMapper;
+import com.mapper.KorisnikMappers.KorisnikGetMapper;
 import com.service.KonferencijeService;
 import com.service.KorisnikService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,7 @@ public class KonferencijaController {
     @Autowired
     private  PasswordEncoder pwdEncoder;
 
-    //dto
+    //dohvacanje svih konferencija
     @GetMapping("")
     public List<KonferencijaGetDTO> konferencije() {
         List<Konferencija> konferencije = konferencijeService.listAll();
@@ -44,7 +46,7 @@ public class KonferencijaController {
                 .collect(Collectors.toList());
     }
 
-    //dto
+    //dohvati konferenciju prema idu
     @GetMapping("/{idKonferencija}")
     @Secured({"ROLE_SUPERUSER","ROLE_ADMIN", "ROLE_USER", "ROLE_VISITOR"})
     public KonferencijaGetDTO getKonferencijaById(@PathVariable("idKonferencija") Integer idKonferencija) {
@@ -53,11 +55,11 @@ public class KonferencijaController {
     }
     //dobavljamo listu svih usera od konferencije s poslanim IDom npr .../3/users poslat ce se sve od one s IDom 3,
     // secured govori tko moze pristupit tome
-    //TODO kada se napravi dto za usere onda promijenit
     @GetMapping("/{idKonferencija}/users")
     @Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
-    public Set<Korisnik> getUsers(@PathVariable("idKonferencija") Integer idKonferencija) {
-        return konferencijeService.fetch(idKonferencija).getUsers();
+    public List<KorisnikGetDTO> getUsers(@PathVariable("idKonferencija") Integer idKonferencija) {
+        return konferencijeService.fetch(idKonferencija).getUsers().stream().map(KorisnikGetMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     //dto
