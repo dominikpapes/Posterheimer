@@ -15,6 +15,7 @@ public class Poster {
     private String prezimeAutor;
     private String filePath;
     private String posterEmail;
+    private Integer brGlasova;
 
     @OneToOne
     @JoinColumn(name="id_konferencija")
@@ -22,12 +23,13 @@ public class Poster {
     private Konferencija konferencija;
     public Poster(){
     }
-    public Poster(String imePoster,String imeAutor,String prezimeAutor,String filePath,String mail){
+    public Poster(String imePoster,String imeAutor,String prezimeAutor,String filePath,String mail, Integer brGlasova){
         this.filePath=filePath;
         this.imePoster=imePoster;
         this.imeAutor=imeAutor;
         this.prezimeAutor=prezimeAutor;
         posterEmail=mail;
+        this.brGlasova=brGlasova;
     }
 
     public Konferencija getKonferencija() {
@@ -76,5 +78,12 @@ public class Poster {
 
     public void setKonferencija(Konferencija konferencija) {
         this.konferencija = konferencija;
+    }
+
+    public Integer getBrGlasova() {
+        return brGlasova;
+    }
+    public void setBrGlasova(Integer brGlasova) {
+        this.brGlasova = brGlasova;
     }
 }
