@@ -25,6 +25,7 @@ public class Konferencija {
     private String genericUsername;
     @Column(name="generic_password")
     private String genericPassword;
+    private boolean votingReminderSent;
 
     //Ovdje pisemo relacije između klasa
     @OneToMany(mappedBy = "konferencija", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -56,6 +57,7 @@ public class Konferencija {
         this.datumVrijemeZavrsetka=datumVrijemeZavrsetka;
         this.genericPassword=genericPassword;
         this.genericUsername=genericUsername;
+        this.votingReminderSent=false;
     }
 
     public void setDatumVrijemePocetka(LocalDateTime datumVrijemePocetka) {
@@ -135,6 +137,14 @@ public class Konferencija {
 
     public void setFotografije(Fotografija fotografija) {
         this.fotografije.add(fotografija);
+    }
+
+    public void setVotingReminderSent(boolean votingReminderSent) {
+        this.votingReminderSent = votingReminderSent;
+    }
+
+    public boolean isVotingReminderSent() {
+        return votingReminderSent;
     }
 
     @Override

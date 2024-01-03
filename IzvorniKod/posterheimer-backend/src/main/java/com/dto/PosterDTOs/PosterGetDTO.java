@@ -4,7 +4,7 @@ public class PosterGetDTO {
     private String imePoster;
     private String imeAutor;
     private String prezimeAutor;
-    private String filePath;
+    private String filePath;//to be blob i dodaj br glasova
     public PosterGetDTO(){}
     public PosterGetDTO(String imePoster,String imeAutor,String prezimeAutor,String filePath){
         this.filePath=filePath;
