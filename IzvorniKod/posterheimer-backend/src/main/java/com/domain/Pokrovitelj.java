@@ -17,7 +17,7 @@ public class Pokrovitelj {
 
     @ManyToMany
     @JoinColumn(name="id_konferencija")
-    @JsonIgnore
+    //@JsonIgnore
     private List<Konferencija> konferencije = new ArrayList<Konferencija>();
 
     public Pokrovitelj() {

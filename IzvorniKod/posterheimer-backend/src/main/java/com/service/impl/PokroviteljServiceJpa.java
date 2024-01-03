@@ -36,10 +36,12 @@ public class PokroviteljServiceJpa implements PokroviteljService {
     public Pokrovitelj createPokrovitelj(Pokrovitelj pokrovitelj) {
         validate(pokrovitelj);
         Assert.notNull(pokrovitelj, "Pokrovitelj must not be null!");
+        /*
         if (pokroviteljRepository.countByImePokrovitelja(pokrovitelj.getImePokrovitelja()) > 0)
             throw new RequestDeniedException(
                     "Pokrovitelj with name " + pokrovitelj.getImePokrovitelja() + " already exists!"
             );
+         */
         return pokroviteljRepository.save(pokrovitelj);
     }
 
