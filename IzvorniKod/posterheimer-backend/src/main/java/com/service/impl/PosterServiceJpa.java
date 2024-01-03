@@ -80,6 +80,9 @@ public class PosterServiceJpa implements PosterService {
         poster.setPrezimeAutor(newAuthorPrezime);
         return posterRepository.save(poster);
     }
+    public void save(Poster poster) {
+        posterRepository.save(poster);
+    }
 
     @Override
     public Optional<Poster> findByImePoster(String imePoster){

@@ -5,17 +5,18 @@ import com.domain.Korisnik;
 import com.domain.Poster;
 import com.dto.PosterDTOs.PosterGetDTO;
 import com.dto.PosterDTOs.PosterPostDTO;
+import com.dto.PosterDTOs.PosterVoteDTO;
 import com.mapper.PosterMapper.PosterGetMapper;
-import com.service.EntityMissingException;
-import com.service.KonferencijeService;
-import com.service.PosterService;
-import com.service.RequestDeniedException;
+import com.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.auditing.CurrentDateTimeProvider;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +27,7 @@ public class PosterController {
     PosterService posterService;
     @Autowired
     KonferencijeService konferencijeService;
+    KorisnikService korisnikService;
 
     @GetMapping("/idKonferencija/{idKonferencija}")
     //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN", "ROLE_USER", "ROLE_VISITOR"})
@@ -82,6 +84,29 @@ public class PosterController {
             return ResponseEntity.noContent().build();
         }
         else{
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @PutMapping("")
+    @Secured({"ROLE_SUPERUSER", "ROLE_ADMIN", "ROLE_USER"})
+    public ResponseEntity<Object> vote(@RequestBody PosterVoteDTO posterVoteDTO) {
+        Optional<Konferencija> existingKonf = konferencijeService.findById(posterVoteDTO.getIdKonferencija());
+        Optional<Korisnik> existingKorisnik = korisnikService.findByEmail(posterVoteDTO.getEmail());
+        Optional<Poster> existingPoster = posterService.findByImePoster(posterVoteDTO.getImePostera());
+        boolean success = existingKorisnik.isPresent()&&existingPoster.isPresent()&&existingKonf.isPresent();
+        if (success) {
+            if (existingKonf.get().getDatumVrijemeZavrsetka().minusDays(2).isBefore(LocalDateTime.now())) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Voting is closed as the conference has ended.");
+            }
+            else if(existingKorisnik.get().isVoted()){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("User has already voted.");
+            }
+            Poster poster = existingPoster.get();
+            poster.vote();
+            posterService.save(poster);
+            return ResponseEntity.ok().build();
+
+        } else {
             return ResponseEntity.notFound().build();
         }
     }

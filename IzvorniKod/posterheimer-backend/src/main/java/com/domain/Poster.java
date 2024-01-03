@@ -31,7 +31,9 @@ public class Poster {
         posterEmail=mail;
         this.brGlasova=brGlasova;
     }
-
+    public void vote(){
+        this.brGlasova++;
+    }
     public Konferencija getKonferencija() {
         return konferencija;
     }
