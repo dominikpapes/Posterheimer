@@ -27,6 +27,7 @@ public class PosterController {
     PosterService posterService;
     @Autowired
     KonferencijeService konferencijeService;
+    @Autowired
     KorisnikService korisnikService;
 
     @GetMapping("/idKonferencija/{idKonferencija}")
@@ -73,7 +74,7 @@ public class PosterController {
         return posterService.deletePoster(imePostera);
     }
     @DeleteMapping("/idKonferencija/{idKonferencija}")
-    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
+    //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
     public ResponseEntity<Object> deletePoster(@PathVariable("idKonferencija") Integer idKonferencija){
         Optional<Konferencija> existingKonf = konferencijeService.findById(idKonferencija);
         if(existingKonf.isPresent()) {
@@ -88,7 +89,7 @@ public class PosterController {
         }
     }
     @PutMapping("")
-    @Secured({"ROLE_SUPERUSER", "ROLE_ADMIN", "ROLE_USER"})
+    //@Secured({"ROLE_SUPERUSER", "ROLE_ADMIN", "ROLE_USER"})
     public ResponseEntity<Object> vote(@RequestBody PosterVoteDTO posterVoteDTO) {
         Optional<Konferencija> existingKonf = konferencijeService.findById(posterVoteDTO.getIdKonferencija());
         Optional<Korisnik> existingKorisnik = korisnikService.findByEmail(posterVoteDTO.getEmail());

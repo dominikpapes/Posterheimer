@@ -1,14 +1,14 @@
 package com.dto.PosterDTOs;
 
 public class PosterVoteDTO {
-    String imePostera;
+    String imePoster;
     Integer idKonferencija;
     String email;
     public PosterVoteDTO(){}
-    public PosterVoteDTO(String imePostera,String email,Integer idKonferencija){
+    public PosterVoteDTO(String imePoster,String email,Integer idKonferencija){
         this.email=email;
         this.idKonferencija=idKonferencija;
-        this.imePostera=imePostera;
+        this.imePoster=imePoster;
     }
 
     public String getEmail() {
@@ -20,7 +20,7 @@ public class PosterVoteDTO {
     }
 
     public String getImePostera() {
-        return imePostera;
+        return imePoster;
     }
 
     public void setEmail(String email) {
@@ -31,7 +31,7 @@ public class PosterVoteDTO {
         this.idKonferencija = idKonferencija;
     }
 
-    public void setImePostera(String imePostera) {
-        this.imePostera = imePostera;
+    public void setImePoster(String imePoster) {
+        this.imePoster = imePoster;
     }
 }
