@@ -11,6 +11,7 @@ public class Korisnik {
     private String prezime;
     private boolean admin;
     private boolean visitor;
+    private boolean voted;
 
     //ovdje pisemo relacije
     @ManyToOne
@@ -31,6 +32,7 @@ public class Korisnik {
         this.lozinka=lozinka;
         this.admin=admin;
         this.visitor = visitor;
+        this.voted=false;
     }
 
     public Integer getKonferencijaId() {
@@ -87,6 +89,14 @@ public class Korisnik {
 
     public void setVisitor(boolean visitor) {
         this.visitor = visitor;
+    }
+
+    public void setVoted(boolean voted) {
+        this.voted = voted;
+    }
+
+    public boolean isVoted() {
+        return voted;
     }
 
     @Override

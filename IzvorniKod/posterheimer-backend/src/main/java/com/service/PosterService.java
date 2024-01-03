@@ -22,4 +22,5 @@ public interface PosterService {
     Poster updatePosterAuthor(Poster poster, String newImeAuthor,String newPrezimeAuthor);
 
     Optional<Poster> findByImePoster(String imePoster);
+    void save(Poster poster);
 }
