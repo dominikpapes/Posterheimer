@@ -15,6 +15,16 @@ export default function Titlebar() {
           />{" "}
           Posterheimer
         </Navbar.Brand>
+        <Navbar.Brand href="/users">
+          <img
+            alt=""
+            src="../../public/user.png"
+            width="30"
+            height="30"
+            className="d-inline-block align-top"
+          />{" "}
+          Users
+        </Navbar.Brand>
       </Container>
     </Navbar>
   );
