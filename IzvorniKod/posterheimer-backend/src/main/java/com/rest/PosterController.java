@@ -1,6 +1,7 @@
 package com.rest;
 
 import com.domain.Konferencija;
+import com.domain.Korisnik;
 import com.domain.Poster;
 import com.dto.PosterDTOs.PosterGetDTO;
 import com.dto.PosterDTOs.PosterPostDTO;
