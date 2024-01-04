@@ -60,6 +60,9 @@ function Photos() {
     setTempImgSrc(images[nextIndex].img);
   }
 
+  function postPhoto() {}
+  function deletePhoto() {}
+
   return (
     <>
       <ConferenceNavbar />
@@ -74,6 +77,7 @@ function Photos() {
           </div>
         ))}
       </div>
+
       {/* Modal */}
       <div className={modal ? "model open" : "model"}>
         <img src={tempImgSrc} />

@@ -54,9 +54,7 @@ function Conference() {
   useEffect(() => {
     setIsLoading(true);
     setConference(mock_conference);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {

@@ -89,7 +89,7 @@ const Register = () => {
     console.log(captchaValue);
 
     if (!captchaValue) {
-      alert("Please verify the reCAPTCHA!");
+      alert("Molim Vas potvrdite reCAPTCHA!");
     } else {
       // make form submission
       alert("Form submission successful!");

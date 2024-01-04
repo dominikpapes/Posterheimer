@@ -20,14 +20,21 @@ const mock_conference = [
   },
 ];
 
+async function getConferences() {
+  const response = await fetch("/api/konferencije");
+  const data = await response.json();
+  return data;
+}
+
 function Home() {
   const [conferences, setConferences] = useState<Conference[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // fetch("/api/konferencije")
-    //   .then((res) => res.json())
-    //   .then((confs) => setConferences(confs));
+    // getConferences().then((data) => {
+    //   console.log(data);
+    //   setConferences(data);
+    // });
     setConferences(mock_conference);
   }, []);
 

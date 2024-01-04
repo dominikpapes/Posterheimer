@@ -2,6 +2,11 @@ import React, { useState, useContext } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
+const VISITOR = import.meta.env.VITE_VISITOR;
+const REGISTERED = import.meta.env.VITE_REGISTERED;
+const ADMIN = import.meta.env.VITE_ADMIN;
+const SUPERUSER = import.meta.env.VITE_SUPERUSER;
+
 interface Props {
   conferenceId: number;
   conferenceName: string;
@@ -24,6 +29,7 @@ function LoginModal({
     // Perform login logic
     event.preventDefault();
     localStorage.setItem("conferenceId", conferenceId.toString());
+    localStorage.setItem("userRole", VISITOR);
 
     // const credentials = btoa(`${username}:${password}`);
     // console.log(credentials);
