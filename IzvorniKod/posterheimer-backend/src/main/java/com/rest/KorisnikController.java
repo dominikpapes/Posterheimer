@@ -63,14 +63,21 @@ public class KorisnikController {
             return ResponseEntity.notFound().build();
         }
     }
-/*
+
     @PutMapping("/{email}")
-    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN","ROLE_USER"})
-    public Korisnik changeKorisnikEmail(@PathVariable("email") String newEmail, @RequestBody Korisnik korisnik) {
-        if (korisnik.getEmail().equals(newEmail))
-            throw new IllegalArgumentException("");
-        return korisnikService.updateKorisnik(korisnik,newEmail);
-    }*/
+    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
+    public ResponseEntity<Object> changeKorisnikEmail(@PathVariable("email") String newEmail) {
+        Optional<Korisnik> optKorisnik=korisnikService.findByEmail(newEmail);
+        if(optKorisnik.isPresent()){
+            optKorisnik.get().setAdmin(true);
+            korisnikService.deleteKorisnik(newEmail);
+            korisnikService.createKorisnik(optKorisnik.get());
+            return ResponseEntity.ok().build();
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     @DeleteMapping("/{email}")
     @Secured({"ROLE_SUPERUSER","ROLE_ADMIN","ROLE_USER"})

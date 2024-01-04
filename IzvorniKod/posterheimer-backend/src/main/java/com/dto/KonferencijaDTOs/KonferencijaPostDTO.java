@@ -5,17 +5,19 @@ import java.time.LocalDateTime;
 public class KonferencijaPostDTO {
     private Integer idKonferencija;
     private String imeKonferencija;
-    private String mjesto; // Fixed: replaced comma with semicolon
+    private String mjesto;
     private LocalDateTime datumVrijemePocetka;
     private LocalDateTime datumVrijemeZavrsetka;
     private String genericPassword;
     private String genericUsername;
+    private String adminUsername;
+    private String adminPassword;
 
     public KonferencijaPostDTO() {}
 
     public KonferencijaPostDTO(Integer idKonferencija, String imeKonferencija, String mjesto,
                                LocalDateTime datumVrijemePocetka, LocalDateTime datumVrijemeZavrsetka,
-                               String genericPassword, String genericUsername) {
+                               String genericPassword, String genericUsername,String adminUsername,String adminPassword) {
         this.idKonferencija = idKonferencija;
         this.imeKonferencija = imeKonferencija;
         this.mjesto = mjesto;
@@ -23,6 +25,8 @@ public class KonferencijaPostDTO {
         this.datumVrijemeZavrsetka = datumVrijemeZavrsetka;
         this.genericPassword = genericPassword;
         this.genericUsername = genericUsername;
+        this.adminPassword=adminPassword;
+        this.adminUsername=adminUsername;
     }
 
     public Integer getIdKonferencija() {
@@ -79,5 +83,21 @@ public class KonferencijaPostDTO {
 
     public void setMjesto(String mjesto) {
         this.mjesto = mjesto;
+    }
+
+    public String getAdminPassword() {
+        return adminPassword;
+    }
+
+    public String getAdminUsername() {
+        return adminUsername;
+    }
+
+    public void setAdminPassword(String adminPassword) {
+        this.adminPassword = adminPassword;
+    }
+
+    public void setAdminUsername(String adminUsername) {
+        this.adminUsername = adminUsername;
     }
 }

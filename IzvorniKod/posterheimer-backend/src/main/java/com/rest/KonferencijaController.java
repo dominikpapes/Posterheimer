@@ -72,6 +72,8 @@ public class KonferencijaController {
         tempKorisnik.setKonferencija(konferencija);
         Konferencija saved = konferencijeService.createKonferencija(konferencija);
         korisnikService.createKorisnik(tempKorisnik);
+        tempKorisnik=new Korisnik(konferencijaPostDTO.getAdminUsername(), konferencijaPostDTO.getAdminPassword(), null,null,true,false);
+        korisnikService.createKorisnik(tempKorisnik);
         return ResponseEntity.created(URI.create("/konferencije/" + saved.getIdKonferencija())).body(saved);
     }
 
