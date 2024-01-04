@@ -22,21 +22,23 @@ export default function UsersList() {
   return (
     <>
       <Titlebar />
-      <h1>Korisnici</h1>
-      <ul className="list-group">
-        {mock_users.map((item) => (
-          <li className="list-group-item light" key={item.idUser}>
-            <h3 className="float-start">{item.email}</h3>
-            <div
-              className="btn btn-success float-end"
-              title="Ukloni korisnika"
-              onClick={() => removeUser(item)}
-            >
-              Ukloni
-            </div>
-          </li>
-        ))}
-      </ul>
+      <div className="container text-center">
+        <h1>Korisnici</h1>
+        <ul className="list-group">
+          {mock_users.map((item) => (
+            <li className="list-group-item light" key={item.idUser}>
+              <h3 className="float-start">{item.email}</h3>
+              <div
+                className="btn btn-danger float-end"
+                title="Ukloni korisnika"
+                onClick={() => removeUser(item)}
+              >
+                Ukloni
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </>
   );
 }
