@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 public class KonferencijaPostMapper {
     public static Konferencija toEntity(KonferencijaPostDTO dto) {
         Konferencija konferencija = new Konferencija();
-        konferencija.setIdKonferencija(dto.getIdKonferencija());
         konferencija.setImeKonferencija(dto.getImeKonferencija());
         konferencija.setMjesto(dto.getMjesto());
         konferencija.setAdresa(dto.getAdresa());

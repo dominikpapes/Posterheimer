@@ -3,7 +3,6 @@ package com.dto.KonferencijaDTOs;
 import java.time.LocalDateTime;
 
 public class KonferencijaPostDTO {
-    private Integer idKonferencija;
     private String imeKonferencija;
     private String mjesto;
     private String adresa;
@@ -18,10 +17,9 @@ public class KonferencijaPostDTO {
 
     public KonferencijaPostDTO() {}
 
-    public KonferencijaPostDTO(Integer idKonferencija, String imeKonferencija, String mjesto, String adresa,
+    public KonferencijaPostDTO(String imeKonferencija, String mjesto, String adresa,
                                String zipCode, String datumVrijemePocetka, String datumVrijemeZavrsetka,
                                String videoUrl, String genericPassword, String genericUsername,String adminUsername, String adminPassword) {
-        this.idKonferencija = idKonferencija;
         this.imeKonferencija = imeKonferencija;
         this.mjesto = mjesto;
         this.adresa = adresa;
@@ -33,10 +31,6 @@ public class KonferencijaPostDTO {
         this.genericUsername = genericUsername;
         this.adminPassword=adminPassword;
         this.adminUsername=adminUsername;
-    }
-
-    public Integer getIdKonferencija() {
-        return idKonferencija;
     }
 
     public String getDatumVrijemePocetka() {
@@ -79,10 +73,6 @@ public class KonferencijaPostDTO {
 
     public void setDatumVrijemeZavrsetka(String datumVrijemeZavrsetka) {
         this.datumVrijemeZavrsetka = datumVrijemeZavrsetka;
-    }
-
-    public void setIdKonferencija(Integer idKonferencija) {
-        this.idKonferencija = idKonferencija;
     }
 
     public void setGenericUsername(String genericUsername) {

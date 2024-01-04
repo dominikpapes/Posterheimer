@@ -11,6 +11,7 @@ import java.util.Set;
 @Entity
 public class Konferencija {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_konferencija")
     private Integer idKonferencija;
     @Column(name="ime_konferencija")
