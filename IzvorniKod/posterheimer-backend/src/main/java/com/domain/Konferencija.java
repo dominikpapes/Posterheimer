@@ -17,10 +17,13 @@ public class Konferencija {
     private String imeKonferencija;
     @Column(name="mjesto")
     private String mjesto;
+    private String adresa;
+    private String zipCode;
     @Column(name="datum_vrijeme_pocetka")
     private LocalDateTime datumVrijemePocetka;
     @Column(name="datum_vrijeme_zavrsetka")
     private LocalDateTime datumVrijemeZavrsetka;
+    private String videoUrl;
     @Column(name="generic_username")
     private String genericUsername;
     @Column(name="generic_password")
@@ -64,12 +67,12 @@ public class Konferencija {
         this.datumVrijemePocetka = datumVrijemePocetka;
     }
 
-    public void setIdKonferencija(Integer idKonferencija) {
-        this.idKonferencija = idKonferencija;
-    }
-
     public void setDatumVrijemeZavrsetka(LocalDateTime datumVrijemeZavrsetka) {
         this.datumVrijemeZavrsetka = datumVrijemeZavrsetka;
+    }
+
+    public void setIdKonferencija(Integer idKonferencija) {
+        this.idKonferencija = idKonferencija;
     }
 
     public void setGenericUsername(String genericUsername) {
@@ -145,6 +148,28 @@ public class Konferencija {
 
     public boolean isVotingReminderSent() {
         return votingReminderSent;
+    }
+
+    public String getAdresa() {
+        return adresa;
+    }
+
+    public void setAdresa(String adresa) { this.adresa = adresa; }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
     }
 
     @Override
