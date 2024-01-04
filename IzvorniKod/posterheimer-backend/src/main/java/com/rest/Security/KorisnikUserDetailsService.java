@@ -1,4 +1,4 @@
-package com.rest;
+package com.rest.Security;
 
 import com.domain.Korisnik;
 import com.service.KorisnikService;
@@ -17,14 +17,11 @@ import static org.springframework.security.core.authority.AuthorityUtils.commaSe
 
 @Service
 public class KorisnikUserDetailsService implements UserDetailsService {
-    /*@Value("${admin.password}")
-    private String adminPasswordHash;*/
-
     @Autowired
     private KorisnikService korisnikService;
 
     @Override
-    public UserDetails loadUserByUsername(String username) {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
         Korisnik korisnik = korisnikService.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("No user '" + username + "'"));
         String hashedPassword = korisnik.getLozinka();

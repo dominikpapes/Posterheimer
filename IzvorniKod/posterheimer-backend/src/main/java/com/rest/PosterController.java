@@ -31,7 +31,7 @@ public class PosterController {
     KorisnikService korisnikService;
 
     @GetMapping("/idKonferencija/{idKonferencija}")
-    //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN", "ROLE_USER", "ROLE_VISITOR"})
+        @Secured({"ROLE_SUPERUSER","ROLE_ADMIN", "ROLE_USER", "ROLE_VISITOR"})
     public List<PosterGetDTO> posterList(@PathVariable("idKonferencija") Integer idKonferencija){
         return posterService.listAll().stream().filter(poster -> poster.getKonferencija().getIdKonferencija()
                         .equals(idKonferencija)).map(PosterGetMapper::toDTO).toList();

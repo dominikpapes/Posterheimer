@@ -1,4 +1,4 @@
-package com.rest;
+package com.rest.Security;
 
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -9,7 +9,11 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
@@ -25,8 +29,12 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 @Configuration
 @EnableMethodSecurity(securedEnabled = true, prePostEnabled = false)
 public class WebSecurityBasic {
+    private final AuthenticationConfiguration authenticationConfiguration;
 
-    @Bean
+    public WebSecurityBasic(AuthenticationConfiguration authenticationConfiguration) {
+        this.authenticationConfiguration = authenticationConfiguration;
+    }
+    /*@Bean
     @Profile("basic-security")
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -39,36 +47,33 @@ public class WebSecurityBasic {
         http.csrf(AbstractHttpConfigurer::disable);
         http.headers((headers) -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
         return http.build();
-    }
+    }*/
 
-    /*@Bean
+    @Bean
     @Profile("form-security")
     public SecurityFilterChain spaFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(authorize -> authorize
-                .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
-                .anyRequest().authenticated());
-        http.formLogin(configurer -> {
-                    configurer.successHandler((request, response, authentication) ->
-                                    response.setStatus(HttpStatus.NO_CONTENT.value())
-                            )
-                            .failureHandler(new SimpleUrlAuthenticationFailureHandler());
-                }
-        );
-        http.exceptionHandling(configurer -> {
-            final RequestMatcher matcher = new NegatedRequestMatcher(
-                    new MediaTypeRequestMatcher(MediaType.TEXT_HTML));
-            configurer
-                    .defaultAuthenticationEntryPointFor((request, response, authException) -> {
-                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    }, matcher);
-        });
-        http.logout(configurer -> configurer
-                .logoutUrl("/logout")
-                .logoutSuccessHandler((request, response, authentication) ->
-                        response.setStatus(HttpStatus.NO_CONTENT.value())));
-        http.csrf(AbstractHttpConfigurer::disable);
+        http
+                .authorizeRequests(authz -> authz
+                        .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/konferencije")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
+                        .anyRequest().authenticated())
+                .exceptionHandling(e -> e
+                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
+                .csrf(AbstractHttpConfigurer::disable)
+                .headers(headers -> headers
+                        .frameOptions().sameOrigin())
+                .sessionManagement(sessionManagement ->
+                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http.headers((headers) -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
+
+
         return http.build();
-    }*/
+    }
+    @Bean
+    public AuthenticationManager authenticationManager() throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
 
     @Bean
     @Profile({ "basic-security", "form-security" })
