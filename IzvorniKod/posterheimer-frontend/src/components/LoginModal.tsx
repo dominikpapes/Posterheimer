@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
@@ -7,17 +7,20 @@ const REGISTERED = import.meta.env.VITE_REGISTERED;
 const ADMIN = import.meta.env.VITE_ADMIN;
 const SUPERUSER = import.meta.env.VITE_SUPERUSER;
 
+const SUPERUSER_ID = import.meta.env.VITE_SUPERUSER_ID;
+const SUPERUSER_IME = import.meta.env.VITE_SUPERUSER_IME;
+
 interface Props {
   conferenceId: number;
   conferenceName: string;
-  showModal: boolean;
+  show: boolean;
   handleClose: () => void;
 }
 
 function LoginModal({
   conferenceId,
   conferenceName,
-  showModal,
+  show,
   handleClose,
 }: Props) {
   const [username, setUsername] = useState("");
@@ -25,37 +28,13 @@ function LoginModal({
 
   const navigate = useNavigate();
 
-  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+  async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
     // Perform login logic
     event.preventDefault();
     localStorage.setItem("conferenceId", conferenceId.toString());
-    localStorage.setItem("userRole", VISITOR);
-
-    // const credentials = btoa(`${username}:${password}`);
-    // console.log(credentials);
-    // let key = "credentials";
-
-    // localStorage.setItem(key, credentials);
-
-    // const response = await fetch(
-    //   `/api/konferencije/${conference?.idKonferencija}`,
-    //   {
-    //     headers: {
-    //       Authorization: `Basic ${credentials}`,
-    //     },
-    //   }
-    // );
-
-    // if (response.ok) {
-    //   const data = await response.json();
-    //   navigate("/conference", { state: data.idKonferencija });
-    // } else {
-    //   console.error("Authentication failed");
-    // }
-    // Close the modal after logging in
-
+    localStorage.setItem("userRole", ADMIN);
     navigate("/conference");
-  };
+  }
 
   return (
     <>

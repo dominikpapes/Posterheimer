@@ -1,12 +1,21 @@
 import ConferenceNavbar from "../components/ConferenceNavbar";
 import "../styles.css";
+import addImage from "../../public/add-image.png";
+
 import img1 from "../assets/photos/img1.jpg";
 import img2 from "../assets/photos/img2.jpg";
 import img3 from "../assets/photos/img3.jpg";
 import img4 from "../assets/photos/img4.jpg";
 import img5 from "../assets/photos/img5.jpg";
 import img6 from "../assets/photos/img6.jpg";
-import { useState } from "react";
+import img7 from "../assets/photos/img7.jpg";
+import img8 from "../assets/photos/img8.jpg";
+import { useEffect, useState } from "react";
+
+const VISITOR = import.meta.env.VITE_VISITOR;
+const REGISTERED = import.meta.env.VITE_REGISTERED;
+const ADMIN = import.meta.env.VITE_ADMIN;
+const SUPERUSER = import.meta.env.VITE_SUPERUSER;
 
 const images = [
   {
@@ -33,12 +42,17 @@ const images = [
     id: 6,
     img: img6,
   },
+  { id: 7, img: img7 },
+  { id: 8, img: img8 },
 ];
 
 function Photos() {
   const [modal, setModal] = useState(false);
   const [tempImgSrc, setTempImgSrc] = useState("");
   const [tempIdx, setTempIdx] = useState(-1);
+
+  const userRole = localStorage.getItem("userRole");
+  const showEdits = userRole === ADMIN || userRole === SUPERUSER;
 
   function getImg(imgSrc: string, imgIdx: number) {
     console.log("pic clicked");
@@ -63,19 +77,22 @@ function Photos() {
   function postPhoto() {}
   function deletePhoto() {}
 
+  useEffect(() => {
+    // getPhotos()
+  }, []);
+
   return (
     <>
       <ConferenceNavbar />
       <div className="gallery">
-        {images.map((item, index) => (
-          <div className="pics" key={index}>
-            <img
-              src={item.img}
-              style={{ width: "100%" }}
-              onClick={() => getImg(item.img, index)}
-            />
-          </div>
-        ))}
+        <div className="image-container">
+          {images.map((item, index) => (
+            <img src={item.img} onClick={() => getImg(item.img, index)} />
+          ))}
+        </div>
+        <div className="add-photo">
+          <img src={addImage} />
+        </div>
       </div>
 
       {/* Modal */}
@@ -104,6 +121,13 @@ function Photos() {
           onClick={() => nextImage()}
         ></i>
       </div>
+
+      <a
+        href="https://www.flaticon.com/free-icons/add-image"
+        title="add image icons"
+      >
+        Add image icons created by nawicon - Flaticon
+      </a>
     </>
   );
 }
