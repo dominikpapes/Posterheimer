@@ -1,4 +1,12 @@
-import { Navbar, Nav, Container, Button, Modal } from "react-bootstrap";
+import {
+  Navbar,
+  Nav,
+  Container,
+  Button,
+  Modal,
+  Dropdown,
+  NavDropdown,
+} from "react-bootstrap";
 import { useNavigate, Link, NavLink, useLocation } from "react-router-dom";
 import LoginModal from "./LoginModal";
 import { useState } from "react";
@@ -32,19 +40,45 @@ function ConferenceNavbar() {
         </Button>
       </>
     );
+  } else if (userRole === REGISTERED) {
+    itemContent = (
+      <NavDropdown
+        id="user-dropdown"
+        title={userRole}
+        menuVariant="dark"
+        className="justify-content-end"
+      >
+        <NavDropdown.Item onClick={logout}>
+          Odjava <i className="fa-solid fa-right-from-bracket ml-2"></i>
+        </NavDropdown.Item>
+      </NavDropdown>
+    );
   } else {
     itemContent = (
-      <>
-        <span className="text-light">
-          <i className="fa-solid fa-circle-user mx-2" />
-          <span>{userRole}</span>
-        </span>
-      </>
+      <NavDropdown
+        id="user-dropdown"
+        title={userRole}
+        menuVariant="dark"
+        className="justify-content-end"
+      >
+        <NavDropdown.Item as={Link} to="/users">
+          Korisnici
+        </NavDropdown.Item>
+        <NavDropdown.Item onClick={logout}>
+          Odjava <i className="fa-solid fa-right-from-bracket ml-2"></i>
+        </NavDropdown.Item>
+      </NavDropdown>
     );
   }
   return (
     <>
-      <Navbar className="bg-body-tertiary" bg="dark" data-bs-theme="dark">
+      <Navbar
+        collapseOnSelect
+        expand="lg"
+        className="bg-body-tertiary"
+        bg="dark"
+        data-bs-theme="dark"
+      >
         <Container>
           <Navbar.Brand>
             <img
@@ -56,22 +90,21 @@ function ConferenceNavbar() {
             />{" "}
             Posterheimer
           </Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link as={Link} to="/conference" className="text-link">
-              Konferencija
-            </Nav.Link>
-            <Nav.Link as={Link} to="/posters" className="text-link">
-              Posteri
-            </Nav.Link>
-            <Nav.Link as={Link} to="/photos" className="text-link">
-              Fotografije
-            </Nav.Link>
-          </Nav>
-          {itemContent}
-          <i
-            className="fa-solid fa-right-from-bracket mx-4 navbar-icon"
-            onClick={logout}
-          ></i>
+          <Navbar.Toggle aria-controls="navbar" />
+          <Navbar.Collapse id="navbar">
+            <Nav className="me-auto">
+              <Nav.Link as={Link} to="/conference" className="text-link">
+                Konferencija
+              </Nav.Link>
+              <Nav.Link as={Link} to="/posters" className="text-link">
+                Posteri
+              </Nav.Link>
+              <Nav.Link as={Link} to="/photos" className="text-link">
+                Fotografije
+              </Nav.Link>
+            </Nav>
+            <Nav className="justify-content-end">{itemContent}</Nav>
+          </Navbar.Collapse>
         </Container>
       </Navbar>
     </>

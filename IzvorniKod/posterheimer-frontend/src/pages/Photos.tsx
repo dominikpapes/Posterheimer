@@ -11,11 +11,20 @@ import img6 from "../assets/photos/img6.jpg";
 import img7 from "../assets/photos/img7.jpg";
 import img8 from "../assets/photos/img8.jpg";
 import { useEffect, useState } from "react";
+import { Form, Modal } from "react-bootstrap";
 
 const VISITOR = import.meta.env.VITE_VISITOR;
 const REGISTERED = import.meta.env.VITE_REGISTERED;
 const ADMIN = import.meta.env.VITE_ADMIN;
 const SUPERUSER = import.meta.env.VITE_SUPERUSER;
+
+interface NewPhoto {
+  filepath: string;
+}
+
+const empty_photo: NewPhoto = {
+  filepath: "",
+};
 
 const images = [
   {
@@ -48,8 +57,10 @@ const images = [
 
 function Photos() {
   const [modal, setModal] = useState(false);
+  const [showFormModal, setShowFormModal] = useState(false);
   const [tempImgSrc, setTempImgSrc] = useState("");
   const [tempIdx, setTempIdx] = useState(-1);
+  const [newPhoto, setNewPhoto] = useState<NewPhoto>(empty_photo);
 
   const userRole = localStorage.getItem("userRole");
   const showEdits = userRole === ADMIN || userRole === SUPERUSER;
@@ -77,6 +88,16 @@ function Photos() {
   function postPhoto() {}
   function deletePhoto() {}
 
+  function handleChange(e: any) {
+    const { name, value } = e.target;
+    setNewPhoto({
+      ...newPhoto,
+      [name]: value,
+    });
+  }
+
+  function handleSubmit() {}
+
   useEffect(() => {
     // getPhotos()
   }, []);
@@ -86,12 +107,18 @@ function Photos() {
       <ConferenceNavbar />
       <div className="gallery">
         <div className="image-container">
+          {showEdits && (
+            <>
+              <img src={addImage} onClick={() => setShowFormModal(true)} />
+            </>
+          )}
           {images.map((item, index) => (
-            <img src={item.img} onClick={() => getImg(item.img, index)} />
+            <img
+              key={item.id}
+              src={item.img}
+              onClick={() => getImg(item.img, index)}
+            />
           ))}
-        </div>
-        <div className="add-photo">
-          <img src={addImage} />
         </div>
       </div>
 
@@ -120,6 +147,10 @@ function Photos() {
           className="fa-solid fa-chevron-right fa-3x right"
           onClick={() => nextImage()}
         ></i>
+        <i
+          className="fa-solid fa-trash-can fa-3x delete-photo"
+          onClick={() => deletePhoto()}
+        ></i>
       </div>
 
       <a
@@ -128,6 +159,31 @@ function Photos() {
       >
         Add image icons created by nawicon - Flaticon
       </a>
+
+      <Modal
+        show={showFormModal}
+        onHide={() => {
+          setShowFormModal(false);
+          setNewPhoto(empty_photo);
+        }}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Dodaj fotografiju</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="my-3">
+              <Form.Label>Fotografija</Form.Label>
+              <Form.Control
+                type="file"
+                name="filepath"
+                value={newPhoto.filepath}
+                onChange={handleChange}
+              ></Form.Control>
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+      </Modal>
     </>
   );
 }

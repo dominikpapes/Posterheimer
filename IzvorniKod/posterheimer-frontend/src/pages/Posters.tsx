@@ -89,30 +89,27 @@ function Posters() {
       <ConferenceNavbar />
       <div className="poster-grid app-content">
         {mock_posters.map((poster, index) => (
-          <>
-            <div className="poster-grid-element">
-              <div
-                key={poster.imePoster}
-                className="poster-container"
-                onClick={() => {
-                  setChosenPoster(poster);
-                  console.log("Chosen poster: ", chosenPoster);
-                  setShowPoster(true);
-                }}
-              >
-                <i className="fa-solid fa-file-pdf fa-5x"></i>
-                <div className="h6 my-2">
-                  {poster.imePoster} <br />
-                  {poster.imeAutor}
-                </div>
+          <div className="poster-grid-element" key={poster.imePoster}>
+            <div
+              className="poster-container"
+              onClick={() => {
+                setChosenPoster(poster);
+                console.log("Chosen poster: ", chosenPoster);
+                setShowPoster(true);
+              }}
+            >
+              <i className="fa-solid fa-file-pdf fa-5x"></i>
+              <div className="h6 my-2">
+                {poster.imePoster} <br />
+                {poster.imeAutor}
               </div>
-              {showEdits && (
-                <Button variant="danger" className="delete-poster">
-                  Obriši
-                </Button>
-              )}
             </div>
-          </>
+            {showEdits && (
+              <Button variant="danger" className="delete-poster">
+                Obriši
+              </Button>
+            )}
+          </div>
         ))}
         {showEdits && (
           <div

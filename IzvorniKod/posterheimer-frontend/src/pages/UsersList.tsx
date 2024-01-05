@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Titlebar from "../components/Titlebar";
+import ConferenceNavbar from "../components/ConferenceNavbar";
 
 export default function UsersList() {
   const [mock_users, setMockUsers] = useState([
@@ -21,7 +21,7 @@ export default function UsersList() {
 
   return (
     <>
-      <Titlebar />
+      <ConferenceNavbar />
       <div className="container text-center">
         <h1>Korisnici</h1>
         <ul className="list-group">

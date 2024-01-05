@@ -80,6 +80,16 @@ function Home() {
         }}
       ></i>
 
+      {showEdits && (
+        <i
+          className="fa-solid fa-right-from-bracket fa-2x superuser-logout"
+          onClick={() => {
+            localStorage.clear();
+            setShowEdits(false);
+          }}
+        ></i>
+      )}
+
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Prijava natkorisnika</Modal.Title>

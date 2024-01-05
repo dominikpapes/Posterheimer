@@ -44,6 +44,13 @@
   cursor: pointer;
   position: absolute;
   bottom: 0.5rem;
+  left: 0.5rem;
+}
+
+.superuser-logout {
+  cursor: pointer;
+  position: absolute;
+  bottom: 0.5rem;
   right: 0.5rem;
 }
 
@@ -158,6 +165,7 @@
 
 .gallery .image-container {
   columns: 3 250px;
+  position: relative;
 }
 
 .gallery .image-container img {
@@ -188,6 +196,12 @@
 .add-photo img {
   max-width: inherit;
   height: inherit;
+}
+
+.delete-photo {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
 }
 
 .model {
