@@ -50,7 +50,7 @@ Dijelovi MVC obrazca su:
 		
 		\subsection{Opis tablica}
 	
-	\noindent\textbf{Konferencija } Ovaj entitet sadržava sve važne informacije o stručnoj konferenciji. Sadrži atribute: Identifikator konferencije, ime konferencije, datum i vrijeme početka konferencije, datum i vrijeme završetka konferencije, mjesto održavanja konferencije, generičko korisničko ime i lozinku koja se koristi za pristup konferenciji. Ovaj entitet u vezi je \textit{One-to-Many} s entitetom Korisnik preko identifikatora konferencije, u vezi \textit{One-to-Many} s entitetom Poster preko identifikatora konferencije, u vezi \textit{One-to-Many} s entitetom Fotografija preko identifikatora konferencije i u vezi \textit{Many-to-Many} s entitetom Pokrovitelj preko identifikatora konferencije. 
+	\noindent\textbf{Konferencija } Ovaj entitet sadržava sve važne informacije o stručnoj konferenciji. Sadrži atribute: Identifikator konferencije, ime konferencije, datum i vrijeme početka konferencije, datum i vrijeme završetka konferencije, mjesto održavanja konferencije, adresu održavanja konferencije, poštanski broj mjesta, generičko korisničko ime i lozinku koja se koristi za pristup konferenciji, poveznicu na video prijenos konferencije i oznaku o trajanju glasovanja. Ovaj entitet u vezi je \textit{One-to-Many} s entitetom Korisnik preko identifikatora konferencije, u vezi \textit{One-to-Many} s entitetom Poster preko identifikatora konferencije, u vezi \textit{One-to-Many} s entitetom Fotografija preko identifikatora konferencije i u vezi \textit{Many-to-Many} s entitetom Pokrovitelj preko identifikatora konferencije. 
 	
 	\begin{longtblr}[
 		label=none,
@@ -66,13 +66,17 @@ Dijelovi MVC obrazca su:
 		datum\_vrijeme \_pocetka & TIMESTAMP & datum i vrijeme početka konferencije  \\ \hline
 		datum\_vrijeme \_završetka & TIMESTAMP & datum i vrijeme završetka konferencije \\ \hline
 		mjesto	& VARCHAR & ime mjesta u kojem se održava konferencija \\ \hline 
+		adresa & VARCHAR & adresa održavanja konferencije \\ \hline
+		zip\_code & VARCHAR & poštanski broj mjesta održavanja konferencije \\ \hline
 		generic\_ username	& VARCHAR & generičko korisničko ime koje koriste svi posjetitelji konferencije prije izrade vlastitog korisničkog računa  \\ \hline 
 		generic\_ password & VARCHAR & hash lozinka generičkog korisničkog računa \\ \hline
+		video\_url & VARCHAR & poveznica na video prijenos konferencije \\ \hline
+		voting\_ reminder\_sent & BOOLEAN & oznaka pomoću koje aplikacija provjerava traje li glasanje za zadanu konferenciju \\ \hline
 	\end{longtblr}
 	
 	\clearpage
 	
-	\noindent\textbf{Korisnik } Ovaj entitet sadržava sve važne informacije o korisniku aplikacije. Sadrži atribute: E-mail adresu korisnika, lozinku, ime, prezime, oznaku ima li korisnik ovlasti administratora, oznaku radi li se o generičkom računu, identifikator konferencije na kojoj korisnik sudjeluje i identifikator postera za koji je korisnik glasao.  Ovaj entitet je u vezi \textit{Many-to-One} s entitetom Konferencija preko identifikatora konferencije i u vezi \textit{Many-to-One} s entitetom Poster preko identifikatora postera. 
+	\noindent\textbf{Korisnik } Ovaj entitet sadržava sve važne informacije o korisniku aplikacije. Sadrži atribute: E-mail adresu korisnika, lozinku, ime, prezime, oznaku ima li korisnik ovlasti administratora, oznaku radi li se o generičkom računu, oznaku je li korisnik glasao, identifikator konferencije na kojoj korisnik sudjeluje i identifikator postera za koji je korisnik glasao.  Ovaj entitet je u vezi \textit{Many-to-One} s entitetom Konferencija preko identifikatora konferencije i u vezi \textit{Many-to-One} s entitetom Poster preko identifikatora postera. 
 	
 	\begin{longtblr}[
 		label=none,
@@ -89,6 +93,7 @@ Dijelovi MVC obrazca su:
 		prezime & VARCHAR	& prezime korisnika 		\\ \hline 
 		admin & BOOLEAN &  oznaka ima li ovlasti administratora		\\ \hline 
 		visitor & BOOLEAN &  oznaka radi li se o generičkom računu (TRUE), kada posjetitelj napravi vlastiti korisnički račun vrijednost varijable postaje FALSE	\\ \hline 
+		voted & BOOLEAN & oznaka je li korisnik glasao
 		\SetCell{LightBlue} id\_konferencija	& INT & jedinstveni identifikator konferencije na kojoj korisnik sudjeluje (konferencija.id\_konferencija)  	\\ \hline 
 		\SetCell{LightBlue} glasao\_za & VARCHAR & jedinstveni identifikator postera za koji je korisnik glasao (poster.imePoster), ukoliko korisnik nije glasao vrijednost atributa je NULL \\ \hline
 	\end{longtblr}
