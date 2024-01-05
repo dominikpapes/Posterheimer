@@ -1,10 +1,7 @@
 package com.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 
 @Entity
 public class Poster {
@@ -13,7 +10,8 @@ public class Poster {
 
     private String imeAutor;
     private String prezimeAutor;
-    private String filePath;
+    @Lob
+    private byte[] filePath;
     private String posterEmail;
     private Integer brGlasova;
 
@@ -23,7 +21,7 @@ public class Poster {
     private Konferencija konferencija;
     public Poster(){
     }
-    public Poster(String imePoster,String imeAutor,String prezimeAutor,String filePath,String mail, Integer brGlasova){
+    public Poster(String imePoster,String imeAutor,String prezimeAutor,byte[] filePath,String mail, Integer brGlasova){
         this.filePath=filePath;
         this.imePoster=imePoster;
         this.imeAutor=imeAutor;
@@ -38,7 +36,7 @@ public class Poster {
         return konferencija;
     }
 
-    public String getFilePath() {
+    public byte[] getFilePath() {
         return filePath;
     }
 
@@ -58,7 +56,7 @@ public class Poster {
         return prezimeAutor;
     }
 
-    public void setFilePath(String filePath) {
+    public void setFilePath(byte[] filePath) {
         this.filePath = filePath;
     }
 
@@ -87,5 +85,17 @@ public class Poster {
     }
     public void setBrGlasova(Integer brGlasova) {
         this.brGlasova = brGlasova;
+    }
+
+    @Override
+    public String toString() {
+        return "Poster{" +
+                "imePoster='" + imePoster + '\'' +
+                ", imeAutor='" + imeAutor + '\'' +
+                ", prezimeAutor='" + prezimeAutor + '\'' +
+                ", posterEmail='" + posterEmail + '\'' +
+                ", brGlasova=" + brGlasova +
+                ", konferencija=" + konferencija +
+                '}';
     }
 }

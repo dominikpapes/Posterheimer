@@ -75,7 +75,7 @@ public class PokroviteljServiceJpa implements PokroviteljService {
     private void validate(Pokrovitelj pokrovitelj) {
         Assert.hasText(pokrovitelj.getImePokrovitelja(),
                 "Pokrovitelj name must be given!");
-        Assert.hasText(pokrovitelj.getPromotivniMaterijal(),
+        Assert.isTrue(pokrovitelj.getPromotivniMaterijal() != null,
                 "Promotivni materijal must be given!");
     }
 

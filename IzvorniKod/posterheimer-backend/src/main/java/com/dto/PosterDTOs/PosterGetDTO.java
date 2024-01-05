@@ -4,16 +4,16 @@ public class PosterGetDTO {
     private String imePoster;
     private String imeAutor;
     private String prezimeAutor;
-    private String filePath;//to be blob i dodaj br glasova
+    private byte[] filePath;//to be blob i dodaj br glasova
     public PosterGetDTO(){}
-    public PosterGetDTO(String imePoster,String imeAutor,String prezimeAutor,String filePath){
+    public PosterGetDTO(String imePoster,String imeAutor,String prezimeAutor,byte[] filePath){
         this.filePath=filePath;
         this.imePoster=imePoster;
         this.imeAutor=imeAutor;
         this.prezimeAutor=prezimeAutor;
     }
 
-    public String getFilePath() {
+    public byte[] getFilePath() {
         return filePath;
     }
 
@@ -29,7 +29,7 @@ public class PosterGetDTO {
         return prezimeAutor;
     }
 
-    public void setFilePath(String filePath) {
+    public void setFilePath(byte[] filePath) {
         this.filePath = filePath;
     }
 

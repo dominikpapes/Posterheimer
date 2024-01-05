@@ -11,7 +11,7 @@ public class PosterPostMapper {
         poster.setBrGlasova(0);
         poster.setImePoster(dto.getImePoster());
         poster.setPosterEmail(dto.getPosterEmail());
-        poster.setFilePath(dto.getFilePath());
+        poster.setFilePath(dto.decodeBase64String(dto.getFilePath()));
         poster.setImeAutor(dto.getImeAutor());
         poster.setPrezimeAutor(dto.getPrezimeAutor());
         return poster;
