@@ -61,15 +61,9 @@ public class PokroviteljController {
         else
             return ResponseEntity.notFound().build();
     }
-
-    /*
+    
     @DeleteMapping("/ime/{imePokrovitelja}")
     //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
-    public Pokrovitelj deletePokrovitelj(@PathVariable("imePokrovitelja") String imePokrovitelja){
-        return pokroviteljService.deletePokrovitelj(imePokrovitelja);
-    }
-     */
-    @DeleteMapping("/ime/{imePokrovitelja}")
     public ResponseEntity<Object> deletePokrovitelj(@PathVariable("imePokrovitelja") String imePokrovitelja){
         Optional<Pokrovitelj> existingPokrovitelj = pokroviteljService.findByImePokrovitelj(imePokrovitelja);
         if (existingPokrovitelj.isPresent()) {
