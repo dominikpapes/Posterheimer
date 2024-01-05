@@ -100,7 +100,7 @@ Dijelovi MVC obrazca su:
 	
 	\clearpage
 	
-	\noindent \textbf{Poster } Ovaj entitet sadržava sve važne informacije o radu i/ili izlaganju koje je prikazano odgovarajućim posterom ili prezentacijom. Sadrži atribute: Ime postera, put do datoteke postera, ime i prezime autora, e-mail adresu kojom je autor poslao poster i identifikator konferencije na kojoj se rad izlaže. Ovaj entitet je u vezi \textit{Many-to-One} s entitetom Konferencija preko identifikatora konferencije i u vezi \textit{One-to-Many} s entitetom Korisnik preko identifikatora postera. 
+	\noindent \textbf{Poster } Ovaj entitet sadržava sve važne informacije o radu i/ili izlaganju koje je prikazano odgovarajućim posterom ili prezentacijom. Sadrži atribute: Ime postera, datoteku postera, broj glasova za poster, ime i prezime autora, e-mail adresu kojom je autor poslao poster i identifikator konferencije na kojoj se rad izlaže. Ovaj entitet je u vezi \textit{Many-to-One} s entitetom Konferencija preko identifikatora konferencije i u vezi \textit{One-to-Many} s entitetom Korisnik preko identifikatora postera. 
 	
 	
 	\begin{longtblr}[
@@ -113,7 +113,8 @@ Dijelovi MVC obrazca su:
 		} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 		\hline \SetCell[c=3]{c}{\textbf{Poster}}	 \\ \hline[3pt]
 		\SetCell{LightGreen}ime\_poster & VARCHAR	&  ime postera služi kao jedinstveni identifikator	\\ \hline
-		file\_path & VARCHAR & put do PDF datoteke postera ili prezentacije  \\ \hline 
+		file\_path & LONGBLOB & PDF datoteka postera ili prezentacije  \\ \hline 
+		br\_glasova & INT & broj glasova za određeni poster \\ \hline 
 		ime\_autor & VARCHAR & ime autora \\ \hline
 		prezime\_autor & VARCHAR & prezime autora \\ \hline
 		poster\_email & VARCHAR & e-mail adresa autora \\ \hline
@@ -122,7 +123,7 @@ Dijelovi MVC obrazca su:
 	
 	\clearpage
 	
-	\noindent \textbf{Pokrovitelj } Ovaj entitet sadržava sve važne informacije o pokrovitelju. Sadrži atribute: Ime pokrovitelja i promotivne materijale. Ovaj entitet je u vezi \textit{Many-to-Many} s entitetom Konferencija.
+	\noindent \textbf{Pokrovitelj } Ovaj entitet sadržava sve važne informacije o pokrovitelju. Sadrži atribute: Ime pokrovitelja, promotivne materijale i poveznicu na stranicu pokrovitelja. Ovaj entitet je u vezi \textit{Many-to-Many} s entitetom Konferencija.
 	
 	
 	\begin{longtblr}[
@@ -135,7 +136,8 @@ Dijelovi MVC obrazca su:
 		} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 		\hline \SetCell[c=3]{c}{\textbf{Pokrovitelj}}	 \\ \hline[3pt]
 		\SetCell{LightGreen}ime\_ pokrovitelja & VARCHAR & jedinstveni identifikator pokrovitelja  	\\ \hline
-		promotivni\_ materijal & VARCHAR & put do datoteke, promotivni materijal je logotip pokrovitelja   \\ \hline 
+		promotivni\_ materijal & LONGBLOB & datoteka, promotivni materijal je logotip pokrovitelja   \\ \hline 
+		url\_promo & VARCHAR & poveznica na stranicu pokrovitelja \\ \hline 
 	\end{longtblr}
 	
 	\noindent \textbf{Pokrovitelj-Konferencije } Ovaj entitet sadržava sve informacije o odnosu konferencije i pokrovitelja odnosno kojoj konferenciji pokrovitelj pripada.
@@ -169,8 +171,8 @@ Dijelovi MVC obrazca su:
 			rowhead = 1,
 		} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 		\hline \SetCell[c=3]{c}{\textbf{Fotografije}}	 \\ \hline[3pt]
-		\SetCell{LightGreen}id & INT & jedinstveni brojčani identifikator fotografije   	\\ \hline
-		file\_path	& VARCHAR &  put do fotografije	\\ \hline 
+		\SetCell{LightGreen}id\_fotografija & INT & jedinstveni brojčani identifikator fotografije   	\\ \hline
+		file\_path	& LONGBLOB &  fotografije	\\ \hline 
 		\SetCell{LightBlue} id\_konferencija	& INT & jedinstveni brojčani identifikator konferencije (konferencija.id\_konferencija)  	\\ \hline 
 	\end{longtblr}
 	
