@@ -8,6 +8,7 @@ import Photos from "./pages/Photos";
 import Patrons from "./components/Patrons";
 import NewConference from "./pages/NewConference";
 import UsersList from "./pages/UsersList";
+import Sponsors from "./pages/Sponsors";
 
 const AppRouter = () => {
   return (
@@ -21,6 +22,7 @@ const AppRouter = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/newConference" element={<NewConference />} />
         <Route path="/users" element={<UsersList />} />
+        <Route path="/sponsors" element={<Sponsors />} />
       </Routes>
     </Router>
   );
