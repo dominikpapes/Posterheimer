@@ -3,6 +3,7 @@ package com.rest.Security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -17,8 +18,10 @@ public class JwtUtil {
                 .withSubject(authentication.getName())
                 .withExpiresAt(new Date(System.currentTimeMillis() + expirationTime))
                 .withClaim("roles", authentication.getAuthorities().stream()
-                        .map(grantedAuthority -> grantedAuthority.getAuthority())
+                        .map(GrantedAuthority::getAuthority)
                         .collect(Collectors.toList()))
                 .sign(Algorithm.HMAC512(secret.getBytes()));
     }
+
+
 }

@@ -37,6 +37,7 @@ public class PosterController {
                         .equals(idKonferencija)).map(PosterGetMapper::toDTO).toList();
     }
     @PostMapping("")
+    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
     public ResponseEntity<Poster> createPoster(@RequestBody PosterPostDTO posterDTO) {
         Optional<Poster> existingPoster = posterService.findByImePoster(posterDTO.getImePoster());
         Optional<Konferencija> existingKonf = konferencijeService.findById(posterDTO.getIdKonferencija());
