@@ -3,23 +3,14 @@ package com.dto.FotografijaDTOs;
 import java.util.Base64;
 
 public class FotografijaPostDTO {
-    private Integer idFotografija;
     private String filePath;
     private Integer idKonferencija;
 
     public FotografijaPostDTO() {
     }
-    public FotografijaPostDTO(Integer idFotografija, String filePath, Integer idKonferencija) {
-        this.idFotografija = idFotografija;
+    public FotografijaPostDTO(String filePath, Integer idKonferencija) {
         this.filePath = filePath;
         this.idKonferencija = idKonferencija;
-    }
-
-    public Integer getIdFotografija() {
-        return idFotografija;
-    }
-    public void setIdFotografija(Integer idFotografija) {
-        this.idFotografija = idFotografija;
     }
 
     public String getFilePath() {

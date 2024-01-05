@@ -41,17 +41,10 @@ public class FotografijaController {
     @PostMapping("")
     //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN")
     public ResponseEntity<Fotografija> createFotografija(@RequestBody FotografijaPostDTO fotografijaDTO) {
-        Optional<Fotografija> existingFotografija = fotografijaService.findByIdFotografija(fotografijaDTO.getIdFotografija());
         Optional<Konferencija> existingKonferencija = konferencijeService.findById(fotografijaDTO.getIdKonferencija());
-        if(existingFotografija.isPresent()){
-            if (existingFotografija.get().getKonferencija().getIdKonferencija().equals(fotografijaDTO.getIdKonferencija())) {
-                throw new RequestDeniedException("Fotografija with id: " + fotografijaDTO.getIdFotografija() + " already exists!");
-            }
-        }
         if(existingKonferencija.isPresent()){
             Fotografija fotografija = new Fotografija();
             fotografija.setKonferencija(existingKonferencija.get());
-            fotografija.setIdFotografija(fotografijaDTO.getIdFotografija());
             fotografija.setFilePath(fotografijaDTO.decodeBase64String(fotografijaDTO.getFilePath()));
             Fotografija saved = fotografijaService.createFotografija(fotografija);
             existingKonferencija.get().setFotografije(saved);
