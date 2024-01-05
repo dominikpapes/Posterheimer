@@ -2,10 +2,24 @@ import React, { useState, useContext } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-import { SelectedConferenceContext } from "./ListGroup";
+const VISITOR = import.meta.env.VITE_VISITOR;
+const REGISTERED = import.meta.env.VITE_REGISTERED;
+const ADMIN = import.meta.env.VITE_ADMIN;
+const SUPERUSER = import.meta.env.VITE_SUPERUSER;
 
-function LoginModal() {
-  const conference = useContext(SelectedConferenceContext);
+interface Props {
+  conferenceId: number;
+  conferenceName: string;
+  showModal: boolean;
+  handleClose: () => void;
+}
+
+function LoginModal({
+  conferenceId,
+  conferenceName,
+  showModal,
+  handleClose,
+}: Props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -14,35 +28,39 @@ function LoginModal() {
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     // Perform login logic
     event.preventDefault();
+    localStorage.setItem("conferenceId", conferenceId.toString());
+    localStorage.setItem("userRole", VISITOR);
 
-    const credentials = btoa(`${username}:${password}`);
-    console.log(credentials);
-    let key = "credentials";
+    // const credentials = btoa(`${username}:${password}`);
+    // console.log(credentials);
+    // let key = "credentials";
 
-    localStorage.setItem(key, credentials);
+    // localStorage.setItem(key, credentials);
 
-    const response = await fetch(
-      `/api/konferencije/${conference?.idKonferencija}`,
-      {
-        headers: {
-          Authorization: `Basic ${credentials}`,
-        },
-      }
-    );
+    // const response = await fetch(
+    //   `/api/konferencije/${conference?.idKonferencija}`,
+    //   {
+    //     headers: {
+    //       Authorization: `Basic ${credentials}`,
+    //     },
+    //   }
+    // );
 
-    if (response.ok) {
-      const data = await response.json();
-      navigate("/conference", { state: data.idKonferencija });
-    } else {
-      console.error("Authentication failed");
-    }
+    // if (response.ok) {
+    //   const data = await response.json();
+    //   navigate("/conference", { state: data.idKonferencija });
+    // } else {
+    //   console.error("Authentication failed");
+    // }
     // Close the modal after logging in
+
+    navigate("/conference");
   };
 
   return (
     <>
       <Modal.Header closeButton>
-        <Modal.Title>Login - {conference?.imeKonferencija}</Modal.Title>
+        <Modal.Title>Login - {conferenceName}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleLogin}>

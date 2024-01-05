@@ -1,9 +1,11 @@
 package com.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -23,12 +25,23 @@ public class Konferencija {
     private String genericUsername;
     @Column(name="generic_password")
     private String genericPassword;
+    private boolean votingReminderSent;
 
-    @OneToMany(mappedBy = "konferencija")
+    //Ovdje pisemo relacije između klasa
+    @OneToMany(mappedBy = "konferencija", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private Set<Korisnik> users;
-    @OneToMany(mappedBy = "konferencija")
+    @OneToMany(mappedBy = "konferencija", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private Set<Poster> posters;
+    @ManyToMany(mappedBy = "konferencije")
+    @JsonIgnore
+    private List<Pokrovitelj> pokrovitelji;
+    @OneToMany(mappedBy = "konferencija", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private Set<Fotografija> fotografije;
 
+    //konstruktori
     public Konferencija() {
     }
 
@@ -44,6 +57,7 @@ public class Konferencija {
         this.datumVrijemeZavrsetka=datumVrijemeZavrsetka;
         this.genericPassword=genericPassword;
         this.genericUsername=genericUsername;
+        this.votingReminderSent=false;
     }
 
     public void setDatumVrijemePocetka(LocalDateTime datumVrijemePocetka) {
@@ -106,6 +120,11 @@ public class Konferencija {
         return users;
     }
 
+    public Set<Poster> getPosters() { return posters; }
+    public List<Pokrovitelj> getPokrovitelji() { return pokrovitelji; }
+
+    public Set<Fotografija> getFotografije() { return fotografije; }
+
     public void setUser(Korisnik user) {
         this.users.add(user);
     }
@@ -114,8 +133,18 @@ public class Konferencija {
         this.posters.add(poster);
     }
 
-    public Set<Poster> getPosters() {
-        return posters;
+    public void setPokrovitelj(Pokrovitelj pokrovitelj) { this.pokrovitelji.add(pokrovitelj); }
+
+    public void setFotografije(Fotografija fotografija) {
+        this.fotografije.add(fotografija);
+    }
+
+    public void setVotingReminderSent(boolean votingReminderSent) {
+        this.votingReminderSent = votingReminderSent;
+    }
+
+    public boolean isVotingReminderSent() {
+        return votingReminderSent;
     }
 
     @Override

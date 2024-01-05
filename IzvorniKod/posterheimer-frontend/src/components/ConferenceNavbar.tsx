@@ -1,54 +1,80 @@
-import { Navbar, Nav, Container, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Navbar, Nav, Container, Button, Modal } from "react-bootstrap";
+import { useNavigate, Link, NavLink, useLocation } from "react-router-dom";
+import LoginModal from "./LoginModal";
+import { useState } from "react";
 
-interface Props {
-  conference: any; // konferencija
-  handleClickHome: () => void;
-  handleClickConference: () => void;
-  handleClickPosters: () => void;
-  handleClickPhotos: () => void;
-  handleClickPatrons: () => void;
-}
+const VISITOR = import.meta.env.VITE_VISITOR;
+const REGISTERED = import.meta.env.VITE_REGISTERED;
+const ADMIN = import.meta.env.VITE_ADMIN;
+const SUPERUSER = import.meta.env.VITE_SUPERUSER;
 
-function ConferenceNavbar({
-  conference,
-  handleClickHome,
-  handleClickConference,
-  handleClickPhotos,
-  handleClickPosters,
-  handleClickPatrons,
-}: Props) {
+function ConferenceNavbar() {
+  const conference = localStorage.getItem("conference");
+  const [showModal, setShowModal] = useState(false);
+
   const navigate = useNavigate();
-  const handleRegister = () => {
-    navigate("/register", {
-      state: {
-        idKonferencija: conference.idKonferencija,
-        imeKonferencija: conference.imeKonferencija,
-        mjesto: conference.mjesto,
-        datumVrijemePocetka: conference.datumVrijemePocetka,
-        datumVrijemeZavrsetka: conference.datumVrijemeZavrsetka,
-        // Add other properties as needed
-      },
-    });
-  };
+
+  let userRole = localStorage.getItem("userRole");
+  let itemContent;
+
+  function logout() {
+    localStorage.clear();
+    navigate("/");
+  }
+
+  if (userRole === VISITOR) {
+    itemContent = (
+      <>
+        <Button>
+          <Link to="/register" className="text-link">
+            Registracija
+          </Link>
+        </Button>
+      </>
+    );
+  } else {
+    itemContent = (
+      <>
+        <span className="text-light">
+          <i className="fa-solid fa-circle-user mx-2" />
+          <span>{userRole}</span>
+        </span>
+      </>
+    );
+  }
   return (
     <>
-      <Navbar bg="dark" data-bs-theme="dark">
+      <Navbar className="bg-body-tertiary" bg="dark" data-bs-theme="dark">
         <Container>
-          <Navbar.Brand onClick={handleClickHome}>Posterheimer</Navbar.Brand>
+          <Navbar.Brand>
+            <img
+              alt=""
+              src="../../public/logo.png"
+              width="30"
+              height="30"
+              className="d-inline-block align-top"
+            />{" "}
+            Posterheimer
+          </Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link onClick={handleClickConference}>
-              {conference.imeKonferencija}
+            <Nav.Link as={Link} to="/conference" className="text-link">
+              Konferencija
             </Nav.Link>
-            <Nav.Link onClick={handleClickPosters}>Posteri</Nav.Link>
-            <Nav.Link onClick={handleClickPhotos}>Fotografije</Nav.Link>
-            <Nav.Link onClick={handleClickPatrons}>Pokrovitelji</Nav.Link>
-            <Button onClick={handleRegister}>Registriraj se</Button>
+            <Nav.Link as={Link} to="/posters" className="text-link">
+              Posteri
+            </Nav.Link>
+            <Nav.Link as={Link} to="/photos" className="text-link">
+              Fotografije
+            </Nav.Link>
           </Nav>
+          {itemContent}
+          <i
+            className="fa-solid fa-right-from-bracket mx-4 navbar-icon"
+            onClick={logout}
+          ></i>
         </Container>
       </Navbar>
     </>
   );
 }
-
 export default ConferenceNavbar;

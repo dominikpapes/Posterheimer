@@ -37,6 +37,7 @@ public class WebSecurityBasic {
         http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
         http.csrf(AbstractHttpConfigurer::disable);
+        http.headers((headers) -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
         return http.build();
     }
 
@@ -45,6 +46,7 @@ public class WebSecurityBasic {
     public SecurityFilterChain spaFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/konferencije")).permitAll()
                 .anyRequest().authenticated());
         http.formLogin(configurer -> {
                     configurer.successHandler((request, response, authentication) ->
