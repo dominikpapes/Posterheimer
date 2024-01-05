@@ -52,7 +52,8 @@ public class PokroviteljController {
             Pokrovitelj pokrovitelj = new Pokrovitelj();
             pokrovitelj.setKonferencije(existingKonferencija.get());
             pokrovitelj.setImePokrovitelja(pokroviteljDTO.getImePokrovitelja());
-            pokrovitelj.setPromotivniMaterijal(pokroviteljDTO.getPromotivniMaterijal());
+            pokrovitelj.setPromotivniMaterijal(pokroviteljDTO.decodeBase64String(pokroviteljDTO.getPromotivniMaterijal()));
+            pokrovitelj.setUrlPromo(pokroviteljDTO.getUrlPromo());
             Pokrovitelj saved = pokroviteljService.createPokrovitelj(pokrovitelj);
             existingKonferencija.get().setPokrovitelj(saved);
             return ResponseEntity.created(URI.create("/pokrovitelji/" + saved.getImePokrovitelja())).body(saved);
@@ -61,10 +62,23 @@ public class PokroviteljController {
             return ResponseEntity.notFound().build();
     }
 
+    /*
     @DeleteMapping("/ime/{imePokrovitelja}")
     //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
     public Pokrovitelj deletePokrovitelj(@PathVariable("imePokrovitelja") String imePokrovitelja){
         return pokroviteljService.deletePokrovitelj(imePokrovitelja);
+    }
+     */
+    @DeleteMapping("/ime/{imePokrovitelja}")
+    public ResponseEntity<Object> deletePokrovitelj(@PathVariable("imePokrovitelja") String imePokrovitelja){
+        Optional<Pokrovitelj> existingPokrovitelj = pokroviteljService.findByImePokrovitelj(imePokrovitelja);
+        if (existingPokrovitelj.isPresent()) {
+            pokroviteljService.deletePokrovitelj(imePokrovitelja);
+            return ResponseEntity.ok().build();
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/idKonferencija/{idKonferencija}")

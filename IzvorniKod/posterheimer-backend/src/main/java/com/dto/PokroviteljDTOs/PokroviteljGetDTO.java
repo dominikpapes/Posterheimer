@@ -2,13 +2,15 @@ package com.dto.PokroviteljDTOs;
 
 public class PokroviteljGetDTO {
     private String imePokrovitelja;
-    private String promotivniMaterijal;
+    private byte[] promotivniMaterijal;
+    private String urlPromo;
 
     public PokroviteljGetDTO() {}
 
-    public PokroviteljGetDTO(String imePokrovitelja, String promotivniMaterijal) {
+    public PokroviteljGetDTO(String imePokrovitelja, byte[] promotivniMaterijal, String urlPromo) {
         this.imePokrovitelja = imePokrovitelja;
         this.promotivniMaterijal = promotivniMaterijal;
+        this.urlPromo = urlPromo;
     }
 
     public String getImePokrovitelja() {
@@ -19,11 +21,15 @@ public class PokroviteljGetDTO {
         this.imePokrovitelja = imePokrovitelja;
     }
 
-    public String getPromotivniMaterijal() {
+    public byte[] getPromotivniMaterijal() {
         return promotivniMaterijal;
     }
 
-    public void setPromotivniMaterijal(String promotivniMaterijal) {
+    public void setPromotivniMaterijal(byte[] promotivniMaterijal) {
         this.promotivniMaterijal = promotivniMaterijal;
     }
+
+    public String getUrlPromo() { return urlPromo; }
+
+    public void setUrlPromo(String urlPromo) { this.urlPromo = urlPromo; }
 }

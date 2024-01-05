@@ -13,7 +13,9 @@ import java.util.Set;
 public class Pokrovitelj {
     @Id
     private String imePokrovitelja;
-    private String promotivniMaterijal;
+    @Lob
+    private byte[] promotivniMaterijal;
+    private String urlPromo;
 
     @ManyToMany
     @JoinColumn(name="id_konferencija")
@@ -24,16 +26,17 @@ public class Pokrovitelj {
 
     }
 
-    public Pokrovitelj(String imePokrovitelja, String promotivniMaterijal) {
+    public Pokrovitelj(String imePokrovitelja, byte[] promotivniMaterijal, String urlPromo) {
         this.imePokrovitelja = imePokrovitelja;
         this.promotivniMaterijal = promotivniMaterijal;
+        this.urlPromo = urlPromo;
     }
 
     public void setImePokrovitelja(String imePokrovitelja) {
         this.imePokrovitelja = imePokrovitelja;
     }
 
-    public void setPromotivniMaterijal(String promotivniMaterijal) {
+    public void setPromotivniMaterijal(byte[] promotivniMaterijal) {
         this.promotivniMaterijal = promotivniMaterijal;
     }
 
@@ -41,8 +44,16 @@ public class Pokrovitelj {
         return imePokrovitelja;
     }
 
-    public String getPromotivniMaterijal() {
+    public byte[] getPromotivniMaterijal() {
         return promotivniMaterijal;
+    }
+
+    public String getUrlPromo() {
+        return urlPromo;
+    }
+
+    public void setUrlPromo(String urlPromo) {
+        this.urlPromo = urlPromo;
     }
 
     public List<Konferencija> getKonferencije() {
@@ -57,7 +68,8 @@ public class Pokrovitelj {
     public String toString() {
         return "Pokrovitelj{" +
                 "imePokrovitelja='" + imePokrovitelja + '\'' +
-                ", promotivniMaterijal='" + promotivniMaterijal + '\'' +
+                ", urlPromo='" + urlPromo + '\'' +
+                ", konferencije=" + konferencije +
                 '}';
     }
 }

@@ -1,12 +1,15 @@
 package com.dto.FotografijaDTOs;
 
+import jakarta.persistence.Lob;
+
 public class FotografijaGetDTO {
     private Integer idFotografija;
-    private String filePath;
+    @Lob
+    private byte[] filePath;
 
     public FotografijaGetDTO() {
     }
-    public FotografijaGetDTO(Integer idFotografija, String filePath) {
+    public FotografijaGetDTO(Integer idFotografija, byte[] filePath) {
         this.idFotografija = idFotografija;
         this.filePath = filePath;
     }
@@ -18,10 +21,10 @@ public class FotografijaGetDTO {
         this.idFotografija = idFotografija;
     }
 
-    public String getFilePath() {
+    public byte[] getFilePath() {
         return filePath;
     }
-    public void setFilePath(String filePath) {
+    public void setFilePath(byte[] filePath) {
         this.filePath = filePath;
     }
 }

@@ -7,7 +7,8 @@ public class PokroviteljGetMapper {
     public static PokroviteljGetDTO toDTO(Pokrovitelj pokrovitelj) {
         return new PokroviteljGetDTO(
                 pokrovitelj.getImePokrovitelja(),
-                pokrovitelj.getPromotivniMaterijal());
+                pokrovitelj.getPromotivniMaterijal(),
+                pokrovitelj.getUrlPromo());
     }
 
 }

@@ -52,7 +52,7 @@ public class FotografijaController {
             Fotografija fotografija = new Fotografija();
             fotografija.setKonferencija(existingKonferencija.get());
             fotografija.setIdFotografija(fotografijaDTO.getIdFotografija());
-            fotografija.setFilePath(fotografijaDTO.getFilePath());
+            fotografija.setFilePath(fotografijaDTO.decodeBase64String(fotografijaDTO.getFilePath()));
             Fotografija saved = fotografijaService.createFotografija(fotografija);
             existingKonferencija.get().setFotografije(saved);
             return ResponseEntity.created(URI.create("/fotografije/" + saved.getIdFotografija())).body(saved);

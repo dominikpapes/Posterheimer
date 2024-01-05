@@ -1,5 +1,7 @@
 package com.dto.FotografijaDTOs;
 
+import java.util.Base64;
+
 public class FotografijaPostDTO {
     private Integer idFotografija;
     private String filePath;
@@ -33,4 +35,9 @@ public class FotografijaPostDTO {
     public void setIdKonferencija(Integer idKonferencija) {
         this.idKonferencija = idKonferencija;
     }
+
+    public byte[] decodeBase64String(String filePath) {
+        return Base64.getDecoder().decode(filePath);
+    }
+
 }

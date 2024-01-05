@@ -67,7 +67,7 @@ public class FotografijaServiceJpa implements FotografijaService {
 
     private void validate(Fotografija fotografija) {
         Assert.isTrue(fotografija.getIdFotografija() != null, "Id fotografije must be given");
-        Assert.hasText(fotografija.getFilePath(),
+        Assert.isTrue(fotografija.getFilePath() != null,
                 "File Path must be given!");
     }
 
