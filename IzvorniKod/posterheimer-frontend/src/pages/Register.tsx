@@ -110,7 +110,7 @@ const Register = () => {
   return (
     <>
       <ConferenceNavbar />
-      <div className="card p-4 mt-5 app-content">
+      <div className="card p-4 mt-5 mx-auto app-content">
         <h1>Registracija</h1>
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formIme">
@@ -126,51 +126,54 @@ const Register = () => {
             </FloatingLabel>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formPrezime">
-            <Form.Label>Prezime</Form.Label>
-            <Form.Control
-              type="text"
-              name="prezime"
-              placeholder="Unesite prezime"
-              value={formData.prezime}
-              onChange={handleChange}
-              required
-            />
+            <FloatingLabel controlId="formPrezime" label="Prezime">
+              <Form.Control
+                type="text"
+                name="prezime"
+                placeholder="Unesite prezime"
+                value={formData.prezime}
+                onChange={handleChange}
+                required
+              />
+            </FloatingLabel>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Email adresa</Form.Label>
-            <Form.Control
-              type="email"
-              name="email"
-              placeholder="Unesite email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
+            <FloatingLabel controlId="formBasicEmail" label="Email">
+              <Form.Control
+                type="email"
+                name="email"
+                placeholder="Unesite email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </FloatingLabel>
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Lozinka</Form.Label>
-            <Form.Control
-              type={showPassword ? "text" : "password"}
-              name="password"
-              placeholder="Unesite lozinku"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            ></Form.Control>
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Potvrdite lozinku</Form.Label>
-            <Form.Control
-              type={showPassword ? "text" : "password"}
-              name="password"
-              placeholder="Ponovite lozinku"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-            ></Form.Control>
-          </Form.Group>
+          <div className="mx-2">
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label>Lozinka</Form.Label>
+              <Form.Control
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Unesite lozinku"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              ></Form.Control>
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label>Potvrdite lozinku</Form.Label>
+              <Form.Control
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Ponovite lozinku"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+              ></Form.Control>
+            </Form.Group>
+          </div>
 
           <Form.Group controlId="formShowPassword">
             <Form.Check

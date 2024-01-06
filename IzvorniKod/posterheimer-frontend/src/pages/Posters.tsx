@@ -92,7 +92,7 @@ function Posters() {
       {showLoginPrompt ? (
         <PleaseLogin />
       ) : (
-        <div className="poster-grid app-content">
+        <div className="poster-grid mx-auto w-75">
           {mock_posters.map((poster, index) => (
             <div className="poster-grid-element" key={poster.imePoster}>
               <div

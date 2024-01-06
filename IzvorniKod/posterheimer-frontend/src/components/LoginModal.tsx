@@ -15,6 +15,35 @@ interface Props {
   conferenceName: string;
 }
 
+interface LoginData {
+  username: string;
+  password: string;
+}
+
+interface Credentials {
+  jwtToken: string;
+  role: string;
+  ime: string;
+  prezime: string;
+}
+
+async function login(dataToSend: LoginData) {
+  try {
+    const response = await fetch("/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dataToSend),
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 function LoginModal({ conferenceId, conferenceName }: Props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -25,7 +54,18 @@ function LoginModal({ conferenceId, conferenceName }: Props) {
     // Perform login logic
     event.preventDefault();
 
-    localStorage.setItem("userRole", VISITOR);
+    const data = {
+      username: username,
+      password: password,
+    };
+
+    const credentials: Credentials = await login(data);
+    console.log("Credentials", credentials);
+
+    localStorage.setItem("userRole", credentials.role);
+    localStorage.setItem("userName", credentials.ime);
+    localStorage.setItem("userSurname", credentials.prezime);
+    localStorage.setItem("jwtToken", credentials.jwtToken);
     if (
       conferenceId === Number(localStorage.getItem("conferenceId")) &&
       conferenceName === localStorage.getItem("conferenceName") &&

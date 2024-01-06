@@ -22,7 +22,10 @@ function ConferenceNavbar() {
 
   const navigate = useNavigate();
 
-  let userRole = localStorage.getItem("userRole");
+  const userRole = localStorage.getItem("userRole");
+  const userName = localStorage.getItem("userName");
+  const userSurname = localStorage.getItem("userSurname");
+  const title = `${userName} ${userSurname}`;
   const conferenceId = Number(localStorage.getItem("conferenceId"));
   const conferenceName = localStorage.getItem("conferenceName") || "";
   let itemContent;
@@ -35,52 +38,33 @@ function ConferenceNavbar() {
   if (userRole === VISITOR) {
     itemContent = (
       <>
-        <NavDropdown
-          id="user-dropdown"
-          title={userRole}
-          menuVariant="dark"
-          className="justify-content-end"
-        >
-          <NavDropdown.Item as={Link} to="/register">
-            Registracija
-          </NavDropdown.Item>
-          <NavDropdown.Item onClick={() => setShowModal(true)}>
-            Prijava
-          </NavDropdown.Item>
-          <NavDropdown.Item onClick={logout}>
-            Odjava <i className="fa-solid fa-right-from-bracket ml-2"></i>
-          </NavDropdown.Item>
-        </NavDropdown>
+        <NavDropdown.Item as={Link} to="/register">
+          Registracija
+        </NavDropdown.Item>
+        <NavDropdown.Item onClick={() => setShowModal(true)}>
+          Prijava
+        </NavDropdown.Item>
+        <NavDropdown.Item onClick={logout}>
+          Odjava <i className="fa-solid fa-right-from-bracket ml-2"></i>
+        </NavDropdown.Item>
       </>
     );
   } else if (userRole === REGISTERED) {
     itemContent = (
-      <NavDropdown
-        id="user-dropdown"
-        title={userRole}
-        menuVariant="dark"
-        className="justify-content-end"
-      >
-        <NavDropdown.Item onClick={logout}>
-          Odjava <i className="fa-solid fa-right-from-bracket ml-2"></i>
-        </NavDropdown.Item>
-      </NavDropdown>
+      <NavDropdown.Item onClick={logout}>
+        Odjava <i className="fa-solid fa-right-from-bracket ml-2"></i>
+      </NavDropdown.Item>
     );
   } else {
     itemContent = (
-      <NavDropdown
-        id="user-dropdown"
-        title={userRole}
-        menuVariant="dark"
-        className="justify-content-end"
-      >
+      <>
         <NavDropdown.Item as={Link} to="/users">
           Korisnici
         </NavDropdown.Item>
         <NavDropdown.Item onClick={logout}>
           Odjava <i className="fa-solid fa-right-from-bracket ml-2"></i>
         </NavDropdown.Item>
-      </NavDropdown>
+      </>
     );
   }
   return (
@@ -116,7 +100,16 @@ function ConferenceNavbar() {
                 Fotografije
               </Nav.Link>
             </Nav>
-            <Nav className="justify-content-end">{itemContent}</Nav>
+            <Nav className="justify-content-end">
+              <NavDropdown
+                id="user-dropdown"
+                title={title}
+                menuVariant="dark"
+                className="justify-content-end"
+              >
+                {itemContent}
+              </NavDropdown>
+            </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>

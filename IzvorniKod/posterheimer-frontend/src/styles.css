@@ -5,7 +5,13 @@
 /* GENERAL */
 
 .app-content {
-  margin:0rem 15vw ;
+  width: 50rem;
+}
+
+@media only screen and (max-width: 1000px) {
+  .app-content {
+    width: 30rem;
+  }
 }
 
 .true-center {
