@@ -7,8 +7,9 @@ import {
   Alert,
   Toast,
   ToastBody,
+  FloatingLabel,
 } from "react-bootstrap";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import ReCAPTCHA from "react-google-recaptcha";
 import Titlebar from "../components/Titlebar";
 import ConferenceNavbar from "../components/ConferenceNavbar";
@@ -19,12 +20,16 @@ const SITE_KEY = "6LesATwpAAAAAKiOaz64lxp0XYd8a4KcOmcF1loc";
 interface RegistrationData {
   email: string;
   password: string;
+  ime: string;
+  prezime: string;
   konferencijaId: number;
 }
 
 const emptyRegistrationData: RegistrationData = {
   email: "",
   password: "",
+  ime: "",
+  prezime: "",
   konferencijaId: 0,
 };
 
@@ -74,6 +79,7 @@ const Register = () => {
     e.preventDefault();
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const onlyLettersRegex = /^[a-zA-Z]+$/;
     if (!emailRegex.test(formData.email)) {
       setValidationError("Pogrešan format adrese e-pošte");
       return;
@@ -84,9 +90,14 @@ const Register = () => {
       return;
     }
 
+    if (
+      !onlyLettersRegex.test(formData.ime) ||
+      !onlyLettersRegex.test(formData.prezime)
+    ) {
+      setValidationError("Ime i prezime smije sadržavati samo slova");
+      return;
+    }
     const captchaValue = recaptcha.current?.getValue();
-
-    console.log(captchaValue);
 
     if (!captchaValue) {
       alert("Molim Vas potvrdite reCAPTCHA!");
@@ -102,6 +113,29 @@ const Register = () => {
       <div className="card p-4 mt-5 app-content">
         <h1>Registracija</h1>
         <Form onSubmit={handleSubmit}>
+          <Form.Group className="mb-3" controlId="formIme">
+            <FloatingLabel controlId="formIme" label="Ime">
+              <Form.Control
+                type="text"
+                name="ime"
+                placeholder="Unesite ime"
+                value={formData.ime}
+                onChange={handleChange}
+                required
+              />
+            </FloatingLabel>
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formPrezime">
+            <Form.Label>Prezime</Form.Label>
+            <Form.Control
+              type="text"
+              name="prezime"
+              placeholder="Unesite prezime"
+              value={formData.prezime}
+              onChange={handleChange}
+              required
+            />
+          </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email adresa</Form.Label>
             <Form.Control
@@ -157,7 +191,7 @@ const Register = () => {
               U redu
             </Button>
 
-            <Button variant="secondary" href="/">
+            <Button variant="secondary" href="/conference">
               Odustani
             </Button>
           </ButtonGroup>

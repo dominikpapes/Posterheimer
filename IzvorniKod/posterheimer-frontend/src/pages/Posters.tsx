@@ -5,6 +5,7 @@ import "../styles.css";
 import pdf_file1 from "../assets/posters/b5_Programsko_inzenjerstvo_i_informacijski_sustavi.pdf";
 import pdf_file2 from "../assets/posters/b5_Racunalno_inzenjerstvo.pdf";
 import ConferenceNavbar from "../components/ConferenceNavbar";
+import PleaseLogin from "../components/PleaseLogin";
 
 const VISITOR = import.meta.env.VITE_VISITOR;
 const REGISTERED = import.meta.env.VITE_REGISTERED;
@@ -56,6 +57,7 @@ function Posters() {
 
   const userRole = localStorage.getItem("userRole");
   const showEdits = userRole === ADMIN || userRole === SUPERUSER;
+  const showLoginPrompt = userRole === VISITOR;
 
   function postPoster() {}
   function deletePoster() {}
@@ -87,42 +89,45 @@ function Posters() {
   return (
     <>
       <ConferenceNavbar />
-      <div className="poster-grid app-content">
-        {mock_posters.map((poster, index) => (
-          <div className="poster-grid-element" key={poster.imePoster}>
+      {showLoginPrompt ? (
+        <PleaseLogin />
+      ) : (
+        <div className="poster-grid app-content">
+          {mock_posters.map((poster, index) => (
+            <div className="poster-grid-element" key={poster.imePoster}>
+              <div
+                className="poster-container"
+                onClick={() => {
+                  setChosenPoster(poster);
+                  console.log("Chosen poster: ", chosenPoster);
+                  setShowPoster(true);
+                }}
+              >
+                <i className="fa-solid fa-file-pdf fa-5x"></i>
+                <div className="h6 my-2">
+                  {poster.imePoster} <br />
+                  {poster.imeAutor}
+                </div>
+              </div>
+              {showEdits && (
+                <Button variant="danger" className="delete-poster">
+                  Obriši
+                </Button>
+              )}
+            </div>
+          ))}
+          {showEdits && (
             <div
               className="poster-container"
               onClick={() => {
-                setChosenPoster(poster);
-                console.log("Chosen poster: ", chosenPoster);
-                setShowPoster(true);
+                setShowPosterForm(true);
               }}
             >
-              <i className="fa-solid fa-file-pdf fa-5x"></i>
-              <div className="h6 my-2">
-                {poster.imePoster} <br />
-                {poster.imeAutor}
-              </div>
+              <i className="fa-solid fa-plus fa-5x"></i>
             </div>
-            {showEdits && (
-              <Button variant="danger" className="delete-poster">
-                Obriši
-              </Button>
-            )}
-          </div>
-        ))}
-        {showEdits && (
-          <div
-            className="poster-container"
-            onClick={() => {
-              setShowPosterForm(true);
-            }}
-          >
-            <i className="fa-solid fa-plus fa-5x"></i>
-          </div>
-        )}
-      </div>
-
+          )}
+        </div>
+      )}
       {/* Poster view */}
       <Modal show={showPoster} onHide={() => setShowPoster(false)} size="xl">
         <Modal.Header closeButton>
@@ -152,7 +157,6 @@ function Posters() {
           </Button>
         </Modal.Footer>
       </Modal>
-
       {/* Poster form */}
       <Modal
         show={showPosterForm}

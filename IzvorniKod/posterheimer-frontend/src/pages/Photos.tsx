@@ -12,6 +12,7 @@ import img7 from "../assets/photos/img7.jpg";
 import img8 from "../assets/photos/img8.jpg";
 import { useEffect, useState } from "react";
 import { Form, Modal } from "react-bootstrap";
+import PleaseLogin from "../components/PleaseLogin";
 
 const VISITOR = import.meta.env.VITE_VISITOR;
 const REGISTERED = import.meta.env.VITE_REGISTERED;
@@ -64,6 +65,7 @@ function Photos() {
 
   const userRole = localStorage.getItem("userRole");
   const showEdits = userRole === ADMIN || userRole === SUPERUSER;
+  const showLoginPrompt = userRole === VISITOR;
 
   function getImg(imgSrc: string, imgIdx: number) {
     console.log("pic clicked");
@@ -105,24 +107,28 @@ function Photos() {
   return (
     <>
       <ConferenceNavbar />
-      <div className="gallery">
-        <div className="image-container">
-          {showEdits && (
-            <>
-              <img src={addImage} onClick={() => setShowFormModal(true)} />
-            </>
-          )}
-          {images.map((item, index) => (
-            <img
-              key={item.id}
-              src={item.img}
-              onClick={() => getImg(item.img, index)}
-            />
-          ))}
+      {showLoginPrompt ? (
+        <PleaseLogin />
+      ) : (
+        <div className="gallery">
+          <div className="image-container">
+            {showEdits && (
+              <>
+                <img src={addImage} onClick={() => setShowFormModal(true)} />
+              </>
+            )}
+            {images.map((item, index) => (
+              <img
+                key={item.id}
+                src={item.img}
+                onClick={() => getImg(item.img, index)}
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* Modal */}
+      {/* Preview photo */}
       <div className={modal ? "model open" : "model"}>
         <img src={tempImgSrc} />
         <div className="photo-control">
@@ -153,13 +159,14 @@ function Photos() {
         ></i>
       </div>
 
-      <a
+      {/* <a
         href="https://www.flaticon.com/free-icons/add-image"
         title="add image icons"
       >
         Add image icons created by nawicon - Flaticon
-      </a>
+      </a> */}
 
+      {/* Add new photo modal */}
       <Modal
         show={showFormModal}
         onHide={() => {

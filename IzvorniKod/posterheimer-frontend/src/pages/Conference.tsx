@@ -4,7 +4,10 @@ import { createContext, useEffect, useState } from "react";
 import Weather from "../components/Weather";
 
 import loading from "../../public/spinner.gif";
-import { Card } from "react-bootstrap";
+import { Card, Offcanvas } from "react-bootstrap";
+import PleaseLogin from "../components/PleaseLogin";
+
+const VISITOR = import.meta.env.VITE_VISITOR;
 
 interface Conference {
   idKonferencija: string;
@@ -43,13 +46,8 @@ function Conference() {
     datumVrijemePocetka: new Date(),
     datumVrijemeZavrsetka: new Date(),
   });
-
-  // let key = "credentials";
-  // let credentials = localStorage.getItem(key);
-
-  const navigate = useNavigate();
-  // const conferenceId = location.state;
-  // console.log("konfId" + conferenceId);
+  const userRole = localStorage.getItem("userRole");
+  const showLoginPrompt = userRole === VISITOR;
 
   useEffect(() => {
     setIsLoading(true);
@@ -64,29 +62,27 @@ function Conference() {
   return (
     <>
       <ConferenceNavbar />
-      {isLoading ? (
-        <div className="true-center">
-          <img src={loading} alt="loading" />
-        </div>
-      ) : (
-        <>
-          <div className="conference-content">
-            <div className="conference-info">
-              <h1>{conference.imeKonferencija}</h1>
-              <div>
-                {conference.datumVrijemePocetka.toDateString()} -{" "}
-                {conference.datumVrijemeZavrsetka.toDateString()}
-              </div>
+      <>
+        <div className="conference-content">
+          <div className="conference-info">
+            <h1>{conference.imeKonferencija}</h1>
+            <div>
+              {conference.datumVrijemePocetka.toDateString()} -{" "}
+              {conference.datumVrijemeZavrsetka.toDateString()}
             </div>
-            {conference.mjesto && <Weather location={conference.mjesto} />}
+          </div>
+          {conference.mjesto && <Weather location={conference.mjesto} />}
+          {showLoginPrompt ? (
+            <PleaseLogin />
+          ) : (
             <iframe
               className="video"
               src="https://www.youtube.com/embed/tgbNymZ7vqY"
               title="conference-video"
             ></iframe>
-          </div>
-        </>
-      )}
+          )}
+        </div>
+      </>
     </>
   );
 }
