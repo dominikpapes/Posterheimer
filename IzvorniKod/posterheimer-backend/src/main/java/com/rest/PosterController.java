@@ -4,9 +4,11 @@ import com.domain.Konferencija;
 import com.domain.Korisnik;
 import com.domain.Poster;
 import com.dto.PosterDTOs.PosterGetDTO;
+import com.dto.PosterDTOs.PosterGetWithVotesDTO;
 import com.dto.PosterDTOs.PosterPostDTO;
 import com.dto.PosterDTOs.PosterVoteDTO;
 import com.mapper.PosterMapper.PosterGetMapper;
+import com.mapper.PosterMapper.PosterGetWithVotesMapper;
 import com.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.auditing.CurrentDateTimeProvider;
@@ -17,8 +19,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/posteri")
@@ -36,6 +41,15 @@ public class PosterController {
         return posterService.listAll().stream().filter(poster -> poster.getKonferencija().getIdKonferencija()
                         .equals(idKonferencija)).map(PosterGetMapper::toDTO).toList();
     }
+
+    @GetMapping("/idKonferencija/{idKonferencija}/rezultati")
+    //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN", "ROLE_USER"})
+    public List<PosterGetWithVotesDTO> posterListWithVotes(@PathVariable("idKonferencija") Integer idKonferencija) {
+        List<Poster> list = posterService.listAll().stream().filter(poster -> poster.getKonferencija().getIdKonferencija()
+                .equals(idKonferencija)).sorted(Comparator.comparingInt(Poster::getBrGlasova).reversed()).toList();
+        return list.stream().map(PosterGetWithVotesMapper::toDTO).toList();
+    }
+
     @PostMapping("")
     //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
     public ResponseEntity<Poster> createPoster(@RequestBody PosterPostDTO posterDTO) {

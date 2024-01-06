@@ -15,7 +15,7 @@ public class Poster {
     private String posterEmail;
     private Integer brGlasova;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="id_konferencija")
     //@JsonIgnore
     private Konferencija konferencija;
