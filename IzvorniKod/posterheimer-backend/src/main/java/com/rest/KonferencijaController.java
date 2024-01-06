@@ -64,7 +64,7 @@ public class KonferencijaController {
 
     //dto
     @PostMapping("")
-  //@Secured("ROLE_SUPERUSER")
+    @Secured("ROLE_SUPERUSER")
     public ResponseEntity<Konferencija> createKonferencija(@RequestBody KonferencijaPostDTO konferencijaPostDTO) {
         Konferencija konferencija = KonferencijaPostMapper.toEntity(konferencijaPostDTO);
         konferencija.setIdKonferencija(-1);

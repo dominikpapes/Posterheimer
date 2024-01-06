@@ -8,7 +8,7 @@ import {
   Form,
   Toast,
 } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 
 interface Poster {
   title: string;
@@ -18,11 +18,11 @@ interface Poster {
 
 interface Conference {
   imeKonferencija: string;
-  grad: string;
+  mjesto: string;
   adresa: string;
   zipCode: string;
-  dateStart: string;
-  dateEnd: string;
+  datumVrijemePocetka: string;
+  datumVrijemeZavrsetka: string;
   videoUrl: string;
   genericUsername: string;
   genericPassword: string;
@@ -32,11 +32,11 @@ interface Conference {
 
 const emptyConference: Conference = {
   imeKonferencija: "",
-  grad: "",
+  mjesto: "",
   adresa: "",
   zipCode: "",
-  dateStart: "",
-  dateEnd: "",
+  datumVrijemePocetka: "",
+  datumVrijemeZavrsetka: "",
   videoUrl: "",
   genericUsername: "",
   genericPassword: "",
@@ -44,9 +44,17 @@ const emptyConference: Conference = {
   adminPassword: "",
 };
 
-function PostConference(conference: Conference) {
-  let id = 0;
-  return id;
+async function PostConference(conference: Conference, token: string) {
+  const response = await fetch("/api/konferencije", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(conference),
+  });
+  const data = await response.json();
+  console.log(data);
 }
 
 function NewConference() {
@@ -56,19 +64,19 @@ function NewConference() {
   const [visitorConfirmPassword, setVisitorConfirmPassword] = useState("");
   const [adminConfirmPassword, setAdminConfirmPassword] = useState("");
 
-  const navigate = useNavigate();
+  const token = localStorage.getItem("jwtToken") || "";
 
   useEffect(() => {
     setNewConference(emptyConference);
   }, []);
 
-  const handleChange = (e: any) => {
+  function handleChange(e: any) {
     const { name, value } = e.target;
     setNewConference({
       ...newConference,
       [name]: value,
     });
-  };
+  }
 
   function handleSubmit(e: any) {
     e.preventDefault();
@@ -87,13 +95,13 @@ function NewConference() {
 
     console.log(newConference);
 
-    // PostConference(newConference);
+    PostConference(newConference, token);
   }
 
   return (
     <>
       <Titlebar />
-      <div className="card p-4 my-3 app-content">
+      <div className="card p-4 my-3 mx-auto app-content">
         <h1>Nova konferencija</h1>
         <Form onSubmit={handleSubmit}>
           <Card className="p-3 my-2">
@@ -134,9 +142,9 @@ function NewConference() {
               <Form.Label>Grad</Form.Label>
               <Form.Control
                 type="text"
-                name="grad"
+                name="mjesto"
                 placeholder="Unesite grad"
-                value={newConference?.grad}
+                value={newConference?.mjesto}
                 onChange={handleChange}
                 required
               />
@@ -156,8 +164,8 @@ function NewConference() {
               <Form.Label>Vrijeme početka konferencije</Form.Label>
               <Form.Control
                 type="datetime-local"
-                name="dateStart"
-                value={newConference?.dateStart.toString()}
+                name="datumVrijemePocetka"
+                value={newConference?.datumVrijemePocetka.toString()}
                 onChange={handleChange}
                 required
               />
@@ -166,8 +174,8 @@ function NewConference() {
               <Form.Label>Vrijeme završetka konferencije</Form.Label>
               <Form.Control
                 type="datetime-local"
-                name="dateEnd"
-                value={newConference?.dateEnd.toString()}
+                name="datumVrijemeZavrsetka"
+                value={newConference?.datumVrijemeZavrsetka.toString()}
                 onChange={handleChange}
                 required
               />

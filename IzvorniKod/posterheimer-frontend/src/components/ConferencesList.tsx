@@ -59,14 +59,16 @@ function ConferencesList({
             key={item.idKonferencija}
           >
             <h3 className="float-start">{item.imeKonferencija}</h3>
-            <Button
-              variant="success"
-              className="float-end"
-              onClick={handleClickAcess}
-              title="Pristupi konferenciji"
-            >
-              Pristupi
-            </Button>
+            {!showDelete && (
+              <Button
+                variant="success"
+                className="float-end"
+                onClick={handleClickAcess}
+                title="Pristupi konferenciji"
+              >
+                Pristupi
+              </Button>
+            )}
             {showDelete && (
               <Button
                 variant="danger"

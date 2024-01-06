@@ -13,6 +13,18 @@ interface Conference {
   imeKonferencija: string;
 }
 
+interface LoginData {
+  username: string;
+  password: string;
+}
+
+interface Credentials {
+  jwtToken: string;
+  role: string;
+  ime: string;
+  prezime: string;
+}
+
 const mock_conference = [
   {
     idKonferencija: 1,
@@ -28,6 +40,24 @@ async function getConferences() {
   const response = await fetch("/api/konferencije");
   const data = await response.json();
   return data;
+}
+
+async function login(dataToSend: LoginData) {
+  try {
+    const response = await fetch("/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dataToSend),
+    });
+
+    const data = await response.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function Home() {
@@ -49,11 +79,19 @@ function Home() {
   }, []);
 
   function onSelectKonferencija() {}
-  function superuserLogin(e: any) {
+  async function superuserLogin(e: any) {
     e.preventDefault();
-    userRole = localStorage.setItem("userRole", SUPERUSER); // /api/login
-    setShowEdits(true);
-    setShowModal(false);
+    const data = {
+      username: username,
+      password: password,
+    };
+    const credentials: Credentials = await login(data);
+    if (credentials.role === SUPERUSER) {
+      localStorage.setItem("jwtToken", credentials.jwtToken);
+      localStorage.setItem("userRole", credentials.role);
+      setShowEdits(true);
+      setShowModal(false);
+    }
   }
 
   return (

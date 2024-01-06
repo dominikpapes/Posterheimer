@@ -51,7 +51,6 @@ function LoginModal({ conferenceId, conferenceName }: Props) {
   const navigate = useNavigate();
 
   async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
-    // Perform login logic
     event.preventDefault();
 
     const data = {
