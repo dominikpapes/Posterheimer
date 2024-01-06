@@ -44,6 +44,7 @@ function Home() {
     //   console.log(data);
     //   setConferences(data);
     // });
+    localStorage.clear();
     setConferences(mock_conference);
   }, []);
 

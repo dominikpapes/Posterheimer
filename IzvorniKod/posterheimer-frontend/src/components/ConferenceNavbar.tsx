@@ -23,6 +23,8 @@ function ConferenceNavbar() {
   const navigate = useNavigate();
 
   let userRole = localStorage.getItem("userRole");
+  const conferenceId = Number(localStorage.getItem("conferenceId"));
+  const conferenceName = localStorage.getItem("conferenceName") || "";
   let itemContent;
 
   function logout() {
@@ -33,11 +35,22 @@ function ConferenceNavbar() {
   if (userRole === VISITOR) {
     itemContent = (
       <>
-        <Button>
-          <Link to="/register" className="text-link">
+        <NavDropdown
+          id="user-dropdown"
+          title={userRole}
+          menuVariant="dark"
+          className="justify-content-end"
+        >
+          <NavDropdown.Item as={Link} to="/register">
             Registracija
-          </Link>
-        </Button>
+          </NavDropdown.Item>
+          <NavDropdown.Item onClick={() => setShowModal(true)}>
+            Prijava
+          </NavDropdown.Item>
+          <NavDropdown.Item onClick={logout}>
+            Odjava <i className="fa-solid fa-right-from-bracket ml-2"></i>
+          </NavDropdown.Item>
+        </NavDropdown>
       </>
     );
   } else if (userRole === REGISTERED) {
@@ -107,6 +120,13 @@ function ConferenceNavbar() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <LoginModal
+          conferenceId={conferenceId}
+          conferenceName={conferenceName}
+        ></LoginModal>
+      </Modal>
     </>
   );
 }

@@ -41,8 +41,6 @@ function ConferencesList({
         <LoginModal
           conferenceId={selectedConference?.idKonferencija}
           conferenceName={selectedConference?.imeKonferencija}
-          show={showModal}
-          handleClose={handleClickCloseModal}
         ></LoginModal>
       </Modal>
 

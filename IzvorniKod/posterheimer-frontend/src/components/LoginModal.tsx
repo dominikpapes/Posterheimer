@@ -13,16 +13,9 @@ const SUPERUSER_IME = import.meta.env.VITE_SUPERUSER_IME;
 interface Props {
   conferenceId: number;
   conferenceName: string;
-  show: boolean;
-  handleClose: () => void;
 }
 
-function LoginModal({
-  conferenceId,
-  conferenceName,
-  show,
-  handleClose,
-}: Props) {
+function LoginModal({ conferenceId, conferenceName }: Props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -31,9 +24,20 @@ function LoginModal({
   async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
     // Perform login logic
     event.preventDefault();
-    localStorage.setItem("conferenceId", conferenceId.toString());
-    localStorage.setItem("userRole", ADMIN);
-    navigate("/conference");
+
+    localStorage.setItem("userRole", VISITOR);
+    if (
+      conferenceId === Number(localStorage.getItem("conferenceId")) &&
+      conferenceName === localStorage.getItem("conferenceName") &&
+      conferenceId &&
+      conferenceName
+    ) {
+      window.location.reload();
+    } else {
+      localStorage.setItem("conferenceId", conferenceId.toString());
+      localStorage.setItem("conferenceName", conferenceName.toString());
+      navigate("/conference");
+    }
   }
 
   return (
