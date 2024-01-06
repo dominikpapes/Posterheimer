@@ -11,8 +11,9 @@ public interface KonferencijaRepository
     extends JpaRepository<Konferencija, Integer>
 
     {
-        @Query("SELECT k FROM Konferencija k")
-        List<Konferencija> findAllKonferencije();
+        //ovdje su queryiji pozivi koje inace ne treba pisat ali su metode napisane sa vise rijeci
+        //pa spring to ne zna prevest vec triba rucno sve napisat
+        //ovo je zadni sloj koji dalje salje queryije u bazu
 
         @Query("SELECT COUNT(k) FROM Konferencija k WHERE k.idKonferencija = :id")
         long countByIdKonferencije(@Param("id") Integer id);

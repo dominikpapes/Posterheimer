@@ -80,6 +80,9 @@ public class PosterServiceJpa implements PosterService {
         poster.setPrezimeAutor(newAuthorPrezime);
         return posterRepository.save(poster);
     }
+    public void save(Poster poster) {
+        posterRepository.save(poster);
+    }
 
     @Override
     public Optional<Poster> findByImePoster(String imePoster){
@@ -91,7 +94,7 @@ public class PosterServiceJpa implements PosterService {
     private void validate(Poster poster){
         Assert.hasText(poster.getImePoster(),
                 "Poster name must be given!");
-        Assert.hasText(poster.getFilePath(),
+        Assert.isTrue(poster.getFilePath() != null,
                 "Poster file path must be given!");
         Assert.hasText(poster.getImeAutor(),
                 "Poster author name must be given!");
