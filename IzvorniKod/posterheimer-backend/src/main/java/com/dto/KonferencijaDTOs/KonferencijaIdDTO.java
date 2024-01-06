@@ -11,7 +11,7 @@ public class KonferencijaIdDTO {
         return idKonferencija;
     }
 
-    public void setIdKonferencije(Integer id) {
+    public void setIdKonferencija(Integer id) {
         this.idKonferencija = id;
     }
 }

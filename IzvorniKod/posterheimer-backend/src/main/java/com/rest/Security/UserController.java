@@ -1,4 +1,4 @@
-package com.rest;
+package com.rest.Security;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-
     @GetMapping
     public User getCurrentUser(@AuthenticationPrincipal User user) {
         return user;

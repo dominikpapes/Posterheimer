@@ -37,6 +37,7 @@ public class PosterController {
                         .equals(idKonferencija)).map(PosterGetMapper::toDTO).toList();
     }
     @PostMapping("")
+    //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
     public ResponseEntity<Poster> createPoster(@RequestBody PosterPostDTO posterDTO) {
         Optional<Poster> existingPoster = posterService.findByImePoster(posterDTO.getImePoster());
         Optional<Konferencija> existingKonf = konferencijeService.findById(posterDTO.getIdKonferencija());
@@ -53,7 +54,7 @@ public class PosterController {
             poster.setImeAutor(posterDTO.getImeAutor());
             poster.setPrezimeAutor(posterDTO.getPrezimeAutor());
             poster.setBrGlasova(0);
-            poster.setFilePath(posterDTO.getFilePath());
+            poster.setFilePath(posterDTO.decodeBase64String(posterDTO.getFilePath()));
             Poster saved=posterService.createPoster(poster);
             existingKonf.get().setPoster(saved);
             return ResponseEntity.created(URI.create("/posteri/" + saved.getImePoster())).body(saved);
@@ -69,7 +70,7 @@ public class PosterController {
     }
 
     @DeleteMapping("/ime/{imePostera}")
-    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
+    //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
     public Poster deletePoster(@PathVariable("imePostera") String imePostera){
         return posterService.deletePoster(imePostera);
     }

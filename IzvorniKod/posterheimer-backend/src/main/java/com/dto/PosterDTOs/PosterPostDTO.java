@@ -1,5 +1,7 @@
 package com.dto.PosterDTOs;
 
+import java.util.Base64;
+
 public class PosterPostDTO {
         private String imePoster;
         private String imeAutor;
@@ -64,4 +66,8 @@ public class PosterPostDTO {
         public void setPrezimeAutor(String prezimeAutor) {
             this.prezimeAutor = prezimeAutor;
         }
+
+        public byte[] decodeBase64String(String filePath) {
+        return Base64.getDecoder().decode(filePath);
+    }
 }

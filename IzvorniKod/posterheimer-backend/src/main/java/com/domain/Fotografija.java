@@ -1,16 +1,14 @@
 package com.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 @Entity
 public class Fotografija {
-
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idFotografija;
-    private String filePath;
+    @Lob
+    private byte[] filePath;
 
     @ManyToOne
     @JoinColumn(name="id_konferencija")
@@ -18,7 +16,7 @@ public class Fotografija {
 
     public Fotografija() {
     }
-    public Fotografija(Integer idFotografija, String filePath) {
+    public Fotografija(Integer idFotografija, byte[] filePath) {
         this.idFotografija = idFotografija;
         this.filePath = filePath;
     }
@@ -31,11 +29,11 @@ public class Fotografija {
         this.idFotografija = idFotografija;
     }
 
-    public String getFilePath() {
+    public byte[] getFilePath() {
         return filePath;
     }
 
-    public void setFilePath(String filePath) {
+    public void setFilePath(byte[] filePath) {
         this.filePath = filePath;
     }
 
@@ -51,7 +49,6 @@ public class Fotografija {
     public String toString() {
         return "Fotografija{" +
                 "idFotografija=" + idFotografija +
-                ", filePath='" + filePath + '\'' +
                 ", konferencija=" + konferencija +
                 '}';
     }
