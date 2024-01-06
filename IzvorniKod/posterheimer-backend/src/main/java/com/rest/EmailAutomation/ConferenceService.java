@@ -1,29 +1,34 @@
-<<<<<<< Updated upstream:IzvorniKod/posterheimer-backend/src/main/java/com/rest/ConferenceService.java
-/*package com.rest;
-=======
+
+
+
 package com.rest.EmailAutomation;
->>>>>>> Stashed changes:IzvorniKod/posterheimer-backend/src/main/java/com/rest/EmailAutomation/ConferenceService.java
+
 
 import com.dao.KonferencijaRepository;
+import com.domain.Konferencija;
+import com.rest.EmailAutomation.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Service
 public class ConferenceService {
-    // Inject necessary repositories or other services
+
     @Autowired
     private KonferencijaRepository konferencijaRepository;
 
     @Autowired
     private EmailService emailService;
 
-    // Other service methods...
 
-    @Scheduled(cron = "0 0 * * * ?")
+    @Scheduled(cron = "0 0 * * * *")
     public void sendConferenceReminders() {
-        LocalDate twoDaysBefore = LocalDate.now().plusDays(2);
-        List<Konferencija> upcomingConferences = konferencijaRepository.findConferencesEndingOn(twoDaysBefore);
+        LocalDateTime twoDaysBefore = LocalDateTime.now().plusDays(2);
+        List<Konferencija> upcomingConferences = konferencijaRepository.findAll().stream()
+                .filter(konferencija -> konferencija.getDatumVrijemeZavrsetka().isBefore(twoDaysBefore)).toList();
 
         for (Konferencija conf : upcomingConferences) {
             if (!conf.isVotingReminderSent()) {
@@ -33,4 +38,4 @@ public class ConferenceService {
             }
         }
     }
-}*/
+}

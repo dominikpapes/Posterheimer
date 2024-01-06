@@ -1,6 +1,6 @@
 package com;
 
-import com.rest.EmailService;
+import com.rest.EmailAutomation.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,10 +16,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableScheduling
 public class PosterheimerBackendApplication {
 
-	/*
+
 	@Autowired
 	private EmailService senderService;
-	 */
+
 
 	@Bean
 	public PasswordEncoder pswdEncoder() {
@@ -30,11 +30,4 @@ public class PosterheimerBackendApplication {
 		SpringApplication.run(PosterheimerBackendApplication.class, args);
 	}
 
-	/*
-	@EventListener(ApplicationReadyEvent.class)
-	public void sendEmail() {
-		senderService.sendEmail("dariotomsic18@gmail.com",
-				"Subject", "poruka");
-	}
-	 */
 }
