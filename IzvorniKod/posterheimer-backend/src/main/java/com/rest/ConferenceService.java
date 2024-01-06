@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream:IzvorniKod/posterheimer-backend/src/main/java/com/rest/ConferenceService.java
 /*package com.rest;
 =======
 package com.rest.EmailAutomation;
