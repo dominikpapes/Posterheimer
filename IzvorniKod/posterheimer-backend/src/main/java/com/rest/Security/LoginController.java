@@ -1,5 +1,7 @@
 package com.rest.Security;
 
+import com.dao.KorisnikRepository;
+import com.domain.Korisnik;
 import com.rest.KorisnikController;
 import com.rest.Security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ public class LoginController {
 
     @Autowired
     private JwtUtil jwtUtil;
+    @Autowired
+    private KorisnikRepository korisnikRepository;
 
     @PostMapping("/login")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginRequest loginRequest) throws Exception {
@@ -32,8 +36,9 @@ public class LoginController {
 
             final String jwt = jwtUtil.generateToken(authentication);
             String role = authentication.getAuthorities().toString();
+            Korisnik korisnik=korisnikRepository.getReferenceById(loginRequest.getUsername());
 
-            return ResponseEntity.ok(new AuthenticationResponse(jwt, role));
+            return ResponseEntity.ok(new AuthenticationResponse(jwt, role,korisnik.getIme(),korisnik.getPrezime()));
         } catch (BadCredentialsException e) {
             throw new Exception("Incorrect username or password", e);
         }
