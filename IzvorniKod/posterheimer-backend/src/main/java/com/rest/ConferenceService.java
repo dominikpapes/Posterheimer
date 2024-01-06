@@ -1,4 +1,7 @@
 /*package com.rest;
+=======
+package com.rest.EmailAutomation;
+>>>>>>> Stashed changes:IzvorniKod/posterheimer-backend/src/main/java/com/rest/EmailAutomation/ConferenceService.java
 
 import com.dao.KonferencijaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
