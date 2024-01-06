@@ -1,10 +1,13 @@
-/*package com.rest;
+package com.rest;
 
+import com.domain.Konferencija;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EmailService {
-    private final JavaMailSender emailSender;
+    private JavaMailSender emailSender;
 
     public EmailService(JavaMailSender emailSender) {
         this.emailSender = emailSender;
@@ -17,4 +20,7 @@ public class EmailService {
         message.setText(text);
         emailSender.send(message);
     }
-}*/
+
+    public void sendReminder(Konferencija conf) {
+    }
+}
