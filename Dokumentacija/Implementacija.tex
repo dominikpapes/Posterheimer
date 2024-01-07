@@ -7,19 +7,19 @@
 			
 			 \textit{Detaljno navesti sve tehnologije i alate koji su primijenjeni pri izradi dokumentacije i aplikacije. Ukratko ih opisati, te navesti njihovo značenje i mjesto primjene. Za svaki navedeni alat i tehnologiju je potrebno \textbf{navesti internet poveznicu} gdje se mogu preuzeti ili više saznati o njima}.
 			
-			Pri izradi dokumentacije korišten je \textbf{LaTeX}\footnote{https://www.latex-project.org/} - markup jezik najčešće korišten za znanstvene publikacije. Za izradu dokumenta korišten je \textbf{TeXstudio}\footnote{https://www.texstudio.org/} - uređivač teksta prilagođen LaTeXu. Za izradu UML dijagrama u sklopu dokumentacije korišten je alat \textbf{Astah UML}\footnote{https://astah.net/products/astah-uml/}.
+			\indent Pri izradi dokumentacije korišten je \textbf{LaTeX}\footnote{https://www.latex-project.org} - označni jezik korišten za uređivanje tekstualnih dokumenata najčešće znanstvene publikacije. Dokument je sastavljen u programu \textbf{TeXstudio}\footnote{https://www.texstudio.org} - uređivaču teksta prilagođen LaTeX-u. UML dijagrami nacrtani su uz pomoć alata \textbf{Astah UML}\footnote{https://astah.net/products/astah-uml}. Dijagrami koji nisu UML tipa nacrtani su u uređivaču \textbf{MS Word}\footnote{https://www.microsoft.com/en/microsoft-365/word}
 			
-			Udaljeni repozitorij projekta dostupan je na web platformi \textbf{GitHub}\footnote{https://github.com/}. GitHub je korišten za pohranu izvornog koda i dokumentacije. 
+			Udaljeni repozitorij projekta dostupan je na platformi \textbf{GitHub}\footnote{https://github.com}, korištenoj za pohranu svih datoteka potrebnih za rad na projektu.
 			
-			Kao razvojno okruženje korišten je \textbf{IntelliJ IDEA}\footnote{https://www.jetbrains.com/idea/}.
+			Za izradu pozadinskog dijela aplikacije korišten je objektno orijentirani programski jezik \textbf{Java}\footnote{https://www.java.com/en} i radni okvir \textbf{Spring Boot}\footnote{https://spring.io/projects/spring-boot} - specijalizacija radnog okvira Spring, s ciljem jednostavnijeg i bržeg oblikovanja web aplikacije. Kao razvojno okruženje korišten je \textbf{IntelliJ IDEA}\footnote{https://www.jetbrains.com/idea}.
 			
-			Za izradu \textit{backenda} korišten je radni okvir \textbf{Spring Boot}\footnote{https://spring.io/projects/spring-boot/} i objektno orijentirani programski jezik \textbf{Java}\footnote{https://www.java.com/en/}. Spring Boot je specijalizacija radnog okvira Spring s ciljem jednostavnijeg i bržeg oblikovanja web aplikacije.
+			Za izradu prednjeg dijela aplikacije korišten je \textbf{React}\footnote{https://react.dev} i JavaScript ekstenzija \textbf{JavaScript XML}\footnote{https://legacy.reactjs.org/docs/introducing-jsx.html}. React, također poznat kao React.js ili ReactJS, je biblioteka u JavaScriptu za izgradnju korisničkih sučelja koju održava \textit{Facebook}. \textit{React} se najčešće koristi kao osnova u razvoju mrežnih ili mobilnih aplikacija. Složene aplikacije u \textit{React}-u obično zahtijevaju korištenje dodatnih biblioteka za interakciju s API-jem.
 			
-			Za izradu \textit{frontenda} korišten je \textbf{React}\footnote{https://react.dev/} i JavaScript ekstenzija \textbf{JavaScript XML}\footnote{https://legacy.reactjs.org/docs/introducing-jsx.html}. React, također poznat kao React.js ili ReactJS, je biblioteka u JavaScriptu za izgradnju korisničkih sučelja. Održavana je od strane Facebooka. React se najčešće koristi kao osnova u razvoju web ili mobilnih aplikacija. Složene aplikacije u Reactu obično zahtijevaju korištenje dodatnih biblioteka za interakciju s API-jem.
+			Baza podataka izrađena je u sustavu za upravljanje bazama podataka \textbf{PostgreSQL}\footnote{https://www.postgresql.org}. Za pristup PostgreSQL sustavu baze podataka korišten je \textbf{pgAdmin 4}\footnote{https://www.pgadmin.org} program. Za izradu ER dijagrama baze podataka korišten je \textbf{ERDPlus}\footnote{https://erdplus.com} alat.
 			
-			Za izradu baze podataka korišten je sustav za upravljanje bazama podataka \textbf{PostgreSQL}\footnote{https://www.postgresql.org/}. Za pristup PostgreSQL sustavu baze podataka korišten je \textbf{pgAdmin 4}\footnote{https://www.pgadmin.org/} program. Za izradu E-R dijagraama baze podataka korišten je \textbf{ERDPlus}\footnote{https://erdplus.com/} alat.
+			Aplikacija i baza podataka su postavljene na udaljene poslužitelje kao usluga aplikacije \textbf{Render}\footnote{https://render.com}, koja nudi besplatnu opciju pri iznajmljivanju sklopovlja, s ograničenim mogućnostima.
 			
-			Komunikacija u timu realizirana je korištenjem aplikacija \textbf{WhatsApp}\footnote{https://www.whatsapp.com/} i \textbf{Discord}\footnote{https://discord.com/}.
+			Komunikacija između članova tima ostvarena je putem aplikacija s tom svrhom: \textbf{WhatsApp}\footnote{https://www.whatsapp.com} i \textbf{Discord}\footnote{https://discord.com}.
 			
 			\eject 
 		
@@ -56,7 +56,7 @@
 			
 			 \textit{Potrebno je umetnuti \textbf{specifikacijski} dijagram razmještaja i opisati ga. Moguće je umjesto specifikacijskog dijagrama razmještaja umetnuti dijagram razmještaja instanci, pod uvjetom da taj dijagram bolje opisuje neki važniji dio sustava.}
 			 
-			 Dijagram razmještaja prikazuje odnos sklopovskih dijelova sustava međusobno i s programskim rješenjima koja su potrebna za korisnikovu interakciju s aplikacijom. Kao dio udaljene poslužiteljske infrastrukture postoje dva poslužiteljska računala: mrežni poslužitelj i poslužitelj baze podataka. Na mrežnom poslužitelju je aktivan proces programa aplikacije koji komunicira s bazom podataka koja je aktivna na vlastitom poslužitelju. Predviđeno je da korisnik koristi mrežni preglednik na vlastitom računalu za komunikaciju s aplikacijom na mrežnom poslužitelju.
+			 \indent Dijagram razmještaja prikazuje odnos sklopovskih dijelova sustava međusobno i s programskim rješenjima koja su potrebna za korisnikovu interakciju s aplikacijom. Kao dio udaljene poslužiteljske infrastrukture postoje dva poslužiteljska računala: mrežni poslužitelj i poslužitelj baze podataka. Na mrežnom poslužitelju je aktivan proces programa aplikacije koji komunicira s bazom podataka koja je aktivna na vlastitom poslužitelju. Predviđeno je da korisnik koristi mrežni preglednik na vlastitom računalu za komunikaciju s aplikacijom na mrežnom poslužitelju.
 			 
 			 \begin{figure} [hbt!]
 			 	\includegraphics[width=\linewidth]{Slike/DeploymentDiagram}
