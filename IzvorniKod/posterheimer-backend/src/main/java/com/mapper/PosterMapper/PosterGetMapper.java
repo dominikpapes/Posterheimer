@@ -5,6 +5,7 @@ import com.dto.PosterDTOs.PosterGetDTO;
 
 public class PosterGetMapper {
     public static PosterGetDTO toDTO(Poster poster){
-        return new PosterGetDTO(poster.getImePoster(),poster.getImeAutor(),poster.getPrezimeAutor(),poster.getFilePath());
+        return new PosterGetDTO(poster.getIdPoster(),poster.getImePoster(),poster.getImeAutor(),
+                                poster.getPrezimeAutor(),poster.getFilePath());
     }
 }

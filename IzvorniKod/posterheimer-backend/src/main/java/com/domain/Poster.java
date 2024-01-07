@@ -6,8 +6,9 @@ import jakarta.persistence.*;
 @Entity
 public class Poster {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idPoster;
     private String imePoster;
-
     private String imeAutor;
     private String prezimeAutor;
     @Lob
@@ -21,11 +22,12 @@ public class Poster {
     private Konferencija konferencija;
     public Poster(){
     }
-    public Poster(String imePoster,String imeAutor,String prezimeAutor,byte[] filePath,String mail, Integer brGlasova){
-        this.filePath=filePath;
+    public Poster(Integer idPoster,String imePoster,String imeAutor,String prezimeAutor,byte[] filePath,String mail, Integer brGlasova){
+        this.idPoster = idPoster;
         this.imePoster=imePoster;
         this.imeAutor=imeAutor;
         this.prezimeAutor=prezimeAutor;
+        this.filePath=filePath;
         posterEmail=mail;
         this.brGlasova=brGlasova;
     }
@@ -87,10 +89,14 @@ public class Poster {
         this.brGlasova = brGlasova;
     }
 
+    public Integer getIdPoster() { return idPoster; }
+    public void setIdPoster(Integer idPoster) { this.idPoster = idPoster; }
+
     @Override
     public String toString() {
         return "Poster{" +
-                "imePoster='" + imePoster + '\'' +
+                "idPoster=" + idPoster +
+                ", imePoster='" + imePoster + '\'' +
                 ", imeAutor='" + imeAutor + '\'' +
                 ", prezimeAutor='" + prezimeAutor + '\'' +
                 ", posterEmail='" + posterEmail + '\'' +

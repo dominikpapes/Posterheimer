@@ -53,11 +53,12 @@ public class PosterController {
     @PostMapping("")
     //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
     public ResponseEntity<Poster> createPoster(@RequestBody PosterPostDTO posterDTO) {
-        Optional<Poster> existingPoster = posterService.findByImePoster(posterDTO.getImePoster());
+        Optional<Poster> existingPoster = posterService.findByImePosterAndIdKonferencija(posterDTO.getImePoster(), posterDTO.getIdKonferencija());
         Optional<Konferencija> existingKonf = konferencijeService.findById(posterDTO.getIdKonferencija());
         if(existingPoster.isPresent()){
             if (existingPoster.get().getKonferencija().getIdKonferencija().equals(posterDTO.getIdKonferencija())) {
-                throw new RequestDeniedException("Poster with name: " + posterDTO.getImePoster() + " already exists!");
+                throw new RequestDeniedException("Poster with name: " + posterDTO.getImePoster() + " already exists "
+                + "in conference " + posterDTO.getIdKonferencija() + "!");
             }
         }
         if(existingKonf.isPresent()){
@@ -76,17 +77,17 @@ public class PosterController {
         else
             return ResponseEntity.notFound().build();
     }
-    @GetMapping("/ime/{imePoster}")
+    @GetMapping("/id/{idPoster}")
     //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN","ROLE_USER"})
-    public PosterGetDTO getPoster(@PathVariable("imePoster") String imePoster) {
-        Poster p = posterService.fetch(imePoster);
+    public PosterGetDTO getPoster(@PathVariable("idPoster") Integer idPoster) {
+        Poster p = posterService.fetch(idPoster);
         return PosterGetMapper.toDTO(p);
     }
 
-    @DeleteMapping("/ime/{imePostera}")
+    @DeleteMapping("/id/{idPostera}")
     //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
-    public Poster deletePoster(@PathVariable("imePostera") String imePostera){
-        return posterService.deletePoster(imePostera);
+    public Poster deletePosterById(@PathVariable("idPostera") Integer idPostera){
+        return posterService.deletePoster(idPostera);
     }
     @DeleteMapping("/idKonferencija/{idKonferencija}")
     //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
@@ -95,7 +96,7 @@ public class PosterController {
         if(existingKonf.isPresent()) {
             List<Poster> list = posterService.listAll().stream().filter(poster -> poster.getKonferencija().getIdKonferencija().equals(idKonferencija)).toList();
             for (Poster p : list) {
-                posterService.deletePoster(p.getImePoster());
+                posterService.deletePoster(p.getIdPoster());
             }
             return ResponseEntity.noContent().build();
         }
@@ -108,7 +109,7 @@ public class PosterController {
     public ResponseEntity<Object> vote(@RequestBody PosterVoteDTO posterVoteDTO) {
         Optional<Konferencija> existingKonf = konferencijeService.findById(posterVoteDTO.getIdKonferencija());
         Optional<Korisnik> existingKorisnik = korisnikService.findByEmail(posterVoteDTO.getEmail());
-        Optional<Poster> existingPoster = posterService.findByImePoster(posterVoteDTO.getImePostera());
+        Optional<Poster> existingPoster = posterService.findByImePosterAndIdKonferencija(posterVoteDTO.getImePostera(), posterVoteDTO.getIdKonferencija());
         boolean success = existingKorisnik.isPresent()&&existingPoster.isPresent()&&existingKonf.isPresent();
         if (success) {
             if (existingKonf.get().getDatumVrijemeZavrsetka().minusDays(2).isBefore(LocalDateTime.now())) {
