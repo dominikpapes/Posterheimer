@@ -18,8 +18,6 @@ import java.util.Optional;
 public class PosterServiceJpa implements PosterService {
     @Autowired
     PosterRepository posterRepository;
-    @Autowired
-    KonferencijaRepository konferencijaRepository;
 
     @Override
     public List<Poster> listAll(){
