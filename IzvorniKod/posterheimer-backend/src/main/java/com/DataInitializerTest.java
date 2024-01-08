@@ -1,4 +1,4 @@
-package com;
+/*package com;
 
 import com.domain.Konferencija;
 import com.domain.Korisnik;
@@ -67,4 +67,4 @@ public class DataInitializerTest {
         korisnik.setKonferencija(konf);
         return korisnik;
     }
-}
+}*/
