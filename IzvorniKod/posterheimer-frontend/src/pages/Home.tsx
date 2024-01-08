@@ -70,12 +70,12 @@ function Home() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // getConferences().then((data) => {
-    //   console.log(data);
-    //   setConferences(data);
-    // });
+    getConferences().then((data) => {
+      console.log(data);
+      setConferences(data);
+    });
     localStorage.clear();
-    setConferences(mock_conference);
+    // setConferences(mock_conference);
   }, []);
 
   function onSelectKonferencija() {}

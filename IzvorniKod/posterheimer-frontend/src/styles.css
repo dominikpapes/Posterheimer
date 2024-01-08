@@ -86,6 +86,22 @@
   margin: auto;
 }
 
+.location-container {
+  border-radius: 0.1rem;
+  background-color: #c9cacb;
+  padding: 0.5rem;
+  transition: all ease 350ms;
+}
+
+.location-container:hover {
+  padding-left: 0.6rem
+}
+
+.location-container a{
+  color: inherit;
+  text-decoration: none;
+}
+
 /* WEATHER */
 
 .weather-container {
@@ -106,13 +122,11 @@
   align-items: center;
   width: 30rem;
   margin: auto;
-  margin-top: 2rem;
 }
 
 .forecast-container {
   width: 30rem;
   margin: auto;
-  margin-top: 2rem;
 }
 
 .forecast-card {

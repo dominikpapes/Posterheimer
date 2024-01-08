@@ -48,7 +48,7 @@ function Weather({ location }: Props) {
 
   return (
     <>
-      <div className="weather-card card">
+      <div className="weather-card card my-1">
         <img
           src={`https://openweathermap.org/img/wn/${forecasts[0]?.icon}@2x.png`}
           alt=""
@@ -57,7 +57,7 @@ function Weather({ location }: Props) {
         <h2>{location}</h2>
         <h3>{forecasts[0]?.temperature}°C</h3>
       </div>
-      <div className="card forecast-container">
+      <div className="card forecast-container my-1">
         <Table responsive>
           <tbody>
             <tr>

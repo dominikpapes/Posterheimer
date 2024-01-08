@@ -4,7 +4,7 @@ import { createContext, useEffect, useState } from "react";
 import Weather from "../components/Weather";
 
 import loading from "../../public/spinner.gif";
-import { Card, Offcanvas } from "react-bootstrap";
+import { Card, CardTitle, Offcanvas, Spinner } from "react-bootstrap";
 import PleaseLogin from "../components/PleaseLogin";
 
 const VISITOR = import.meta.env.VITE_VISITOR;
@@ -13,75 +13,114 @@ interface Conference {
   idKonferencija: string;
   imeKonferencija: string;
   mjesto: string;
+  adresa: string;
+  zipCode: string;
   datumVrijemePocetka: Date;
   datumVrijemeZavrsetka: Date;
+  videoUrl: string;
 }
 
-const mock_conference: Conference = {
-  idKonferencija: "1",
-  imeKonferencija: "Mock Conference",
-  mjesto: "Zagreb",
+const empty_conference: Conference = {
+  idKonferencija: "",
+  imeKonferencija: "",
+  mjesto: "",
+  adresa: "",
+  zipCode: "",
   datumVrijemePocetka: new Date(),
-  datumVrijemeZavrsetka: new Date(new Date().setDate(new Date().getDate() + 7)),
+  datumVrijemeZavrsetka: new Date(),
+  videoUrl: "",
 };
 
-function fetchConference(conferenceId: number) {
-  let conference;
-  fetch(`api/konferencije/${conferenceId}`, {
+async function getConferences(conferenceId: number) {
+  let token = localStorage.getItem("jwtToken");
+  const response = await fetch(`/api/konferencije/${conferenceId}`, {
+    method: "GET",
     headers: {
-      // Authorization: `Basic ${credentials}`,
+      Authorization: `Bearer ${token}`,
     },
-  })
-    .then((res) => res.json())
-    .then((data) => (conference = data));
+  });
+  const data = await response.json();
+  return data;
 }
 
 function Conference() {
-  const location = useLocation();
-  const [isLoading, setIsLoading] = useState(true);
-  const [conference, setConference] = useState<Conference>({
-    idKonferencija: "",
-    imeKonferencija: "",
-    mjesto: "",
-    datumVrijemePocetka: new Date(),
-    datumVrijemeZavrsetka: new Date(),
-  });
   const userRole = localStorage.getItem("userRole");
+  const conferenceId = Number(localStorage.getItem("conferenceId"));
+  const [isLoading, setIsLoading] = useState(true);
+  const [conference, setConference] = useState<Conference>(empty_conference);
   const showLoginPrompt = userRole === VISITOR;
+
+  const [dateStart, setDateStart] = useState(new Date());
+  const [dateEnd, setDateEnd] = useState(new Date());
+
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    weekday: "short", // 'short' or 'long' for short or full weekday names
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  };
 
   useEffect(() => {
     setIsLoading(true);
-    setConference(mock_conference);
-    setIsLoading(false);
+    getConferences(conferenceId).then((data) => {
+      setConference(data);
+      setIsLoading(false);
+    });
   }, []);
 
   useEffect(() => {
     console.log(conference);
+    setDateStart(new Date(conference.datumVrijemePocetka));
+    setDateEnd(new Date(conference.datumVrijemeZavrsetka));
   }, [conference]);
 
   return (
     <>
       <ConferenceNavbar />
       <>
-        <div className="conference-content">
-          <div className="conference-info">
-            <h1>{conference.imeKonferencija}</h1>
-            <div>
-              {conference.datumVrijemePocetka.toDateString()} -{" "}
-              {conference.datumVrijemeZavrsetka.toDateString()}
-            </div>
+        {isLoading ? (
+          <Spinner
+            className="m-auto"
+            animation="border"
+            role="status"
+          ></Spinner>
+        ) : (
+          <div className="conference-content">
+            <Card className="conference-info my-2 p-2">
+              <CardTitle>{conference.imeKonferencija.toUpperCase()}</CardTitle>
+              <Card.Body>
+                {dateStart.toLocaleString("hr-HR", dateOptions)} -{" "}
+                {dateEnd.toLocaleString("hr-HR", dateOptions)}
+                <Card className="location-container">
+                  <a
+                    href={`https://maps.google.com/?q=${conference.adresa}+${conference.mjesto}`}
+                  >
+                    <i className="fa-solid fa-location-dot fa-2x"></i>
+                    <br />
+                    {conference.adresa}
+                    <br />
+                    {conference.mjesto}
+                    <br />
+                    {conference.zipCode}
+                  </a>
+                </Card>
+              </Card.Body>
+            </Card>
+            {conference.mjesto && <Weather location={conference.mjesto} />}
+            {showLoginPrompt ? (
+              <PleaseLogin />
+            ) : (
+              <iframe
+                className="video"
+                src={conference.videoUrl}
+                title="conference-video"
+              ></iframe>
+            )}
           </div>
-          {conference.mjesto && <Weather location={conference.mjesto} />}
-          {showLoginPrompt ? (
-            <PleaseLogin />
-          ) : (
-            <iframe
-              className="video"
-              src="https://www.youtube.com/embed/tgbNymZ7vqY"
-              title="conference-video"
-            ></iframe>
-          )}
-        </div>
+        )}
       </>
     </>
   );
