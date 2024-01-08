@@ -66,6 +66,7 @@ public class KorisnikController {
         if (existingKonferencija.isPresent()) {
             Korisnik korisnik= KorisnikPostMapper.toEntity(korisnikDTO);
             korisnik.setKonferencija(existingKonferencija.get());
+            korisnik.setVoted(false);
             Korisnik saved = korisnikService.createKorisnik(korisnik);
             existingKonferencija.get().setUser(saved);
             return ResponseEntity.created(URI.create("/korisnici/" + saved.getEmail())).body(saved);
