@@ -52,7 +52,7 @@ public class KorisnikController {
     }
 
     @PostMapping("")
-    //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN","ROLE_VISITOR"})
+    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN","ROLE_VISITOR"})
     public ResponseEntity<Korisnik> createKorisnik(@RequestBody KorisnikPostDTO korisnikDTO) {
         korisnikDTO.setLozinka(encoder.encode(korisnikDTO.getLozinka()));
         Optional<Korisnik> existingKorisnik = korisnikService.findByEmailAndIdKonferencija(korisnikDTO.getEmail(), korisnikDTO.getIdKonferencije());
