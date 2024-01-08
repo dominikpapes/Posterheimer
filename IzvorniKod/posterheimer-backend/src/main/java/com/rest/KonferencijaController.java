@@ -71,6 +71,7 @@ public class KonferencijaController {
         Korisnik tempKorisnik = new Korisnik(konferencija.getGenericUsername(), pwdEncoder.encode(konferencija.getGenericPassword()), konferencija.getIdKonferencija().toString(), konferencija.getImeKonferencija(), false, true);
         konferencija.setGenericPassword(tempKorisnik.getLozinka());
         tempKorisnik.setKonferencija(konferencija);
+        konferencija.setVotingReminderSent(false);
         Konferencija saved = konferencijeService.createKonferencija(konferencija);
         korisnikService.createKorisnik(tempKorisnik);
         tempKorisnik=new Korisnik(konferencijaPostDTO.getAdminUsername(), pwdEncoder.encode(konferencijaPostDTO.getAdminPassword()), null,null,true,false);
