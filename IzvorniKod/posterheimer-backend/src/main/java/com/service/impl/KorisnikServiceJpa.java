@@ -2,6 +2,7 @@ package com.service.impl;
 
 import com.dao.KorisnikRepository;
 import com.domain.Korisnik;
+import com.domain.Poster;
 import com.service.EntityMissingException;
 import com.service.KorisnikService;
 import com.service.RequestDeniedException;
@@ -41,10 +42,6 @@ public class KorisnikServiceJpa implements KorisnikService {
         validate(korisnik);
         Assert.notNull(korisnik.getEmail(),
                 "Email must be not null!");
-        if (korisnikRepository.countByEmail(korisnik.getEmail()) > 0)
-            throw new RequestDeniedException(
-                    "Korisnik with email " + korisnik.getEmail() + " already exists"
-            );
         return korisnikRepository.save(korisnik);
     }
 
@@ -65,10 +62,21 @@ public class KorisnikServiceJpa implements KorisnikService {
     }
 
     @Override
-        public Korisnik deleteKorisnik(String korisnikEmail) {
-        Korisnik korisnik = fetch(korisnikEmail);
+    public Korisnik deleteKorisnik(String korisnikEmail, Integer idKonferencija) {
+        Korisnik korisnik = korisnikRepository.findByEmailAndIdKonferencija(korisnikEmail, idKonferencija)
+                .orElseThrow((()->new EntityMissingException(Poster.class,korisnikEmail)));
         korisnikRepository.delete(korisnik);
         return korisnik;
+    }
+
+    @Override
+    public Optional<Korisnik> findByEmailAndIdKonferencija(String email, Integer idKonferencija) {
+        return korisnikRepository.findByEmailAndIdKonferencija(email, idKonferencija);
+    }
+
+    @Override
+    public Korisnik fetchByEmailAndIdKonferenecija(String email, Integer idKonferencija) {
+        return korisnikRepository.findByEmailAndIdKonferencija(email, idKonferencija).orElseThrow((()->new EntityMissingException(Poster.class,email)));
     }
 
     private void validate(Korisnik registriraniKorisnik) {

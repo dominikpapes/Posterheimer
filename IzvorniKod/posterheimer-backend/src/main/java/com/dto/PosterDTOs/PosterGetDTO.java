@@ -1,17 +1,21 @@
 package com.dto.PosterDTOs;
 
 public class PosterGetDTO {
+    private Integer idPoster;
     private String imePoster;
     private String imeAutor;
     private String prezimeAutor;
-    private byte[] filePath;//to be blob i dodaj br glasova
+    private byte[] filePath;
     public PosterGetDTO(){}
-    public PosterGetDTO(String imePoster,String imeAutor,String prezimeAutor,byte[] filePath){
-        this.filePath=filePath;
+    public PosterGetDTO(Integer idPoster,String imePoster,String imeAutor,String prezimeAutor,byte[] filePath){
+        this.idPoster=idPoster;
         this.imePoster=imePoster;
         this.imeAutor=imeAutor;
         this.prezimeAutor=prezimeAutor;
+        this.filePath=filePath;
     }
+
+    public Integer getIdPoster() { return idPoster; }
 
     public byte[] getFilePath() {
         return filePath;

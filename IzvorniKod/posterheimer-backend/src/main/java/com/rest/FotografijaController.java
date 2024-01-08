@@ -10,6 +10,7 @@ import com.service.KonferencijeService;
 import com.service.RequestDeniedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -25,21 +26,21 @@ public class FotografijaController {
     private KonferencijeService konferencijeService;
 
     @GetMapping("/idKonferencija/{idKonferencija}")
-    //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN", "ROLE_USER"})
+    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN", "ROLE_USER"})
     public List<FotografijaGetDTO> fotografije(@PathVariable("idKonferencija") Integer idKonferencija) {
         return fotografijaService.listAll().stream().filter(fotografija -> fotografija.getKonferencija().getIdKonferencija()
                 .equals(idKonferencija)).map(FotografijaGetMapper::toDTO).toList();
     }
 
     @GetMapping("/id/{idFotografija}")
-    //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN","ROLE_USER"})
+    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN","ROLE_USER"})
     public FotografijaGetDTO getFotografija(@PathVariable("idFotografija") Integer idFotografija) {
         Fotografija fotografija = fotografijaService.fetch(idFotografija);
         return FotografijaGetMapper.toDTO(fotografija);
     }
 
     @PostMapping("")
-    //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN")
+    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
     public ResponseEntity<Fotografija> createFotografija(@RequestBody FotografijaPostDTO fotografijaDTO) {
         Optional<Konferencija> existingKonferencija = konferencijeService.findById(fotografijaDTO.getIdKonferencija());
         if(existingKonferencija.isPresent()){
@@ -55,13 +56,13 @@ public class FotografijaController {
     }
 
     @DeleteMapping("/id/{idFotografija}")
-    //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
+    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
     public Fotografija deleteFotografija(@PathVariable("idFotografija") Integer idFotografija){
         return fotografijaService.deleteFotografija(idFotografija);
     }
 
     @DeleteMapping("/idKonferencija/{idKonferencija}")
-    //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
+    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
     public ResponseEntity<Object> deleteFotografijaByKonferencija(@PathVariable("idKonferencija") Integer idKonferencija){
         Optional<Konferencija> existingKonferencija = konferencijeService.findById(idKonferencija);
         if(existingKonferencija.isPresent()) {

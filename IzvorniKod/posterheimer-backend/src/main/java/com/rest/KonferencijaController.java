@@ -64,7 +64,7 @@ public class KonferencijaController {
 
     //dto
     @PostMapping("")
-  //@Secured("ROLE_SUPERUSER")
+    @Secured("ROLE_SUPERUSER")
     public ResponseEntity<Konferencija> createKonferencija(@RequestBody KonferencijaPostDTO konferencijaPostDTO) {
         Konferencija konferencija = KonferencijaPostMapper.toEntity(konferencijaPostDTO);
         konferencija.setIdKonferencija(-1);
@@ -73,7 +73,7 @@ public class KonferencijaController {
         tempKorisnik.setKonferencija(konferencija);
         Konferencija saved = konferencijeService.createKonferencija(konferencija);
         korisnikService.createKorisnik(tempKorisnik);
-        tempKorisnik=new Korisnik(konferencijaPostDTO.getAdminUsername(), konferencijaPostDTO.getAdminPassword(), null,null,true,false);
+        tempKorisnik=new Korisnik(konferencijaPostDTO.getAdminUsername(), pwdEncoder.encode(konferencijaPostDTO.getAdminPassword()), null,null,true,false);
         korisnikService.createKorisnik(tempKorisnik);
         return ResponseEntity.created(URI.create("/konferencije/" + saved.getIdKonferencija())).body(saved);
     }
@@ -89,7 +89,7 @@ public class KonferencijaController {
 
     //dto
     @DeleteMapping("")
-  //@Secured("ROLE_SUPERUSER")
+    @Secured("ROLE_SUPERUSER")
     public ResponseEntity<?> deleteKonferencija(@RequestBody KonferencijaIdDTO konferencijaIdDTO) {
         Integer idKonferencija = konferencijaIdDTO.getIdKonferencija();
         if (idKonferencija == null) {

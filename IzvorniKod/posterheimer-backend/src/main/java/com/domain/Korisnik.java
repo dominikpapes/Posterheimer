@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 public class Korisnik {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idKorisnik;
     private String email;
     private String ime;
     private String prezime;
@@ -98,6 +100,10 @@ public class Korisnik {
     public boolean isVoted() {
         return voted;
     }
+
+    public Integer getIdKorisnik() { return idKorisnik; }
+
+    public void setIdKorisnik(Integer idKorisnik) { this.idKorisnik = idKorisnik; }
 
     @Override
     public String toString() {
