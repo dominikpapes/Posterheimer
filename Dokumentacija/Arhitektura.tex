@@ -93,7 +93,7 @@ Dijelovi MVC obrazca su:
 		prezime & VARCHAR	& prezime korisnika 		\\ \hline 
 		admin & BOOLEAN &  oznaka ima li ovlasti administratora		\\ \hline 
 		visitor & BOOLEAN &  oznaka radi li se o generičkom računu (TRUE), kada posjetitelj napravi vlastiti korisnički račun vrijednost varijable postaje FALSE	\\ \hline 
-		voted & BOOLEAN & oznaka je li korisnik glasao
+		voted & BOOLEAN & oznaka je li korisnik glasao \\ \hline
 		\SetCell{LightBlue} id\_konferencija	& INT & jedinstveni identifikator konferencije na kojoj korisnik sudjeluje (konferencija.id\_konferencija)  	\\ \hline 
 		\SetCell{LightBlue} glasao\_za & VARCHAR & jedinstveni identifikator postera za koji je korisnik glasao (poster.imePoster), ukoliko korisnik nije glasao vrijednost atributa je NULL \\ \hline
 	\end{longtblr}
@@ -245,11 +245,11 @@ Dijelovi MVC obrazca su:
 			
 			 \textit{Potrebno je priložiti dijagram aktivnosti s pripadajućim opisom. Dijagram aktivnosti treba prikazivati značajan dio sustava.}
 			 
-			 \indent Dijagram aktivnosti opisuje ponašanje funkcionalnog dijela sustava, te interakciju više fizički ili programski odvojenih dijelova sustava, a posebno je pogodan za prikaz njihove sinkronizacije i konkurentnog djelovanja. Dijagram aktivnosti na slici 4.7 prikazuje tok podataka postupka glasanja za poster. Korisnik pristupa aplikaciji i odabire konferenciju na kojoj sudjeluje. Klikom na opciju "Posteri" korisniku će se prikazati galerija postera. Korisnik odabire jedan poster te za njega glasa.    
+			 \indent Dijagram aktivnosti opisuje ponašanje funkcionalnog dijela sustava, te interakciju više fizički ili programski odvojenih dijelova sustava, a posebno je pogodan za prikaz njihove sinkronizacije i konkurentnog djelovanja. Dijagram aktivnosti na slici 4.7 prikazuje tok podataka postupka glasovanja za poster. Korisnik pristupa aplikaciji i odabire konferenciju na kojoj sudjeluje. Klikom na opciju "Posteri" korisniku će se prikazati galerija postera. Korisnik odabire jedan poster te za njega glasa.    
 			 
 			 \begin{figure}
 			 	\includegraphics[width=\linewidth]{Slike/ActivityDiagram}
-			 	\caption{Dijagram aktivnosti - Glasanje}
+			 	\caption{Dijagram aktivnosti - Glasovanje}
 			 \end{figure}
 			
 			\eject
