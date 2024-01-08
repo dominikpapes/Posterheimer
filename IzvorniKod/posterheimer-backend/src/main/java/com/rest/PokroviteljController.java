@@ -29,7 +29,7 @@ public class PokroviteljController {
     private KonferencijeService konferencijeService;
 
     @GetMapping("/idKonferencija/{idKonferencija}")
-    //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN", "ROLE_USER"})
+    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN", "ROLE_USER"})
     public List<PokroviteljGetDTO> pokrovitelji(@PathVariable("idKonferencija") Integer idKonferencija) {
         return pokroviteljService.listAll().stream()
                 .filter(pokrovitelj -> pokrovitelj.getKonferencije().stream()
@@ -38,7 +38,7 @@ public class PokroviteljController {
     }
 
     @PostMapping("")
-    //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
+    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
     public ResponseEntity<Pokrovitelj> createPokrovitelj(@RequestBody PokroviteljPostDTO pokroviteljDTO) {
         Optional<Pokrovitelj> existingPokrovitelj = pokroviteljService.findByImePokrovitelj(pokroviteljDTO.getImePokrovitelja());
         Optional<Konferencija> existingKonferencija = konferencijeService.findById(pokroviteljDTO.getIdKonferencija());
@@ -63,7 +63,7 @@ public class PokroviteljController {
     }
     
     @DeleteMapping("/ime/{imePokrovitelja}")
-    //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
+    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
     public ResponseEntity<Object> deletePokrovitelj(@PathVariable("imePokrovitelja") String imePokrovitelja){
         Optional<Pokrovitelj> existingPokrovitelj = pokroviteljService.findByImePokrovitelj(imePokrovitelja);
         if (existingPokrovitelj.isPresent()) {
@@ -76,7 +76,7 @@ public class PokroviteljController {
     }
 
     @DeleteMapping("/idKonferencija/{idKonferencija}")
-    //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
+    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
     public ResponseEntity<Object> deletePokrovitelj(@PathVariable("idKonferencija") Integer idKonferencija){
         Optional<Konferencija> existingKonferencija = konferencijeService.findById(idKonferencija);
         if(existingKonferencija.isPresent()) {

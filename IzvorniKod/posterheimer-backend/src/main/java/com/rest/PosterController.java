@@ -36,14 +36,14 @@ public class PosterController {
     KorisnikService korisnikService;
 
     @GetMapping("/idKonferencija/{idKonferencija}")
-    //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN", "ROLE_USER", "ROLE_VISITOR"})
+    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN", "ROLE_USER", "ROLE_VISITOR"})
     public List<PosterGetDTO> posterList(@PathVariable("idKonferencija") Integer idKonferencija){
         return posterService.listAll().stream().filter(poster -> poster.getKonferencija().getIdKonferencija()
                         .equals(idKonferencija)).map(PosterGetMapper::toDTO).toList();
     }
 
     @GetMapping("/idKonferencija/{idKonferencija}/rezultati")
-    //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN", "ROLE_USER"})
+    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN", "ROLE_USER"})
     public List<PosterGetWithVotesDTO> posterListWithVotes(@PathVariable("idKonferencija") Integer idKonferencija) {
         List<Poster> list = posterService.listAll().stream().filter(poster -> poster.getKonferencija().getIdKonferencija()
                 .equals(idKonferencija)).sorted(Comparator.comparingInt(Poster::getBrGlasova).reversed()).toList();
@@ -51,7 +51,7 @@ public class PosterController {
     }
 
     @PostMapping("")
-    //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
+    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
     public ResponseEntity<Poster> createPoster(@RequestBody PosterPostDTO posterDTO) {
         Optional<Poster> existingPoster = posterService.findByImePosterAndIdKonferencija(posterDTO.getImePoster(), posterDTO.getIdKonferencija());
         Optional<Konferencija> existingKonf = konferencijeService.findById(posterDTO.getIdKonferencija());
@@ -78,19 +78,19 @@ public class PosterController {
             return ResponseEntity.notFound().build();
     }
     @GetMapping("/id/{idPoster}")
-    //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN","ROLE_USER"})
+    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN","ROLE_USER"})
     public PosterGetDTO getPoster(@PathVariable("idPoster") Integer idPoster) {
         Poster p = posterService.fetch(idPoster);
         return PosterGetMapper.toDTO(p);
     }
 
     @DeleteMapping("/id/{idPostera}")
-    //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
+    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
     public Poster deletePosterById(@PathVariable("idPostera") Integer idPostera){
         return posterService.deletePoster(idPostera);
     }
     @DeleteMapping("/idKonferencija/{idKonferencija}")
-    //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
+    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
     public ResponseEntity<Object> deletePoster(@PathVariable("idKonferencija") Integer idKonferencija){
         Optional<Konferencija> existingKonf = konferencijeService.findById(idKonferencija);
         if(existingKonf.isPresent()) {
@@ -105,7 +105,7 @@ public class PosterController {
         }
     }
     @PutMapping("")
-    //@Secured({"ROLE_SUPERUSER", "ROLE_ADMIN", "ROLE_USER"})
+    @Secured({"ROLE_SUPERUSER", "ROLE_ADMIN", "ROLE_USER"})
     public ResponseEntity<Object> vote(@RequestBody PosterVoteDTO posterVoteDTO) {
         Optional<Konferencija> existingKonf = konferencijeService.findById(posterVoteDTO.getIdKonferencija());
         Optional<Korisnik> existingKorisnik = korisnikService.findByEmail(posterVoteDTO.getEmail());
@@ -121,6 +121,9 @@ public class PosterController {
             Poster poster = existingPoster.get();
             poster.vote();
             posterService.save(poster);
+            existingKorisnik.get().setVoted(true);
+            korisnikService.deleteKorisnik(existingKorisnik.get().getIme(),existingKorisnik.get().getKonferencijaId());
+            korisnikService.createKorisnik(existingKorisnik.get());
             return ResponseEntity.ok().build();
 
         } else {
