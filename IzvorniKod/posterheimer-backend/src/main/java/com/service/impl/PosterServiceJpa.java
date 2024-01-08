@@ -1,5 +1,6 @@
 package com.service.impl;
 
+import com.dao.KonferencijaRepository;
 import com.dao.PosterRepository;
 import com.domain.Korisnik;
 import com.domain.Poster;
@@ -23,21 +24,22 @@ public class PosterServiceJpa implements PosterService {
         return posterRepository.findAll();
     }
     @Override
-    public Poster fetch(String imePoster){
-        return posterRepository.findByImePoster(imePoster).orElseThrow((()->new EntityMissingException(Poster.class,imePoster)));
+    public Poster fetch(Integer idPoster){
+        return posterRepository.findByIdPoster(idPoster).orElseThrow((()->new EntityMissingException(Poster.class,idPoster)));
     }
     @Override
     public Poster createPoster(Poster poster){
         validate(poster);
         Assert.notNull(poster,"Poster must not be null!");
-        if (posterRepository.countByImePoster(poster.getImePoster()) > 0)
+        if (posterRepository.existsByImePosterAndIdKonferencija(poster.getImePoster(), poster.getKonferencija().getIdKonferencija()))
             throw new RequestDeniedException(
-                    "Poster with name " + poster.getImePoster() + " already exists!"
-            );return posterRepository.save(poster);
+                    "Poster with name " + poster.getImePoster() + " already exists in conference "
+                            + poster.getKonferencija().getIdKonferencija());
+        return posterRepository.save(poster);
     }
     @Override
-    public Poster deletePoster(String imePoster){
-        Poster poster=fetch(imePoster);
+    public Poster deletePoster(Integer idPoster){
+        Poster poster=fetch(idPoster);
         posterRepository.delete(poster);
         return poster;
     }
@@ -89,7 +91,9 @@ public class PosterServiceJpa implements PosterService {
         return posterRepository.findByImePoster(imePoster);
     }
 
-
+    public Optional<Poster> findByImePosterAndIdKonferencija(String imePoster, Integer idKonferencija) {
+        return posterRepository.findByImePosterAndIdKonferencija(imePoster, idKonferencija);
+    }
 
     private void validate(Poster poster){
         Assert.hasText(poster.getImePoster(),
