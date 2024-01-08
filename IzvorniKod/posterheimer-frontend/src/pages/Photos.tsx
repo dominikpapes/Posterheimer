@@ -1,15 +1,6 @@
 import ConferenceNavbar from "../components/ConferenceNavbar";
 import "../styles.css";
 import addImage from "../../public/add-image.png";
-
-import img1 from "../assets/photos/img1.jpg";
-import img2 from "../assets/photos/img2.jpg";
-import img3 from "../assets/photos/img3.jpg";
-import img4 from "../assets/photos/img4.jpg";
-import img5 from "../assets/photos/img5.jpg";
-import img6 from "../assets/photos/img6.jpg";
-import img7 from "../assets/photos/img7.jpg";
-import img8 from "../assets/photos/img8.jpg";
 import { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import PleaseLogin from "../components/PleaseLogin";
@@ -140,13 +131,26 @@ function Photos() {
     // Convert the file to base64
     const base64 = await convertBase64(fileToUpload);
     if (typeof base64 === "string") {
-      console.log(base64);
-      setNewPhoto({ idKonferencija: Number(conferenceId), filePath: base64 });
-      postPhoto(newPhoto);
+      postPhoto({
+        idKonferencija: Number(conferenceId),
+        filePath: base64.split(",")[1],
+      }).then(() => window.location.reload());
     }
   }
 
-  function deletePhoto() {}
+  async function deletePhoto(id: number) {
+    const token = localStorage.getItem("jwtToken");
+    const response = await fetch(`/api/fotografije/id/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+    setPhotos((prev) => prev.filter((o) => o.idFotografija !== id));
+    nextImage();
+  }
 
   function handleChange(e: any) {
     const { name, value } = e.target;
@@ -213,7 +217,7 @@ function Photos() {
         ></i>
         <i
           className="fa-solid fa-trash-can fa-3x delete-photo"
-          onClick={() => deletePhoto()}
+          onClick={() => deletePhoto(photos[tempIdx].idFotografija)}
         ></i>
       </div>
 

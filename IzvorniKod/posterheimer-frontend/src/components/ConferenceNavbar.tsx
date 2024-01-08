@@ -23,9 +23,9 @@ function ConferenceNavbar() {
   const navigate = useNavigate();
 
   const userRole = localStorage.getItem("userRole");
-  const userName = localStorage.getItem("userName");
-  const userSurname = localStorage.getItem("userSurname");
-  const title = `${userName} ${userSurname}`;
+  let userName: string;
+  let userSurname: string;
+  let title: string;
   const conferenceId = Number(localStorage.getItem("conferenceId"));
   const conferenceName = localStorage.getItem("conferenceName") || "";
   let itemContent;
@@ -36,6 +36,8 @@ function ConferenceNavbar() {
   }
 
   if (userRole === VISITOR) {
+    userName = "Posjetitelj";
+    userSurname = "";
     itemContent = (
       <>
         <NavDropdown.Item as={Link} to="/register">
@@ -50,12 +52,21 @@ function ConferenceNavbar() {
       </>
     );
   } else if (userRole === REGISTERED) {
+    userName = localStorage.getItem("userName") || "";
+    userSurname = localStorage.getItem("userSurname") || "";
     itemContent = (
       <NavDropdown.Item onClick={logout}>
         Odjava <i className="fa-solid fa-right-from-bracket ml-2"></i>
       </NavDropdown.Item>
     );
   } else {
+    if (userRole === ADMIN) {
+      userName = "Admin";
+      userSurname = "";
+    } else {
+      userName = "Superuser";
+      userSurname = "";
+    }
     itemContent = (
       <>
         <NavDropdown.Item as={Link} to="/users">
@@ -66,6 +77,7 @@ function ConferenceNavbar() {
         </NavDropdown.Item>
       </>
     );
+    title = `${userName} ${userSurname}`;
   }
   return (
     <>
@@ -103,7 +115,7 @@ function ConferenceNavbar() {
             <Nav className="justify-content-end">
               <NavDropdown
                 id="user-dropdown"
-                title={title}
+                title={`${userName} ${userSurname}`}
                 menuVariant="dark"
                 className="justify-content-end"
               >
