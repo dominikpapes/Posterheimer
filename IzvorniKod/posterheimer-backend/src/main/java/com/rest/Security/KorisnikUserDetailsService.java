@@ -30,7 +30,7 @@ public class KorisnikUserDetailsService implements UserDetailsService {
     }
 
     private List<GrantedAuthority> authorities(String email) {
-        if ("superuser@gmail.com".equals(email))
+        if ("posterheimer@gmail.com".equals(email))
             return commaSeparatedStringToAuthorityList("ROLE_SUPERUSER");
 
         Korisnik korisnik = korisnikService.findByEmail(email).orElseThrow(
