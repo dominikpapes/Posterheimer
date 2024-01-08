@@ -19,28 +19,33 @@ const SITE_KEY = "6LesATwpAAAAAKiOaz64lxp0XYd8a4KcOmcF1loc";
 
 interface RegistrationData {
   email: string;
-  password: string;
+  lozinka: string;
   ime: string;
   prezime: string;
-  konferencijaId: number;
+  idKonferencije: number;
+  admin: boolean;
+  visitor: boolean;
 }
 
 const emptyRegistrationData: RegistrationData = {
   email: "",
-  password: "",
+  lozinka: "",
   ime: "",
   prezime: "",
-  konferencijaId: 0,
+  idKonferencije: 0,
+  admin: false,
+  visitor: false,
 };
 
 function registerNewUser(dataToSend: RegistrationData) {
-  const credentials = localStorage.getItem("credentials");
+  dataToSend.idKonferencije = Number(localStorage.getItem("conferenceId"));
+  const jwtToken = localStorage.getItem("jwtToken");
   console.log(dataToSend);
   fetch("/api/korisnici", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Basic ${credentials}`,
+      Authorization: `Bearer ${jwtToken}`,
     },
     body: JSON.stringify(dataToSend),
   })
@@ -52,7 +57,23 @@ function registerNewUser(dataToSend: RegistrationData) {
     });
 }
 
-const Register = () => {
+async function verifyCaptcha(captchaValue: string) {
+  let jwtToken = localStorage.getItem("jwtToken");
+  let dataToSend = { captchaValue: captchaValue };
+  const response = await fetch("/api/verify", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${jwtToken}`,
+    },
+    body: JSON.stringify(dataToSend),
+  });
+  const data = await response.json();
+  console.log(data);
+  return data;
+}
+
+function Register() {
   const [formData, setFormData] = useState<RegistrationData>(
     emptyRegistrationData
   );
@@ -75,7 +96,7 @@ const Register = () => {
     });
   };
 
-  const handleSubmit = (e: any) => {
+  async function handleSubmit(e: any) {
     e.preventDefault();
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -85,7 +106,7 @@ const Register = () => {
       return;
     }
 
-    if (formData.password !== confirmPassword) {
+    if (formData.lozinka !== confirmPassword) {
       setValidationError("Unesene lozinke su različite");
       return;
     }
@@ -103,9 +124,13 @@ const Register = () => {
       alert("Molim Vas potvrdite reCAPTCHA!");
     } else {
       // make form submission
-      alert("Form submission successful!");
+      const captchaVerification = await verifyCaptcha(captchaValue);
+      if (captchaVerification.success) {
+        registerNewUser(formData);
+        alert("Form submission successful!");
+      } else alert("Uh Oh");
     }
-  };
+  }
 
   return (
     <>
@@ -155,9 +180,9 @@ const Register = () => {
               <Form.Label>Lozinka</Form.Label>
               <Form.Control
                 type={showPassword ? "text" : "password"}
-                name="password"
+                name="lozinka"
                 placeholder="Unesite lozinku"
-                value={formData.password}
+                value={formData.lozinka}
                 onChange={handleChange}
                 required
               ></Form.Control>
@@ -166,7 +191,7 @@ const Register = () => {
               <Form.Label>Potvrdite lozinku</Form.Label>
               <Form.Control
                 type={showPassword ? "text" : "password"}
-                name="password"
+                name="lozinka"
                 placeholder="Ponovite lozinku"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
@@ -228,6 +253,6 @@ const Register = () => {
       )}
     </>
   );
-};
+}
 
 export default Register;
