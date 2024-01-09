@@ -105,8 +105,6 @@ function Posters() {
   const showEdits = userRole === ADMIN || userRole === SUPERUSER;
   const showLoginPrompt = userRole === VISITOR;
 
-  function deletePoster() {}
-
   function handleChange(e: any) {
     const { name, value } = e.target;
     if (e.target.files?.[0]) fileToUpload = e.target.files?.[0];
@@ -148,6 +146,19 @@ function Posters() {
     }
   }
 
+  async function deletePoster(posterId: Number) {
+    const token = localStorage.getItem("jwtToken");
+    const response = await fetch(`/api/posteri/id/${posterId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+    setPosters((prev) => prev.filter((o) => o.idPoster !== posterId));
+  }
+
   useEffect(() => {
     getPosters().then((data) => setPosters(data));
   }, []);
@@ -176,7 +187,11 @@ function Posters() {
                 </div>
               </div>
               {showEdits && (
-                <Button variant="danger" className="delete-poster">
+                <Button
+                  variant="danger"
+                  className="delete-poster"
+                  onClick={() => deletePoster(chosenPoster.idPoster)}
+                >
                   Obriši
                 </Button>
               )}
@@ -224,6 +239,7 @@ function Posters() {
           </Button>
         </Modal.Footer>
       </Modal>
+
       {/* Poster form */}
       <Modal
         show={showPosterForm}
