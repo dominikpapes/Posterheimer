@@ -11,6 +11,9 @@ public interface PosterRepository extends JpaRepository<Poster,String> {
     @Query("SELECT p FROM Poster p WHERE p.imePoster = :imePoster")
     Optional<Poster> findByImePoster(@Param("imePoster") String imePoster);
 
+    @Query("SELECT p FROM Poster p WHERE p.idPoster = :idPoster")
+    Optional<Poster> findByIdPoster(@Param("idPoster") Integer idPoster);
+
     @Query("SELECT COUNT(p) FROM Poster p WHERE p.imePoster = :imePoster")
     int countByImePoster(@Param("imePoster") String imePoster);
 
@@ -25,6 +28,17 @@ public interface PosterRepository extends JpaRepository<Poster,String> {
 
     @Query("SELECT CASE WHEN COUNT(k) > 0 THEN true ELSE false END FROM Poster k WHERE k.prezimeAutor = :prezimeAutor")
     boolean existsByPrezimeAutor(String prezimeAutor);
+
+    @Query("SELECT CASE WHEN COUNT(p) > 0 THEN true ELSE false END " +
+            "FROM Poster p JOIN p.konferencija k " +
+            "WHERE p.imePoster = :imePoster AND k.idKonferencija = :idKonferencija")
+    boolean existsByImePosterAndIdKonferencija(@Param("imePoster") String imePoster,
+                                               @Param("idKonferencija") Integer idKonferencija);
+
+    @Query("SELECT p FROM Poster p JOIN p.konferencija k " +
+            "WHERE p.imePoster = :imePoster AND k.idKonferencija = :idKonferencija")
+    Optional<Poster> findByImePosterAndIdKonferencija(@Param("imePoster") String imePoster,
+                                               @Param("idKonferencija") Integer idKonferencija);
 
     //boolean existsByImeNot(String imePoster);
 }

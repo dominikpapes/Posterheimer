@@ -52,6 +52,12 @@ public class DataInitializerTest {
             }
         }
     private Korisnik makeKorisnik(String email, String pass, Konferencija konf) {
+            if(email.equals("superuser@gmail.com")){
+                Korisnik korisnik = new Korisnik();
+                korisnik.setEmail(email);
+                korisnik.setLozinka(pass);
+                return korisnik;
+            }
         Korisnik korisnik = new Korisnik();
         korisnik.setEmail(email);
         korisnik.setLozinka(pass);
