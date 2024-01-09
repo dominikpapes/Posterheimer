@@ -44,21 +44,6 @@ async function getUsers() {
   return data;
 }
 
-async function postUser(user: PostUser) {
-  console.log("User to send", user);
-  const token = localStorage.getItem("jwtToken");
-  const response = await fetch(`/api/fotografije`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(user),
-  });
-  const data = await response.json();
-  console.log(data);
-}
-
 export default function UsersList() {
   /* const [mock_users, setMockUsers] = useState([
     {
