@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -36,9 +37,9 @@ public class LoginController {
 
             final String jwt = jwtUtil.generateToken(authentication);
             String role = authentication.getAuthorities().toString();
-            Korisnik korisnik=korisnikRepository.getReferenceById(loginRequest.getUsername());
+            Optional<Korisnik> korisnik=korisnikRepository.findByEmail(loginRequest.getUsername());
 
-            return ResponseEntity.ok(new AuthenticationResponse(jwt, role,korisnik.getIme(),korisnik.getPrezime()));
+            return ResponseEntity.ok(new AuthenticationResponse(jwt, role,korisnik.get().getIme(),korisnik.get().getPrezime()));
         } catch (BadCredentialsException e) {
             throw new Exception("Incorrect username or password", e);
         }
