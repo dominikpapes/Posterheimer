@@ -83,10 +83,7 @@ function Register() {
 
   const recaptcha = useRef<ReCAPTCHA>();
 
-  const navigate = useNavigate();
   const location = useLocation();
-
-  const conference = location.state;
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;

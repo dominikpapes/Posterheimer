@@ -62,7 +62,7 @@ public class WebSecurityBasic {
     http
         .authorizeRequests(authz -> authz
             .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
-            // .requestMatchers(new AntPathRequestMatcher("/konferencije")).permitAll()
+             .requestMatchers(new AntPathRequestMatcher("/konferencije")).permitAll()
             .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
             .requestMatchers(new AntPathRequestMatcher("/korisnici")).permitAll()
             .requestMatchers(new AntPathRequestMatcher("/verify")).permitAll()

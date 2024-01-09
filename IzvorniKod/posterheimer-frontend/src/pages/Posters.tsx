@@ -12,78 +12,144 @@ const REGISTERED = import.meta.env.VITE_REGISTERED;
 const ADMIN = import.meta.env.VITE_ADMIN;
 const SUPERUSER = import.meta.env.VITE_SUPERUSER;
 
-interface Poster {
+const BASE64_PDF = "data:application/pdf;base64";
+
+interface PostPoster {
   idKonferencija: number;
-  filePath: any;
+  filePath: string;
   imePoster: string;
   imeAutor: string;
   prezimeAutor: string;
   posterEmail: string;
 }
 
-const empty_poster: Poster = {
+interface GetPoster {
+  idPoster: number;
+  imePoster: string;
+  imeAutor: string;
+  prezimeAutor: string;
+  filePath: string;
+}
+
+const empty_post_poster: PostPoster = {
   idKonferencija: 0,
-  filePath: undefined,
+  filePath: "",
   imePoster: "",
   imeAutor: "",
   prezimeAutor: "",
   posterEmail: "",
 };
 
-const mock_posters: Poster[] = [
-  {
-    idKonferencija: 1,
-    filePath: pdf_file1,
-    imePoster: "pdf1",
-    imeAutor: "user1",
-    prezimeAutor: "",
-    posterEmail: "",
-  },
-  {
-    idKonferencija: 2,
-    filePath: pdf_file2,
-    imePoster: "pdf2",
-    imeAutor: "user2",
-    prezimeAutor: "",
-    posterEmail: "",
-  },
-];
+const empty_get_poster: GetPoster = {
+  idPoster: 0,
+  imePoster: "",
+  imeAutor: "",
+  prezimeAutor: "",
+  filePath: "",
+};
+
+function convertBase64(file: any) {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+
+    fileReader.onload = () => {
+      resolve(fileReader.result);
+    };
+
+    fileReader.onerror = (error) => {
+      reject(error);
+    };
+  });
+}
+
+async function postPoster(poster: PostPoster) {
+  console.log("Poster to send", poster);
+  const token = localStorage.getItem("jwtToken");
+  const response = await fetch(`/api/posteri`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(poster),
+  });
+  const data = await response.json();
+  console.log(data);
+}
+
+async function getPosters() {
+  const conferenceId = localStorage.getItem("conferenceId");
+  const token = localStorage.getItem("jwtToken");
+  const response = await fetch(`/api/posteri/idKonferencija/${conferenceId}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await response.json();
+  console.log(data);
+  return data;
+}
+
+let fileToUpload: File;
+
 function Posters() {
-  const [posters, setPosters] = useState<Poster[]>([]);
-  const [chosenPoster, setChosenPoster] = useState(empty_poster);
+  const [posters, setPosters] = useState<GetPoster[]>([]);
+  const [chosenPoster, setChosenPoster] = useState(empty_get_poster);
   const [showPoster, setShowPoster] = useState(false);
   const [showPosterForm, setShowPosterForm] = useState(false);
-  const [newPoster, setNewPoster] = useState(empty_poster);
+  const [newPoster, setNewPoster] = useState<PostPoster>(empty_post_poster);
 
   const userRole = localStorage.getItem("userRole");
   const showEdits = userRole === ADMIN || userRole === SUPERUSER;
   const showLoginPrompt = userRole === VISITOR;
 
-  function postPoster() {}
   function deletePoster() {}
-
-  function handleSubmit() {}
 
   function handleChange(e: any) {
     const { name, value } = e.target;
+    if (e.target.files?.[0]) fileToUpload = e.target.files?.[0];
     setNewPoster({
       ...newPoster,
       [name]: value,
     });
   }
 
-  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (file) {
-      setNewPoster({
-        ...newPoster,
-        filePath: URL.createObjectURL(file),
-      });
+  async function handleSubmit(event: any) {
+    event.preventDefault();
+
+    console.log(fileToUpload);
+
+    // Ensure a file is selected
+    if (!fileToUpload) {
+      alert("Niste izabrali datoteku!");
+      return;
+    }
+
+    // Check if the file is an image (optional, but recommended)
+    if (!fileToUpload.type.startsWith("application/pdf")) {
+      alert("Izabrana datoteka nije PDF!");
+      return;
+    }
+
+    // Convert the file to base64
+    const base64 = await convertBase64(fileToUpload);
+    if (typeof base64 === "string") {
+      let poster: PostPoster = {
+        idKonferencija: Number(localStorage.getItem("conferenceId")),
+        filePath: base64.split(",")[1],
+        imePoster: newPoster.imePoster,
+        imeAutor: newPoster.imeAutor,
+        prezimeAutor: newPoster.prezimeAutor,
+        posterEmail: newPoster?.posterEmail,
+      };
+      postPoster(poster).then(() => window.location.reload());
     }
   }
 
   useEffect(() => {
-    setPosters(mock_posters);
+    getPosters().then((data) => setPosters(data));
   }, []);
 
   return (
@@ -93,7 +159,7 @@ function Posters() {
         <PleaseLogin />
       ) : (
         <div className="poster-grid mx-auto w-75">
-          {mock_posters.map((poster, index) => (
+          {posters.map((poster, index) => (
             <div className="poster-grid-element" key={poster.imePoster}>
               <div
                 className="poster-container"
@@ -123,11 +189,12 @@ function Posters() {
                 setShowPosterForm(true);
               }}
             >
-              <i className="fa-solid fa-plus fa-5x"></i>
+              <i className="fa-solid fa-square-plus fa-4x"></i>
             </div>
           )}
         </div>
       )}
+
       {/* Poster view */}
       <Modal show={showPoster} onHide={() => setShowPoster(false)} size="xl">
         <Modal.Header closeButton>
@@ -135,7 +202,7 @@ function Posters() {
         </Modal.Header>
         <Modal.Body>
           <embed
-            src={chosenPoster.filePath}
+            src={`${BASE64_PDF},${chosenPoster.filePath}`}
             title={chosenPoster.imePoster}
             className="poster-embed"
           />
@@ -161,7 +228,7 @@ function Posters() {
       <Modal
         show={showPosterForm}
         onHide={() => {
-          setNewPoster(empty_poster);
+          setNewPoster(empty_post_poster);
           setShowPosterForm(false);
         }}
       >
@@ -174,18 +241,20 @@ function Posters() {
               <Form.Label>Datoteka</Form.Label>
               <Form.Control
                 type="file"
-                name="file"
-                value={newPoster.filePath}
+                name="filePath"
+                value={newPoster?.filePath}
                 onChange={handleChange}
+                required
               ></Form.Control>
             </Form.Group>
             <Form.Group className="my-3">
-              <Form.Label>Ime datoteke</Form.Label>
+              <Form.Label>Ime postera</Form.Label>
               <Form.Control
                 type="text"
                 name="imePoster"
-                value={newPoster.imePoster}
+                value={newPoster?.imePoster}
                 onChange={handleChange}
+                required
               ></Form.Control>
             </Form.Group>
             <Form.Group className="my-3">
@@ -193,8 +262,9 @@ function Posters() {
               <Form.Control
                 type="text"
                 name="imeAutor"
-                value={newPoster.imeAutor}
+                value={newPoster?.imeAutor}
                 onChange={handleChange}
+                required
               ></Form.Control>
             </Form.Group>
             <Form.Group className="my-3">
@@ -202,8 +272,9 @@ function Posters() {
               <Form.Control
                 type="text"
                 name="prezimeAutor"
-                value={newPoster.prezimeAutor}
+                value={newPoster?.prezimeAutor}
                 onChange={handleChange}
+                required
               ></Form.Control>
             </Form.Group>
             <Form.Group className="my-3">
@@ -211,10 +282,12 @@ function Posters() {
               <Form.Control
                 type="email"
                 name="posterEmail"
-                value={newPoster.posterEmail}
+                value={newPoster?.posterEmail}
                 onChange={handleChange}
+                required
               ></Form.Control>
             </Form.Group>
+            <Button type="submit">U redu</Button>
           </Form>
         </Modal.Body>
       </Modal>

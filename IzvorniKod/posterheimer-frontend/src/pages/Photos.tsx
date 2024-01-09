@@ -10,7 +10,7 @@ const REGISTERED = import.meta.env.VITE_REGISTERED;
 const ADMIN = import.meta.env.VITE_ADMIN;
 const SUPERUSER = import.meta.env.VITE_SUPERUSER;
 
-const BASE_64_JPG = "data:image/jpg;base64";
+const BASE64_JPG = "data:image/jpg;base64";
 
 interface NewPhoto {
   idKonferencija: number;
@@ -59,6 +59,21 @@ async function postPhoto(photo: NewPhoto) {
   console.log(data);
 }
 
+function convertBase64(file: any) {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+
+    fileReader.onload = () => {
+      resolve(fileReader.result);
+    };
+
+    fileReader.onerror = (error) => {
+      reject(error);
+    };
+  });
+}
+
 let fileToUpload: File;
 
 function Photos() {
@@ -72,7 +87,6 @@ function Photos() {
 
   const userRole = localStorage.getItem("userRole") || "";
   const conferenceId = localStorage.getItem("conferenceId") || "";
-  const jwtToken = localStorage.getItem("jwtToken") || "";
 
   const showEdits = userRole === ADMIN || userRole === SUPERUSER;
   const showLoginPrompt = userRole === VISITOR;
@@ -94,21 +108,6 @@ function Photos() {
     if (nextIndex < 0) nextIndex = photos.length - 1;
     setTempIdx(nextIndex);
     setTempImgSrc(photos[nextIndex].filePath);
-  }
-
-  function convertBase64(file: any) {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
   }
 
   async function handleSubmit(event: any) {
@@ -149,6 +148,9 @@ function Photos() {
     const data = await response.json();
     console.log(data);
     setPhotos((prev) => prev.filter((o) => o.idFotografija !== id));
+    if (photos.length == 1) {
+      setModal(false);
+    }
     nextImage();
   }
 
@@ -182,7 +184,7 @@ function Photos() {
             {photos?.map((item, index) => (
               <img
                 key={item.idFotografija}
-                src={`${BASE_64_JPG},${item.filePath}`}
+                src={`${BASE64_JPG},${item.filePath}`}
                 onClick={() => getImg(item.filePath, index)}
               />
             ))}
@@ -192,7 +194,7 @@ function Photos() {
 
       {/* Preview photo */}
       <div className={modal ? "model open" : "model"}>
-        <img src={`${BASE_64_JPG},${tempImgSrc}`} />
+        <img src={`${BASE64_JPG},${tempImgSrc}`} />
         <div className="photo-control">
           <a
             href={tempImgSrc}
