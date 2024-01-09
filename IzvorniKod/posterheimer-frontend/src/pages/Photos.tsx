@@ -83,7 +83,7 @@ function Photos() {
   const [tempIdx, setTempIdx] = useState(-1);
   const [newPhoto, setNewPhoto] = useState<NewPhoto>(empty_photo);
 
-  const [photos, setPhotos] = useState<Photo[]>([]);
+  const [photos, setPhotos] = useState<Photo[]>([]); 
 
   const userRole = localStorage.getItem("userRole") || "";
   const conferenceId = localStorage.getItem("conferenceId") || "";
