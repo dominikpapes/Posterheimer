@@ -50,6 +50,8 @@ function LoginModal({ conferenceId, conferenceName }: Props) {
 
   const navigate = useNavigate();
 
+  const [showAlert, setShowAlert] = useState(false);
+
   async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -58,29 +60,38 @@ function LoginModal({ conferenceId, conferenceName }: Props) {
       password: password,
     };
 
-    const credentials: Credentials = await login(data);
-    console.log("Credentials", credentials);
+    try {
+      const credentials: Credentials = await login(data);
+      console.log("Credentials", credentials);
 
-    localStorage.setItem("userRole", credentials.role);
-    localStorage.setItem("userName", credentials.ime);
-    localStorage.setItem("userSurname", credentials.prezime);
-    localStorage.setItem("jwtToken", credentials.jwtToken);
-    if (
-      conferenceId === Number(localStorage.getItem("conferenceId")) &&
-      conferenceName === localStorage.getItem("conferenceName") &&
-      conferenceId &&
-      conferenceName
-    ) {
-      window.location.reload();
-    } else {
-      localStorage.setItem("conferenceId", conferenceId.toString());
-      localStorage.setItem("conferenceName", conferenceName.toString());
-      navigate("/conference");
+      localStorage.setItem("userRole", credentials.role);
+      localStorage.setItem("userName", credentials.ime);
+      localStorage.setItem("userSurname", credentials.prezime);
+      localStorage.setItem("jwtToken", credentials.jwtToken);
+      if (
+        conferenceId === Number(localStorage.getItem("conferenceId")) &&
+        conferenceName === localStorage.getItem("conferenceName") &&
+        conferenceId &&
+        conferenceName
+      ) {
+        window.location.reload();
+      } else {
+        localStorage.setItem("conferenceId", conferenceId.toString());
+        localStorage.setItem("conferenceName", conferenceName.toString());
+        navigate("/conference");
+      }
+    } catch (error) {
+      setShowAlert(true);
     }
   }
 
   return (
     <>
+      {showAlert ? (
+        <div className="alert alert-danger" role="alert">
+          Pogrešno uneseni podatci!
+        </div>
+      ) : null}
       <Modal.Header closeButton>
         <Modal.Title>Login - {conferenceName}</Modal.Title>
       </Modal.Header>
