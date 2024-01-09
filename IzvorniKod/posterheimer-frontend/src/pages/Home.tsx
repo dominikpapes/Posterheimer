@@ -1,15 +1,9 @@
 import { useEffect, useState } from "react";
-import {
-  Navbar,
-  Container,
-  Modal,
-  Form,
-  Button,
-  Spinner,
-} from "react-bootstrap";
+import { Modal, Form, Button } from "react-bootstrap";
 import ConferencesList from "../components/ConferencesList";
 import Titlebar from "../components/Titlebar";
 import { useNavigate } from "react-router-dom";
+import Loading from "../components/Loading";
 
 const SUPERUSER_ID = import.meta.env.VITE_SUPERUSER_ID;
 const SUPERUSER_IME = import.meta.env.VITE_SUPERUSER_IME;
@@ -31,17 +25,6 @@ interface Credentials {
   ime: string;
   prezime: string;
 }
-
-const mock_conference = [
-  {
-    idKonferencija: 1,
-    imeKonferencija: "Mock Conference 1",
-  },
-  {
-    idKonferencija: 2,
-    imeKonferencija: "Mock Conference 2",
-  },
-];
 
 async function getConferences() {
   const response = await fetch("/api/konferencije");
@@ -75,7 +58,6 @@ function Home() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  let userRole;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -86,7 +68,6 @@ function Home() {
       setIsLoading(false);
     });
     localStorage.clear();
-    // setConferences(mock_conference);
   }, []);
 
   function onSelectKonferencija() {}
@@ -110,9 +91,7 @@ function Home() {
       <Titlebar></Titlebar>
 
       {isLoading ? (
-        <div className="text-center">
-          <Spinner className="my-5"></Spinner>
-        </div>
+        <Loading />
       ) : (
         <div className="container text-center">
           <ConferencesList

@@ -1,146 +1,216 @@
-import React, { useState } from "react";
-import { Form, Modal, Button } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Form, Modal, Button, Spinner } from "react-bootstrap";
 import ConferenceNavbar from "../components/ConferenceNavbar";
-import harvard from "../assets/sponsors/harvard.png";
-import mit from "../assets/sponsors/mit.png";
-import fer from "../assets/sponsors/fer.png";
+import Loading from "../components/Loading";
+
+interface GetSponsor {
+  imePokrovitelja: string;
+  promotivniMaterijal: string;
+  urlPromo: string;
+}
+
+interface PostSponsor {
+  imePokrovitelja: string;
+  promotivniMaterijal: string;
+  urlPromo: string;
+  idKonferencija: string;
+}
 
 const VISITOR = import.meta.env.VITE_VISITOR;
 const REGISTERED = import.meta.env.VITE_REGISTERED;
 const ADMIN = import.meta.env.VITE_ADMIN;
 const SUPERUSER = import.meta.env.VITE_SUPERUSER;
 
+const BASE64_JPG = "data:image/jpg;base64";
+
 const userRole = localStorage.getItem("userRole");
 const showEdits = userRole === ADMIN || userRole === SUPERUSER;
 
-interface Sponsor {
-  name: string;
-  logo: string;
-  link: string;
-  idKonferencija: number;
+const empty_get_sponsor: GetSponsor = {
+  imePokrovitelja: "",
+  promotivniMaterijal: "",
+  urlPromo: "",
+};
+
+const empty_post_sponsor: PostSponsor = {
+  imePokrovitelja: "",
+  promotivniMaterijal: "",
+  urlPromo: "",
+  idKonferencija: "",
+};
+
+async function getSponsors() {
+  const conferenceId = localStorage.getItem("conferenceId");
+  const token = localStorage.getItem("jwtToken");
+  const response = await fetch(
+    `/api/pokrovitelji/idKonferencija/${conferenceId}`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  const data = await response.json();
+  console.log(data);
+  return data;
 }
 
-const initialMockSponsors: Sponsor[] = [
-  {
-    name: "fer",
-    logo: fer,
-    link: "https://www.fer.unizg.hr/",
-    idKonferencija: 1,
-  },
-  {
-    name: "harvard",
-    logo: harvard,
-    link: "https://www.harvard.edu/",
-    idKonferencija: 1,
-  },
-  {
-    name: "mit",
-    logo: mit,
-    link: "https://www.mit.edu/",
-    idKonferencija: 1,
-  },
-];
+async function postSponsor(sponsor: PostSponsor) {
+  console.log("Sponsor to send", sponsor);
+  const token = localStorage.getItem("jwtToken");
+  const response = await fetch(`/api/pokrovitelji`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(sponsor),
+  });
+  const data = await response.json();
+  console.log(data);
+}
+
+function convertBase64(file: any) {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+
+    fileReader.onload = () => {
+      resolve(fileReader.result);
+    };
+
+    fileReader.onerror = (error) => {
+      reject(error);
+    };
+  });
+}
+
+let fileToUpload: File;
 
 export default function Sponsors() {
-  const [showPosterForm, setShowPosterForm] = useState(false);
-  const [newSponsor, setNewSponsor] = useState({
-    name: "",
-    logo: "",
-    link: "",
-    idKonferencija: 1,
-  });
-  const [mockSponsors, setMockSponsors] = useState(initialMockSponsors);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showSponsorForm, setShowSponsorForm] = useState(false);
+  const [newSponsor, setNewSponsor] = useState<PostSponsor>(empty_post_sponsor);
+  const [sponsors, setSponsors] = useState<GetSponsor[]>([empty_get_sponsor]);
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleChange(e: any) {
     const { name, value } = e.target;
-    setNewSponsor((prevSponsor) => ({
-      ...prevSponsor,
+    if (e.target.files?.[0]) fileToUpload = e.target.files?.[0];
+    setNewSponsor({
+      ...newSponsor,
       [name]: value,
-    }));
+    });
   }
 
-  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (file) {
-      setNewSponsor((prevSponsor) => ({
-        ...prevSponsor,
-        logo: URL.createObjectURL(file),
-      }));
+  async function handleSubmit(event: any) {
+    event.preventDefault();
+
+    console.log(fileToUpload);
+
+    // Ensure a file is selected
+    if (!fileToUpload) {
+      alert("Niste izabrali datoteku!");
+      return;
+    }
+
+    // Check if the file is an image (optional, but recommended)
+    if (!fileToUpload.type.startsWith("image/")) {
+      alert("Izabrana datoteka nije slika!");
+      return;
+    }
+
+    // Convert the file to base64
+    const base64 = await convertBase64(fileToUpload);
+    if (typeof base64 === "string") {
+      let sponsor: PostSponsor = {
+        idKonferencija: localStorage.getItem("conferenceId") || "",
+        promotivniMaterijal: base64.split(",")[1],
+        imePokrovitelja: newSponsor.imePokrovitelja,
+        urlPromo: newSponsor.urlPromo,
+      };
+      postSponsor(sponsor).then(() => window.location.reload());
     }
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setMockSponsors([...mockSponsors, { ...newSponsor }]);
-    setNewSponsor({
-      name: "",
-      logo: "",
-      link: "",
-      idKonferencija: 1,
+  async function deleteSponsor(sponsor: string) {
+    const token = localStorage.getItem("jwtToken");
+    const response = await fetch(`/api/pokrovitelji/ime/${sponsor}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
-    setShowPosterForm(false);
+    const data = await response.json();
+    console.log(data);
+    setSponsors((prev) => prev.filter((o) => o.imePokrovitelja !== sponsor));
   }
 
-  function handleDelete(name: string) {
-    const updatedSponsors = mockSponsors.filter(
-      (sponsor) => sponsor.name !== name
-    );
-    setMockSponsors(updatedSponsors);
-  }
+  useEffect(() => {
+    setIsLoading(true);
+    getSponsors().then((data) => {
+      setSponsors(data);
+      setIsLoading(false);
+    });
+  }, []);
 
   return (
     <>
       <ConferenceNavbar />
-      <div className="poster-grid app-content">
-        {showEdits && (
-          <div
-            className="poster-container"
-            onClick={() => {
-              setShowPosterForm(true);
-            }}
-          >
-            <i className="fa-solid fa-plus fa-5x"></i>
-          </div>
-        )}
-        {mockSponsors.map((sponsor) => (
-          <div className="poster-grid-element" key={sponsor.name}>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <div className="poster-grid app-content">
+          {showEdits && (
             <div
               className="poster-container"
               onClick={() => {
-                window.open(sponsor.link, "_blank");
+                setShowSponsorForm(true);
               }}
             >
-              <i>
-                <img
-                  src={sponsor.logo}
-                  alt={sponsor.name}
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                />
-              </i>
+              <i className="fa-solid fa-plus fa-5x"></i>
             </div>
-            {showEdits && (
-              <Button
-                variant="danger"
-                className="delete-poster"
-                onClick={() => handleDelete(sponsor.name)}
+          )}
+          {sponsors.map((sponsor, index) => (
+            <div className="poster-grid-element" key={index}>
+              <div
+                className="poster-container"
+                onClick={() => {
+                  window.open(sponsor.urlPromo, "_blank");
+                }}
               >
-                Obriši
-              </Button>
-            )}
-          </div>
-        ))}
-      </div>
-      {/* Poster form */}
+                <i>
+                  <img
+                    src={`${BASE64_JPG},${sponsor.promotivniMaterijal}`}
+                    alt={sponsor.imePokrovitelja}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                </i>
+              </div>
+              {showEdits && (
+                <Button
+                  variant="danger"
+                  className="delete-poster"
+                  onClick={() => deleteSponsor(sponsor.imePokrovitelja)}
+                >
+                  Obriši
+                </Button>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Sponsor form */}
       <Modal
-        show={showPosterForm}
+        show={showSponsorForm}
         onHide={() => {
-          setNewSponsor({
-            name: "",
-            logo: "",
-            link: "",
-            idKonferencija: 1,
-          });
-          setShowPosterForm(false);
+          setNewSponsor(empty_post_sponsor);
+          setShowSponsorForm(false);
         }}
       >
         <Modal.Header closeButton>
@@ -149,34 +219,30 @@ export default function Sponsors() {
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
             <Form.Group className="my-3">
-              <Form.Label>Ime</Form.Label>
+              <Form.Label>Logotip</Form.Label>
               <Form.Control
-                type="text"
-                name="name"
-                value={newSponsor.name}
+                type="file"
+                name="promotivniMaterijal"
+                value={newSponsor.promotivniMaterijal}
                 onChange={handleChange}
+                accept="image/*"
               />
             </Form.Group>
             <Form.Group className="my-3">
-              <Form.Label>Slika (URL or File)</Form.Label>
+              <Form.Label>Ime</Form.Label>
               <Form.Control
                 type="text"
-                name="logo"
-                value={newSponsor.logo}
+                name="imePokrovitelja"
+                value={newSponsor.imePokrovitelja}
                 onChange={handleChange}
-              />
-              <Form.Control
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
               />
             </Form.Group>
             <Form.Group className="my-3">
               <Form.Label>Link</Form.Label>
               <Form.Control
                 type="text"
-                name="link"
-                value={newSponsor.link}
+                name="urlPromo"
+                value={newSponsor.urlPromo}
                 onChange={handleChange}
               />
             </Form.Group>

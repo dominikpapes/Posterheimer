@@ -4,6 +4,7 @@ import addImage from "../../public/add-image.png";
 import { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import PleaseLogin from "../components/PleaseLogin";
+import Loading from "../components/Loading";
 
 const VISITOR = import.meta.env.VITE_VISITOR;
 const REGISTERED = import.meta.env.VITE_REGISTERED;
@@ -77,13 +78,14 @@ function convertBase64(file: any) {
 let fileToUpload: File;
 
 function Photos() {
+  const [isLoading, setIsLoading] = useState(true);
   const [modal, setModal] = useState(false);
   const [showFormModal, setShowFormModal] = useState(false);
   const [tempImgSrc, setTempImgSrc] = useState("");
   const [tempIdx, setTempIdx] = useState(-1);
   const [newPhoto, setNewPhoto] = useState<NewPhoto>(empty_photo);
 
-  const [photos, setPhotos] = useState<Photo[]>([]); 
+  const [photos, setPhotos] = useState<Photo[]>([]);
 
   const userRole = localStorage.getItem("userRole") || "";
   const conferenceId = localStorage.getItem("conferenceId") || "";
@@ -165,7 +167,11 @@ function Photos() {
   }
 
   useEffect(() => {
-    getPhotos().then((data) => setPhotos(data));
+    setIsLoading(true);
+    getPhotos().then((data) => {
+      setPhotos(data);
+      setIsLoading(false);
+    });
   }, []);
 
   return (
@@ -173,6 +179,8 @@ function Photos() {
       <ConferenceNavbar />
       {showLoginPrompt ? (
         <PleaseLogin />
+      ) : isLoading ? (
+        <Loading />
       ) : (
         <div className="gallery">
           <div className="image-container">

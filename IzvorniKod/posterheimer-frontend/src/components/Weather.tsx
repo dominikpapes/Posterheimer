@@ -19,9 +19,10 @@ interface Props {
 }
 
 function Weather({ location }: Props) {
+  const [isLoading, setIsLoading] = useState(true);
   const [forecasts, setForecasts] = useState<WeatherData[]>([]);
 
-  function fetchForecast() {
+  async function fetchForecast() {
     fetch(`${api.base}forecast?q=${location}&units=metric&APPID=${api.key}`)
       .then((response) => response.json())
       .then((data) => {
@@ -41,7 +42,7 @@ function Weather({ location }: Props) {
   }
 
   useEffect(() => {
-    fetchForecast();
+    fetchForecast().then(() => setIsLoading(false));
   }, []);
 
   console.log(forecasts);

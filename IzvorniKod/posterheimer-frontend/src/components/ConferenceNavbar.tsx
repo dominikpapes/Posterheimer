@@ -89,7 +89,7 @@ function ConferenceNavbar() {
         data-bs-theme="dark"
       >
         <Container>
-          <Navbar.Brand>
+          <Navbar.Brand href="/">
             <img
               alt=""
               src="../../public/logo.png"
