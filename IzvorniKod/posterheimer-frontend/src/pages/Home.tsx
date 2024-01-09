@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
-import { Navbar, Container, Modal, Form, Button } from "react-bootstrap";
+import {
+  Navbar,
+  Container,
+  Modal,
+  Form,
+  Button,
+  Spinner,
+} from "react-bootstrap";
 import ConferencesList from "../components/ConferencesList";
 import Titlebar from "../components/Titlebar";
 import { useNavigate } from "react-router-dom";
@@ -62,17 +69,21 @@ async function login(dataToSend: LoginData) {
 
 function Home() {
   const [conferences, setConferences] = useState<Conference[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [showEdits, setShowEdits] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
   let userRole;
   const navigate = useNavigate();
 
   useEffect(() => {
+    setIsLoading(true);
     getConferences().then((data) => {
       console.log(data);
       setConferences(data);
+      setIsLoading(false);
     });
     localStorage.clear();
     // setConferences(mock_conference);
@@ -97,21 +108,28 @@ function Home() {
   return (
     <>
       <Titlebar></Titlebar>
-      <div className="container text-center">
-        <ConferencesList
-          conferences={conferences}
-          heading="Dostupne konferencije"
-          onSelectItem={onSelectKonferencija}
-          showDelete={showEdits}
-        ></ConferencesList>
-        {showEdits && (
-          <i
-            className="fa-solid fa-square-plus fa-4x"
-            title="Nova konferencija"
-            onClick={() => navigate("/newConference")}
-          ></i>
-        )}
-      </div>
+
+      {isLoading ? (
+        <div className="text-center">
+          <Spinner className="my-5"></Spinner>
+        </div>
+      ) : (
+        <div className="container text-center">
+          <ConferencesList
+            conferences={conferences}
+            heading="Dostupne konferencije"
+            onSelectItem={onSelectKonferencija}
+            showDelete={showEdits}
+          ></ConferencesList>
+          {showEdits && (
+            <i
+              className="fa-solid fa-square-plus fa-4x"
+              title="Nova konferencija"
+              onClick={() => navigate("/newConference")}
+            ></i>
+          )}
+        </div>
+      )}
       <i
         className="fa-solid fa-gear superuser fa-2x"
         onClick={() => {

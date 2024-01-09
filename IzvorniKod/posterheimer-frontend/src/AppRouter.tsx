@@ -5,7 +5,6 @@ import Conference from "./pages/Conference";
 import Register from "./pages/Register";
 import Posters from "./pages/Posters";
 import Photos from "./pages/Photos";
-import Patrons from "./components/Patrons";
 import NewConference from "./pages/NewConference";
 import UsersList from "./pages/UsersList";
 import Sponsors from "./pages/Sponsors";
@@ -18,7 +17,7 @@ const AppRouter = () => {
         <Route path="/conference" element={<Conference />} />
         <Route path="/posters" element={<Posters />} />
         <Route path="/photos" element={<Photos />} />
-        <Route path="/patrons" element={<Patrons />} />
+        <Route path="/patrons" element={<Sponsors />} />
         <Route path="/register" element={<Register />} />
         <Route path="/newConference" element={<NewConference />} />
         <Route path="/users" element={<UsersList />} />
