@@ -56,35 +56,13 @@ public class WebSecurityBasic {
    * }
    */
 
-<<<<<<< HEAD
-    @Bean
-    @Profile("form-security")
-    public SecurityFilterChain spaFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests(authz -> authz
-                        .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/konferencije")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/verify")).permitAll()
-                        .anyRequest().authenticated())
-                .exceptionHandling(e -> e
-                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
-                .csrf(AbstractHttpConfigurer::disable)
-                .headers(headers -> headers
-                        .frameOptions().sameOrigin())
-                .sessionManagement(sessionManagement ->
-                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(new JwtTokenFilter("0tt0RZKDc6o3uNQp5q9JOA2T_A60mye3wA9v4jklLARgtLfuD9VsjgsgWDr8Ltx-MH0Biq-2GDbD-T5I-_5alw"),
-                        UsernamePasswordAuthenticationFilter.class);;
-=======
   @Bean
   @Profile("form-security")
   public SecurityFilterChain spaFilterChain(HttpSecurity http) throws Exception {
     http
         .authorizeRequests(authz -> authz
             .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
-             .requestMatchers(new AntPathRequestMatcher("/konferencije")).permitAll()
-            .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
-            .requestMatchers(new AntPathRequestMatcher("/korisnici")).permitAll()
+            .requestMatchers(new AntPathRequestMatcher("/konferencije")).permitAll()
             .requestMatchers(new AntPathRequestMatcher("/verify")).permitAll()
             .anyRequest().authenticated())
         .exceptionHandling(e -> e
@@ -99,7 +77,6 @@ public class WebSecurityBasic {
                 "0tt0RZKDc6o3uNQp5q9JOA2T_A60mye3wA9v4jklLARgtLfuD9VsjgsgWDr8Ltx-MH0Biq-2GDbD-T5I-_5alw"),
             UsernamePasswordAuthenticationFilter.class);
     ;
->>>>>>> develop
 
     http.headers((headers) -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
 
