@@ -94,6 +94,9 @@ export default function Sponsors() {
   const [newSponsor, setNewSponsor] = useState<PostSponsor>(empty_post_sponsor);
   const [sponsors, setSponsors] = useState<GetSponsor[]>([empty_get_sponsor]);
 
+  const userRole = localStorage.getItem("userRole") || "";
+  const showEdits = userRole === ADMIN || userRole === SUPERUSER;
+
   function handleChange(e: any) {
     const { name, value } = e.target;
     if (e.target.files?.[0]) fileToUpload = e.target.files?.[0];
