@@ -38,9 +38,13 @@ public class LoginController {
             final String jwt = jwtUtil.generateToken(authentication);
             String role = authentication.getAuthorities().toString();
             Optional<Korisnik> korisnik=korisnikRepository.findByEmail(loginRequest.getUsername());
+<<<<<<< HEAD
             if(korisnik.isEmpty()){
                 throw new Exception();
             }
+=======
+
+>>>>>>> develop
             return ResponseEntity.ok(new AuthenticationResponse(jwt, role,korisnik.get().getIme(),korisnik.get().getPrezime()));
         } catch (BadCredentialsException e) {
             throw new Exception("Incorrect username or password", e);
