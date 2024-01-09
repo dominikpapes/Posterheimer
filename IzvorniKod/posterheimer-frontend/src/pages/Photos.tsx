@@ -1,6 +1,6 @@
 import ConferenceNavbar from "../components/ConferenceNavbar";
 import "../styles.css";
-import addImage from "../../public/add-image.png";
+import addImage from "/add-image.png";
 import { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import PleaseLogin from "../components/PleaseLogin";

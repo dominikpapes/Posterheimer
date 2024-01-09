@@ -163,7 +163,7 @@ export default function Sponsors() {
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="poster-grid app-content">
+        <div className="poster-grid mx-auto w-75">
           {showEdits && (
             <div
               className="poster-container"
@@ -171,7 +171,7 @@ export default function Sponsors() {
                 setShowSponsorForm(true);
               }}
             >
-              <i className="fa-solid fa-plus fa-5x"></i>
+              <i className="fa-solid fa-square-plus fa-4x"></i>
             </div>
           )}
           {sponsors.map((sponsor, index) => (
