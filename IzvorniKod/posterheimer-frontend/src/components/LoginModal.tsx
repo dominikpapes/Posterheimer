@@ -87,11 +87,6 @@ function LoginModal({ conferenceId, conferenceName }: Props) {
 
   return (
     <>
-      {showAlert ? (
-        <div className="alert alert-danger" role="alert">
-          Pogrešno uneseni podatci!
-        </div>
-      ) : null}
       <Modal.Header closeButton>
         <Modal.Title>Login - {conferenceName}</Modal.Title>
       </Modal.Header>
@@ -118,6 +113,11 @@ function LoginModal({ conferenceId, conferenceName }: Props) {
           </Button>
         </Form>
       </Modal.Body>
+      {showAlert ? (
+        <div className="alert alert-danger m-3" role="alert">
+          Pogrešan email ili lozinka!
+        </div>
+      ) : null}
     </>
   );
 }
