@@ -176,6 +176,16 @@ function Posters() {
         <Loading />
       ) : (
         <div className="poster-grid mx-auto w-75">
+          {showEdits && (
+            <div
+              className="poster-container"
+              onClick={() => {
+                setShowPosterForm(true);
+              }}
+            >
+              <i className="fa-solid fa-square-plus fa-4x"></i>
+            </div>
+          )}
           {posters.map((poster, index) => (
             <div className="poster-grid-element" key={poster.imePoster}>
               <div
@@ -189,30 +199,22 @@ function Posters() {
                 <i className="fa-solid fa-file-pdf fa-5x"></i>
                 <div className="h6 my-2">
                   {poster.imePoster} <br />
-                  {poster.imeAutor}
+                  {poster.imeAutor} {poster.prezimeAutor}
                 </div>
               </div>
               {showEdits && (
                 <Button
                   variant="danger"
                   className="delete-poster"
-                  onClick={() => deletePoster(chosenPoster.idPoster)}
+                  onClick={() => {
+                    deletePoster(poster.idPoster);
+                  }}
                 >
                   Obriši
                 </Button>
               )}
             </div>
           ))}
-          {showEdits && (
-            <div
-              className="poster-container"
-              onClick={() => {
-                setShowPosterForm(true);
-              }}
-            >
-              <i className="fa-solid fa-square-plus fa-4x"></i>
-            </div>
-          )}
         </div>
       )}
 

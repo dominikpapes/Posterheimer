@@ -112,12 +112,12 @@ function LoginModal({ conferenceId, conferenceName }: Props) {
             Login
           </Button>
         </Form>
+        {showAlert && (
+          <div className="alert alert-danger mt-3" role="alert">
+            Pogrešan email ili lozinka!
+          </div>
+        )}
       </Modal.Body>
-      {showAlert ? (
-        <div className="alert alert-danger m-3" role="alert">
-          Pogrešan email ili lozinka!
-        </div>
-      ) : null}
     </>
   );
 }
