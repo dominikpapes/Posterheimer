@@ -6,6 +6,7 @@ import Weather from "../components/Weather";
 import loading from "../../public/spinner.gif";
 import { Card, CardTitle, Offcanvas, Spinner } from "react-bootstrap";
 import PleaseLogin from "../components/PleaseLogin";
+import Loading from "../components/Loading";
 
 const VISITOR = import.meta.env.VITE_VISITOR;
 
@@ -82,11 +83,7 @@ function Conference() {
       <ConferenceNavbar />
       <>
         {isLoading ? (
-          <Spinner
-            className="m-auto"
-            animation="border"
-            role="status"
-          ></Spinner>
+          <Loading />
         ) : (
           <div className="conference-content">
             <Card className="conference-info my-2 p-2">

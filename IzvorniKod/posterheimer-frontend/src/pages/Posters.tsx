@@ -6,6 +6,7 @@ import pdf_file1 from "../assets/posters/b5_Programsko_inzenjerstvo_i_informacij
 import pdf_file2 from "../assets/posters/b5_Racunalno_inzenjerstvo.pdf";
 import ConferenceNavbar from "../components/ConferenceNavbar";
 import PleaseLogin from "../components/PleaseLogin";
+import Loading from "../components/Loading";
 
 const VISITOR = import.meta.env.VITE_VISITOR;
 const REGISTERED = import.meta.env.VITE_REGISTERED;
@@ -95,6 +96,7 @@ async function getPosters() {
 let fileToUpload: File;
 
 function Posters() {
+  const [isLoading, setIsLoading] = useState(true);
   const [posters, setPosters] = useState<GetPoster[]>([]);
   const [chosenPoster, setChosenPoster] = useState(empty_get_poster);
   const [showPoster, setShowPoster] = useState(false);
@@ -160,14 +162,18 @@ function Posters() {
   }
 
   useEffect(() => {
-    getPosters().then((data) => setPosters(data));
+    setIsLoading(true);
+    getPosters().then((data) => {
+      setPosters(data);
+      setIsLoading(false);
+    });
   }, []);
 
   return (
     <>
       <ConferenceNavbar />
-      {showLoginPrompt ? (
-        <PleaseLogin />
+      {isLoading ? (
+        <Loading />
       ) : (
         <div className="poster-grid mx-auto w-75">
           {posters.map((poster, index) => (
