@@ -29,11 +29,51 @@
 			\textbf{\textit{dio 2. revizije}}\\
 			
 			 \textit{U ovom poglavlju je potrebno opisati provedbu ispitivanja implementiranih funkcionalnosti na razini komponenti i na razini cijelog sustava s prikazom odabranih ispitnih slučajeva. Studenti trebaju ispitati temeljnu funkcionalnost i rubne uvjete.}
-	
 			
 			\subsection{Ispitivanje komponenti}
 			\textit{Potrebno je provesti ispitivanje jedinica (engl. unit testing) nad razredima koji implementiraju temeljne funkcionalnosti. Razraditi \textbf{minimalno 6 ispitnih slučajeva} u kojima će se ispitati redovni slučajevi, rubni uvjeti te izazivanje pogreške (engl. exception throwing). Poželjno je stvoriti i ispitni slučaj koji koristi funkcionalnosti koje nisu implementirane. Potrebno je priložiti izvorni kôd svih ispitnih slučajeva te prikaz rezultata izvođenja ispita u razvojnom okruženju (prolaz/pad ispita). }
 			
+			U \textbf{prvom ispitnom slučaju} provjerena je funkcionalnost gumba za pristup konferenciji pri incijalnom pristupu pomoću točnog generičkog korisničkog imena i odgovarajuće lozinke. Predviđen rezultat je dozvoljen pristup stranici konferencije na kojoj nije dostupan pregled fotografija, pokrovitelja, vremenske prognoze te video prijenosa.
+			
+			U \textbf{drugom ispitnom slučaju} provjerena je funkcionalnost gumba za pristup konferenciji pomoću jedinstvenog korisničkog računa pomoću točne email adrese i odgovarajuće lozinke. Predviđen rezultat je dozvoljen pristup stranici konferencije uz omogućen pregled fotografija, pokrovitelja, vremenske prognoze te video prijenosa.
+			
+			U \textbf{trećem ispitnom slučaju} provjerena je funkcionalnost gumba za pristup konferenciji pri neispravnoj prijavi. Predviđen rezultat je ostajanje na stranici prijave. 
+			
+			\begin{lstlisting}
+	@Test 
+	public void testLoginTemplate() {
+		System.setProperty("webdriver.chrome.driver", "src/test/java/chromedriver"); 
+		WebDriver driver = new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+			
+		driver.get("https://posterheimer.onrender.com/"); 
+			
+		driver.findElement(By.className("Conference")).click(); 
+			
+		WebElement element = driver.findElement(By.name("username"));
+		element.sendKeys("PLACEHOLDER"); // upisati ime/email za odredeni test
+		element = driver.findElement(By.name("password"));
+		element.sendKeys("PLACEHOLDER"); // upisati lozinku za odredeni test
+			
+		driver.findElement(By.xpath("//button[text()='Pristupi']")).click(); 
+			
+		String redirURL = driver.getCurrentUrl();
+		if(redirURL.contains("PLACEHOLDER")) // upisati kljucno za url stranice koju ocekujemo
+			System.out.println("Dozvoljen je pristup konferenciji");
+		else
+			System.out.println("Neuspjesan pokusaj pristupa");
+		
+		driver.quit(); 
+}
+			\end{lstlisting}
+			
+\textbf{Četvrti ispitni slučaj} provjerava funkcionalnost gumba za registraciju pri unosu email adrese točnog formata. Predviđen rezultat je uspješna registracija.
+
+\textbf{Peti ispitni slučaj} provjerava funkcionalnost gumba za registraciju pri unosu email adrese netočnog formata. Predviđen rezultat je neuspješna registracija.		
+			
+\textbf{Šesti ispitni slučaj} provjerava funkcionalnost navigacijske trake. Predviđen rezultat je da će nas određeni gumb voditi na stranicu istog naziva.
+
+\textbf{Sedmi ispitni slučaj} provjerava funkcionalnost gumba za dodavanje konferencija/postera.
 			
 			
 			\subsection{Ispitivanje sustava}
