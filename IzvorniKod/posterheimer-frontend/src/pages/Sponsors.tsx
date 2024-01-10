@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Form, Modal, Button, Spinner } from "react-bootstrap";
 import ConferenceNavbar from "../components/ConferenceNavbar";
 import Loading from "../components/Loading";
+import PleaseLogin from "../components/PleaseLogin";
 
 interface GetSponsor {
   imePokrovitelja: string;
@@ -96,6 +97,7 @@ export default function Sponsors() {
 
   const userRole = localStorage.getItem("userRole") || "";
   const showEdits = userRole === ADMIN || userRole === SUPERUSER;
+  const showLoginPrompt = userRole === VISITOR;
 
   function handleChange(e: any) {
     const { name, value } = e.target;
@@ -151,16 +153,19 @@ export default function Sponsors() {
 
   useEffect(() => {
     setIsLoading(true);
-    getSponsors().then((data) => {
-      setSponsors(data);
-      setIsLoading(false);
-    });
+    if (!showLoginPrompt)
+      getSponsors().then((data) => {
+        setSponsors(data);
+        setIsLoading(false);
+      });
   }, []);
 
   return (
     <>
       <ConferenceNavbar />
-      {isLoading ? (
+      {showLoginPrompt ? (
+        <PleaseLogin />
+      ) : isLoading ? (
         <Loading />
       ) : (
         <div className="poster-grid mx-auto w-75">

@@ -83,7 +83,7 @@ function Register() {
 
   const recaptcha = useRef<ReCAPTCHA>();
 
-  const location = useLocation();
+  const navigate = useNavigate();
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -127,6 +127,7 @@ function Register() {
         alert("Form submission successful!");
       } else alert("Uh Oh");
     }
+    navigate("/");
   }
 
   return (

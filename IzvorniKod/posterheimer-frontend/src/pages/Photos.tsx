@@ -168,10 +168,11 @@ function Photos() {
 
   useEffect(() => {
     setIsLoading(true);
-    getPhotos().then((data) => {
-      setPhotos(data);
-      setIsLoading(false);
-    });
+    if (!showLoginPrompt)
+      getPhotos().then((data) => {
+        setPhotos(data);
+        setIsLoading(false);
+      });
   }, []);
 
   return (

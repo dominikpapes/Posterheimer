@@ -65,6 +65,7 @@ function NewConference() {
   const [adminConfirmPassword, setAdminConfirmPassword] = useState("");
 
   const token = localStorage.getItem("jwtToken") || "";
+  const navigate = useNavigate();
 
   useEffect(() => {
     setNewConference(emptyConference);
@@ -81,6 +82,34 @@ function NewConference() {
   function handleSubmit(e: any) {
     e.preventDefault();
 
+    let htmlString = newConference.videoUrl;
+
+    let match = htmlString.match(/src="(.*?)"/);
+    let srcValue;
+
+    // Check if a match is found
+    if (match) {
+      srcValue = match[1];
+      console.log(srcValue);
+    } else {
+      srcValue = "";
+      console.log("src attribute not found");
+    }
+
+    let conf: Conference = {
+      imeKonferencija: newConference.imeKonferencija,
+      mjesto: newConference.mjesto,
+      adresa: newConference.adresa,
+      zipCode: newConference.zipCode,
+      datumVrijemePocetka: newConference.datumVrijemePocetka,
+      datumVrijemeZavrsetka: newConference.datumVrijemeZavrsetka,
+      videoUrl: srcValue,
+      genericUsername: newConference.genericUsername,
+      genericPassword: newConference.genericPassword,
+      adminUsername: newConference.adminUsername,
+      adminPassword: newConference.adminPassword,
+    };
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(newConference.genericUsername)) {
@@ -93,9 +122,11 @@ function NewConference() {
       return;
     }
 
-    console.log(newConference);
+    console.log(conf);
 
-    PostConference(newConference, token);
+    PostConference(conf, token);
+
+    navigate("/");
   }
 
   return (
