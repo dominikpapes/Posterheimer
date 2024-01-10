@@ -1,9 +1,12 @@
 \chapter{Opis projektnog zadatka}
 		
-		Cilj projekta je razviti programsku podršku za stvaranje web aplikacije „Posterheimer“ koja će olakšati pregled radova sudionicima stručnih konferencija prikazom svakog rada i/ili izlaganja odgovarajućim posterom ili prezentacijom. Omogućit će glasovanje preko aplikacije te automatsko rangiranje autora i njihovih radova te pregled dodatnih informacija o konferenciji kao što su datum i vrijeme održavanja konferencije, vremenska prognoza za područje održavanja konferencije, video prijenos konferencije, pregled fotografija s konferencije i pregled pokrovitelja konferencije.
+		Cilj projekta je razviti programsku podršku za stvaranje web aplikacije „Posterheimer“ koja će olakšati pregled radova sudionicima stručnih konferencija prikazom svakog rada i/ili izlaganja odgovarajućim posterom ili prezentacijom. Omogućit će glasovanje preko aplikacije te automatsko rangiranje autora i njihovih radova te pregled dodatnih informacija o konferenciji kao što su datum i vrijeme održavanja konferencije, prikaz mjesta održavanja pomoću karte, vremenska prognoza za područje održavanja konferencije, video prijenos konferencije, pregled fotografija s konferencije i pregled pokrovitelja konferencije.
 		
-		Prilikom pokretanja aplikacije prikazuje se zahtjev za prijavu u sustav generičkom lozinkom uz opciju registracije ili prijavu s postojećim registriranim računom.
-		Korisnici koji se registriraju, odnosno izrade svoj korisnički račun, zvat će se "registrirani korisnici" ili "prijavljeni korisnici", a korisnici koji koriste generički račun zvat će se "korisnici posjetitelji" ili "neprijavljeni korisnici". Korisnik se može prijaviti s računom korisnika posjetitelja koji ima generičku lozinku koja je svim posjetiteljima konferencije zajednička. Svi posjetitelji dobivaju korisničko ime Posjetitelj. Svaki posjetitelj može pregledavati postere ili prezentacije i izraditi svoj korisnički račun.
+		Prilikom pokretanja aplikacije prikazuje se popis aktivnih konferencija. Prije pristupa određenoj konferenciji prikazuje se zahtjev za prijavu u sustav. Inicijalni pristup moguće je ostvariti pomoću generičkog korisničkog računa. Za prijavu tog tipa potrebno je generičko korisničko ime (adresa e-pošte predviđena za određenu konferenciju) i odgovarajuća generička lozinka. Spomenuti podaci biti će dostupni samo sudionicima konferencije koji će ih dobiti prilikom dolaska i prijave na samu konferenciju. Podaci vezani uz generički račun zajednički su za sve posjetitelje konferencije. Nakon što su pristupili konferenciji korištenjem generičkog korisničkog računa, korisnici mogu izraditi vlastiti korisnički račun pomoću opcije registracije. Nakon registracije, korisnici za pristup konferenciji (prijavu) mogu koristiti vlastiti korisnički račun. 
+
+		U nastavku dokumenta, za korisnike koji su za pristup konferenciji koristili samo generički korisnički račun koristiti će se naziv "korisnici posjetitelji" ili kraće "posjetitelji". Korisnici koji se registriraju, odnosno izrade svoj korisnički račun, zvat će se "registrirani korisnici". 
+		
+		Svaki posjetitelj može pregledavati postere ili prezentacije i izraditi svoj vlastiti korisnički račun.
 		
 		Za kreiranje novog računa potrebni su sljedeći podaci:
 		\begin{packed_item}
@@ -13,12 +16,7 @@
 			\item prezime
 		\end{packed_item}
 		
-		Registracijom u sustav korisniku se dodjeljuju prava "registriranog korisnika". Registrirani korisnik može pregledati i mijenjati sljedeće osobne podatke:
-		\begin{packed_item}
-			\item adresa e-pošte
-			\item lozinka
-		\end{packed_item}
-
+		Registracijom u sustav korisniku se dodjeljuju prava "registriranog korisnika". 
 		Registrirani korisnici nakon prijave zadržavaju sva prava koja ima korisnik posjetitelj te uz njih dobivaju i neke nove mogućnosti:
 		\begin{packed_item}
 			\item Glasovanja za jedan od postera
@@ -27,16 +25,19 @@
 			\item Pregled pokrovitelja konferencije klikom u izborniku na pokrovitelje konferencije
 			\item Pregled informacija o vremenu i mjestu održavanja konferencije
 			\item Pregled vremenske prognoze za mjesto u kojem se održava konferencija
-			\item Pregled konačnih rezultata glasanja jednom kad ono završi
+			\item Pregled konačnih rezultata glasovanja kada ono završi
 		\end{packed_item}
 		
-		Glasovanje je moguće samo tijekom određenog razdoblja koje je određeno danima i vremenom održavanja konferencije. Nakon završenog postupka glasovanja, objavljuju se rezultati koji su dostupni svim registriranim korisnicima. Registrirani korisnici mogu dati glas samo jednom posteru. Sve dok traje glasovanje glasači mogu ukloniti svoj glas s postera za kojeg su već glasovali i dodijeliti ga nekom drugom posteru ili se suzdržati od glasovanja uopće.
+		Glasovanje je moguće samo tijekom određenog razdoblja koje je određeno danima i vremenom održavanja konferencije. Ono će završiti dva dana prije završetka same konferencije. Nakon završenog postupka glasovanja, objavljuju se rezultati koji su dostupni svim registriranim korisnicima. 
+		Registrirani korisnici mogu dati glas samo jednom posteru te svoj glas ne mogu naknadno promijeniti. Glasovanje nije obavezno te se korisnici mogu suzdržati od glasovanja.  
 		
-		Događanja s konferencije bit će uživo prenošena pomoću video prijenosa preko usluge "YouTube". Svi događaji se fotografiraju i fotografije se spremaju u galeriju kojoj mogu pristupiti svi registrirani korisnici, koji ih zatim mogu pobliže pregledati ili preuzeti na svoj uređaj.
+		Događanja s konferencije biti će uživo prenošena pomoću video prijenosa preko usluge "YouTube". Svi događaji se fotografiraju i fotografije se spremaju u galeriju kojoj mogu pristupiti svi registrirani korisnici, koji ih zatim mogu pobliže pregledati ili preuzeti na svoj uređaj.
 		
-		Registriranim korisnicima je dostupan dio s informacijama o mjestu održavanja konferencije koji sadrži podatke o trenutnim vremenskim uvjetima i vremenskoj prognozi za navedenu lokaciju.
+		Registriranim korisnicima je dostupan dio s informacijama o mjestu održavanja konferencije koji sadrži podatke o trenutnim vremenskim uvjetima i vremenskoj prognozi za navedenu lokaciju te prikaz lokacije pomoću karte.
 		
-		Autori postera ili prezentacija koji sudjeluju na stručnom skupu elektroničkom poštom dostavljaju sve potrebne materijale sistemskom administratoru, a nakon završetka postupka glasovanja primaju obavijest o rangu svojeg rada prema glasovima posjetitelja. Porukom elektroničke pošte se prva tri nagrađena rada poziva na dodjelu nagrade. Također, sve se sudionike obavještava elektroničkom poštom o mjestu i vremenu dodjele nagrade. Rezultate glasanja mogu vidjeti samo registrirani korisnici odabirom opcije u izborniku.
+		Autori postera ili prezentacija koji sudjeluju na stručnom skupu elektroničkom poštom dostavljaju sve potrebne materijale administratoru zaduženog za konferenciju, a nakon završetka postupka glasovanja primaju obavijest o rangu svojeg rada prema glasovima posjetitelja. Porukom elektroničke pošte se prva tri nagrađena rada poziva na dodjelu nagrade. Također, sve se sudionike elektroničkom poštom obavještava o mjestu i vremenu dodjele nagrade. 
+		
+		\textcolor{red}{Rezultate glasanja mogu vidjeti samo registrirani korisnici odabirom opcije u izborniku. [Nadopisati stvarnu implementaciju]}
 		
 		Uz korisnika posjetitelja i registriranog korisnika postoje još dvije vrste korisnika, a to su
 		\begin{packed_item}
@@ -44,20 +45,21 @@
 			\item natkorisnik
 		\end{packed_item}
 		
-		$\underline{Administrator}$ sustava ima najveće ovlasti. On ima pristup bazi s popisom registriranih korisnika i njihovim podacima te može brisati registrirane korisnike. Obavlja prijavu autora, radova i postera. Ima mogućnost ažuriranja tih podataka. Određuje vrijeme u kojem je glasovanje moguće. Dostupni su mu svi podaci te može definirati sve potrebne uvjete za ispravan rad sustava.
+		$\underline{Administrator}$ konferencije zadužen je za upravljanje svim podacima vezanih uz konferenciju. Svaka konferencija ima svog vlastitog administratora. On ima pristup bazi s popisom registriranih korisnika i njihovim podacima te može brisati registrirane korisnike. "Registrirani korisnici" se u ovom slučaju odnose samo na korisnike koji su registrirani za konferenciju za koju je administrator zadužen. Ne može upravljati registriranim korisnicima ostalih konferencija. Obavlja prijavu autora, radova i postera. Ima mogućnost ažuriranja tih podataka.
 		
-		$\underline{Natkorisnik}$ je korisnik koji postoji u bazi od samog postavljanja aplikacije na mrežu i ima ovlasti stvaranja i brisanja konferencija, te postavljanja administratora pojedinih konferencija.
+		$\underline{Natkorisnik}$ je korisnik koji postoji u bazi od samog postavljanja aplikacije na mrežu i ima ovlasti stvaranja i brisanja konferencija, te postavljanja administratora pojedinih konferencija. Ima sve ovlasti administratora i pristup svim registriranim korisnicima.  Dostupni su mu svi podaci te može definirati sve potrebne uvjete za ispravan rad sustava.
 		
 		Aplikacija je građena za specifičnu uporabu stvaranja konferencija natjecateljskog tipa, čime je namjera zadovoljiti potrošačku nišu koju druge slične aplikacije poput "b2match.com", "Wix.com" i "monday.com" ne ciljaju. Također, cilj aplikacije je privući klijente iznimnom jednostavnošću dizajna i funkcionalnosti, što znači da ju je lako koristiti i pruža efikasan i brz način za organizirati željeni događaj.
+
 		
 		Neke od mogućih nadogradnja aplikacije su: 
 		\begin{packed_item}
 			\item Omogućavanje administratoru estetsku konfiguraciju i personalizaciju stranice same konferencije, čime bi se omogućilo organizatorima da na vizualan način plasiraju svoju poruku, što bi bilo omogućeno jednostavnim sučeljom na kojem bi administrator mogao birati boje elemenata stranice ili postavljati vlastite fotografije ili logotipe u prednji ili zadnji plan prozora.
-			\item Prikaz više opcija o lokaciji održavanja konferencije, na primjer dodati  interaktivnu kartu  mjesta konferencije s označenim važnim lokacijama ili integrirati informacije o lokalnim restoranima, hotelima i prijevozu
+			\item Prikaz više opcija o lokaciji održavanja konferencije, na primjer dodati  interaktivnu kartu mjesta konferencije s označenim važnim lokacijama ili integrirati informacije o lokalnim restoranima, hotelima i prijevozu
 			 \item Omogućiti registriranim korisnicima komentiranje postera
 			 \item Implementiranje dvofaktorske autentikacije kako bi se dodatno osigurao pristup sustavu
-			 \item Razvoj  mobilne aplikacije za Android i iOS uređaje 
-			 \item Uvođenje analitičkih alata  za praćenje korištenja platforme tijekom konferencije i generiranje izvještaja o učinkovitosti i angažmanu korisnika nakon završetka konferencije
+			 \item Razvoj mobilne aplikacije za Android i iOS uređaje 
+			 \item Uvođenje analitičkih alata za praćenje korištenja platforme tijekom konferencije i generiranje izvještaja o učinkovitosti i angažmanu korisnika nakon završetka konferencije
 		\end{packed_item}
 
 		\eject
