@@ -1,17 +1,15 @@
 /*package com;
 
-import com.domain.Konferencija;
 import com.domain.Korisnik;
-import com.rest.KorisnikController;
 import com.service.KonferencijeService;
 import com.service.KorisnikService;
+import com.domain.Konferencija;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 

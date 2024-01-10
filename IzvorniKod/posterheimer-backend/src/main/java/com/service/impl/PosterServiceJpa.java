@@ -2,12 +2,10 @@ package com.service.impl;
 
 import com.dao.KonferencijaRepository;
 import com.dao.PosterRepository;
-import com.domain.Korisnik;
 import com.domain.Poster;
 import com.service.EntityMissingException;
 import com.service.PosterService;
 import com.service.RequestDeniedException;
-import org.hibernate.action.internal.EntityActionVetoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;

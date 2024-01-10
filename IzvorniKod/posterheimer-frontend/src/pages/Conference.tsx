@@ -1,88 +1,125 @@
 import ConferenceNavbar from "../components/ConferenceNavbar";
 import { useLocation, useNavigate } from "react-router-dom";
 import { createContext, useEffect, useState } from "react";
-import Posters from "../components/Posters";
-import Photos from "../components/Photos";
-import Patrons from "../components/Patrons";
 import Weather from "../components/Weather";
+
+import loading from "../../public/spinner.gif";
+import { Card, CardTitle, Offcanvas, Spinner } from "react-bootstrap";
+import PleaseLogin from "../components/PleaseLogin";
+import Loading from "../components/Loading";
+
+const VISITOR = import.meta.env.VITE_VISITOR;
 
 interface Conference {
   idKonferencija: string;
   imeKonferencija: string;
   mjesto: string;
+  adresa: string;
+  zipCode: string;
   datumVrijemePocetka: Date;
   datumVrijemeZavrsetka: Date;
+  videoUrl: string;
+}
+
+const empty_conference: Conference = {
+  idKonferencija: "",
+  imeKonferencija: "",
+  mjesto: "",
+  adresa: "",
+  zipCode: "",
+  datumVrijemePocetka: new Date(),
+  datumVrijemeZavrsetka: new Date(),
+  videoUrl: "",
+};
+
+async function getConferences(conferenceId: number) {
+  let token = localStorage.getItem("jwtToken");
+  const response = await fetch(`/api/konferencije/${conferenceId}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await response.json();
+  return data;
 }
 
 function Conference() {
-  const location = useLocation();
-  const [componentToShow, setComponentToShow] = useState("conference");
-  const [conference, setConference] = useState<Conference>({
-    idKonferencija: "",
-    imeKonferencija: "",
-    mjesto: "",
-    datumVrijemePocetka: new Date(),
-    datumVrijemeZavrsetka: new Date(),
-  });
+  const userRole = localStorage.getItem("userRole");
+  const conferenceId = Number(localStorage.getItem("conferenceId"));
+  const [isLoading, setIsLoading] = useState(true);
+  const [conference, setConference] = useState<Conference>(empty_conference);
+  const showLoginPrompt = userRole === VISITOR;
 
-  let key = "credentials";
-  let credentials = localStorage.getItem(key);
+  const [dateStart, setDateStart] = useState(new Date());
+  const [dateEnd, setDateEnd] = useState(new Date());
 
-  const navigate = useNavigate();
-  const conferenceId = location.state;
-  console.log("konfId" + conferenceId);
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    weekday: "short", // 'short' or 'long' for short or full weekday names
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  };
 
   useEffect(() => {
-    fetch(`api/konferencije/${conferenceId}`, {
-      headers: {
-        Authorization: `Basic ${credentials}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((conference) => setConference(conference));
+    setIsLoading(true);
+    getConferences(conferenceId).then((data) => {
+      setConference(data);
+      setIsLoading(false);
+    });
   }, []);
 
-  function handleHome() {
-    // log out
-    navigate("/");
-  }
-
-  function handleConference() {
-    setComponentToShow("conference");
-  }
-
-  function handlePosters() {
-    setComponentToShow("posters");
-  }
-
-  function handlePhotos() {
-    setComponentToShow("photos");
-  }
-
-  function handlePatrons() {
-    setComponentToShow("patrons");
-  }
+  useEffect(() => {
+    console.log(conference);
+    setDateStart(new Date(conference.datumVrijemePocetka));
+    setDateEnd(new Date(conference.datumVrijemeZavrsetka));
+  }, [conference]);
 
   return (
     <>
-      <ConferenceNavbar
-        conference={conference}
-        handleClickHome={handleHome}
-        handleClickConference={handleConference}
-        handleClickPosters={handlePosters}
-        handleClickPhotos={handlePhotos}
-        handleClickPatrons={handlePatrons}
-      />
-      {componentToShow === "conference" && (
-        <Weather location={conference.mjesto} />
-      )}
-      {componentToShow === "posters" && <Posters />}
-      {componentToShow === "photos" && <Photos />}
-      {componentToShow === "patrons" && <Patrons />}
+      <ConferenceNavbar />
+      <>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <div className="conference-content">
+            <Card className="conference-info my-2 p-2">
+              <CardTitle>{conference.imeKonferencija.toUpperCase()}</CardTitle>
+              <Card.Body>
+                {dateStart.toLocaleString("hr-HR", dateOptions)} -{" "}
+                {dateEnd.toLocaleString("hr-HR", dateOptions)}
+                <Card className="location-container">
+                  <a
+                    href={`https://maps.google.com/?q=${conference.adresa}+${conference.mjesto}`}
+                  >
+                    <i className="fa-solid fa-location-dot fa-2x"></i>
+                    <br />
+                    {conference.adresa}
+                    <br />
+                    {conference.mjesto}
+                    <br />
+                    {conference.zipCode}
+                  </a>
+                </Card>
+              </Card.Body>
+            </Card>
+            {conference.mjesto && <Weather location={conference.mjesto} />}
+            {showLoginPrompt ? (
+              <PleaseLogin />
+            ) : (
+              <iframe
+                className="video mb-3"
+                src={conference.videoUrl}
+                title="conference-video"
+              ></iframe>
+            )}
+          </div>
+        )}
+      </>
     </>
   );
 }
-
 export default Conference;
-
-export const ConferenceContext = createContext(null);

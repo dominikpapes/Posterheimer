@@ -30,66 +30,74 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 @Configuration
 @EnableMethodSecurity(securedEnabled = true, prePostEnabled = false)
 public class WebSecurityBasic {
-    private final AuthenticationConfiguration authenticationConfiguration;
+  private final AuthenticationConfiguration authenticationConfiguration;
 
-    public WebSecurityBasic(AuthenticationConfiguration authenticationConfiguration) {
-        this.authenticationConfiguration = authenticationConfiguration;
-    }
-    /*@Bean
-    @Profile("basic-security")
-    @Order(Ordered.HIGHEST_PRECEDENCE)
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(authorize -> authorize
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
-                .anyRequest().authenticated());
-        http.formLogin(withDefaults());
-        http.httpBasic(withDefaults());
-        http.csrf(AbstractHttpConfigurer::disable);
-        http.headers((headers) -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
-        return http.build();
-    }*/
+  public WebSecurityBasic(AuthenticationConfiguration authenticationConfiguration) {
+    this.authenticationConfiguration = authenticationConfiguration;
+  }
+  /*
+   * @Bean
+   * 
+   * @Profile("basic-security")
+   * 
+   * @Order(Ordered.HIGHEST_PRECEDENCE)
+   * public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+   * http.authorizeHttpRequests(authorize -> authorize
+   * .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).
+   * permitAll()
+   * .requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
+   * .anyRequest().authenticated());
+   * http.formLogin(withDefaults());
+   * http.httpBasic(withDefaults());
+   * http.csrf(AbstractHttpConfigurer::disable);
+   * http.headers((headers) ->
+   * headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
+   * return http.build();
+   * }
+   */
 
-    @Bean
-    @Profile("form-security")
-    public SecurityFilterChain spaFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests(authz -> authz
-                        .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/konferencije")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/verify")).permitAll()
-                        .anyRequest().authenticated())
-                .exceptionHandling(e -> e
-                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
-                .csrf(AbstractHttpConfigurer::disable)
-                .headers(headers -> headers
-                        .frameOptions().sameOrigin())
-                .sessionManagement(sessionManagement ->
-                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(new JwtTokenFilter("0tt0RZKDc6o3uNQp5q9JOA2T_A60mye3wA9v4jklLARgtLfuD9VsjgsgWDr8Ltx-MH0Biq-2GDbD-T5I-_5alw"),
-                        UsernamePasswordAuthenticationFilter.class);;
+  @Bean
+  @Profile("form-security")
+  public SecurityFilterChain spaFilterChain(HttpSecurity http) throws Exception {
+    http
+        .authorizeRequests(authz -> authz
+            .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
+            .requestMatchers(new AntPathRequestMatcher("/konferencije")).permitAll()
+            .requestMatchers(new AntPathRequestMatcher("/verify")).permitAll()
+            .anyRequest().authenticated())
+        .exceptionHandling(e -> e
+            .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
+        .csrf(AbstractHttpConfigurer::disable)
+        .headers(headers -> headers
+            .frameOptions().sameOrigin())
+        .sessionManagement(
+            sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .addFilterBefore(
+            new JwtTokenFilter(
+                "0tt0RZKDc6o3uNQp5q9JOA2T_A60mye3wA9v4jklLARgtLfuD9VsjgsgWDr8Ltx-MH0Biq-2GDbD-T5I-_5alw"),
+            UsernamePasswordAuthenticationFilter.class);
+    ;
 
-        http.headers((headers) -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
+    http.headers((headers) -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
 
+    return http.build();
+  }
 
-        return http.build();
-    }
-    @Bean
-    public AuthenticationManager authenticationManager() throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
+  @Bean
+  public AuthenticationManager authenticationManager() throws Exception {
+    return authenticationConfiguration.getAuthenticationManager();
+  }
 
-    @Bean
-    @Profile({ "basic-security", "form-security" })
-    public SecurityFilterChain h2ConsoleSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(authorize -> authorize
-                .requestMatchers(PathRequest.toH2Console()).permitAll()
-                .anyRequest().authenticated());
-        http.securityMatcher(PathRequest.toH2Console());
-        http.csrf(AbstractHttpConfigurer::disable);
-        http.headers((headers) -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
-        return http.build();
-    }
-
+  @Bean
+  @Profile({ "basic-security", "form-security" })
+  public SecurityFilterChain h2ConsoleSecurityFilterChain(HttpSecurity http) throws Exception {
+    http.authorizeHttpRequests(authorize -> authorize
+        .requestMatchers(PathRequest.toH2Console()).permitAll()
+        .anyRequest().authenticated());
+    http.securityMatcher(PathRequest.toH2Console());
+    http.csrf(AbstractHttpConfigurer::disable);
+    http.headers((headers) -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
+    return http.build();
+  }
 
 }

@@ -1,15 +1,7 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-
+import { Table } from "react-bootstrap";
+import loading from "../../public/spinner.gif";
 import "../styles.css";
-
-import clear_icon from "../assets/clear.png";
-import cloud_icon from "../assets/cloud.png";
-import drizzle_icon from "../assets/drizzle.png";
-import humidity_icon from "../assets/humidity.png";
-import rain_icon from "../assets/rain.png";
-import snow_icon from "../assets/snow.png";
-import wind_icon from "../assets/wind.png";
 
 const api = {
   key: "aa1ef53b0bb7d2e72fe42357e59adacb",
@@ -17,15 +9,9 @@ const api = {
 };
 
 interface WeatherData {
-  main: {
-    temp: number;
-  };
-  name: string;
-  weather: [
-    {
-      icon: string;
-    }
-  ];
+  temperature: number;
+  icon: string;
+  time: string;
 }
 
 interface Props {
@@ -33,30 +19,66 @@ interface Props {
 }
 
 function Weather({ location }: Props) {
-  const [weather, setWeather] = useState<WeatherData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [forecasts, setForecasts] = useState<WeatherData[]>([]);
 
-  function loadWeatherData() {
-    axios
-      .get<WeatherData>(
-        `${api.base}weather?q=Zagreb&units=metric&APPID=${api.key}`
-      )
-      .then((response) => {
-        setWeather(response.data);
+  async function fetchForecast() {
+    fetch(`${api.base}forecast?q=${location}&units=metric&APPID=${api.key}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Forecast: ", data);
+        data.list.forEach((element: any) => {
+          const weatherData: WeatherData = {
+            temperature: element.main.temp,
+            icon: element.weather[0].icon,
+            time: element.dt_txt,
+          };
+          setForecasts((currentForecasts) => [
+            ...currentForecasts,
+            weatherData,
+          ]);
+        });
       });
   }
 
-  useEffect(loadWeatherData, []);
+  useEffect(() => {
+    fetchForecast().then(() => setIsLoading(false));
+  }, []);
 
-  const iconUrl = `https://openweathermap.org/img/wn/${weather?.weather[0].icon}@2x.png`;
+  console.log(forecasts);
 
   return (
     <>
-      <div className="d-flex justify-content-center py-5">
-        <div className="weather-card card w-25">
-          <img src={iconUrl} alt="" className="weather-image w-25" />
-          <h2>{location}</h2>
-          <h3>{weather?.main.temp}°C</h3>
-        </div>
+      <div className="weather-card card my-1">
+        <img
+          src={`https://openweathermap.org/img/wn/${forecasts[0]?.icon}@2x.png`}
+          alt=""
+          className="weather-image"
+        />
+        <h2>{location}</h2>
+        <h3>{forecasts[0]?.temperature}°C</h3>
+      </div>
+      <div className="card forecast-container my-1">
+        <Table responsive>
+          <tbody>
+            <tr>
+              {forecasts.map((forecast, index) => (
+                <td key={index}>
+                  <div className="forecast-card">
+                    <img
+                      src={`https://openweathermap.org/img/wn/${forecast?.icon}@2x.png`}
+                      alt=""
+                      className="weather-image"
+                    />
+                    <span>{forecast.time.split(" ")[0]}</span>
+                    <span>{forecast.time.split(" ")[1]}</span>
+                    <span>{forecast?.temperature}°C</span>
+                  </div>
+                </td>
+              ))}
+            </tr>
+          </tbody>
+        </Table>
       </div>
     </>
   );
