@@ -66,6 +66,7 @@
 					\item prijaviti i ukloniti autore, radove i postere
 					\item obrisati određene korisničke račune
 					\item pristupiti svim podacima vezanim za konferenciju
+					\item definirati sve uvjete za rad sustava
 					
 				\end{packed_enum}
 				
@@ -76,7 +77,7 @@
 					\item stvoriti novu konferenciju
 					\item dodati administratora za konferenciju
 					\item izbrisati konferenciju
-					\item definirati sve uvjete za rad sustava
+
 				\end{packed_enum}
 				
 				\item \underbar{Baza podataka (sudionik):}
@@ -466,8 +467,8 @@
 						
 						\item[] \begin{packed_enum}
 							
-							\item \textcolor{red}{Korisnik odabire opciju rezultati glasovanja u izborniku}
-							\item \textcolor{red}{Otvara se zasebna stranica gdje je rang lista autora/radova}
+							\item Korisnik odabire opciju rezultati glasovanja u izborniku
+							\item Otvara se zasebna stranica gdje je rang lista autora/radova
 							\item Korisnik pregledava rang listu
 						\end{packed_enum}
 						
@@ -965,7 +966,7 @@
 			\subsection{Sekvencijski dijagrami}
 				
 				\subsubsection{Obrazac uporabe UC15 - Glasovanje}
-				Registrirani korisnik odabire opciju za pregled svih postera. U galeriji postera odabire jedan poster. Pojavljuje se opcija za glasovanje za odabrani poster. Klikom na tu opciju aplikacija šalje zahtjev bazi podataka kojim provjerava je li prijavljeni korisnik već glasao, te ako jest briše se prethodno zabilježeni glas i bilježi se novi. Aplikacija obavještava korisnika o uspješnom glasanju.
+				Registrirani korisnik odabire opciju za pregled svih postera. U galeriji postera odabire jedan poster. Pojavljuje se opcija za glasovanje za odabrani poster. Klikom na tu opciju aplikacija šalje zahtjev bazi podataka kojim provjerava je li prijavljeni korisnik već glasao, te ako jest zabranjuje mu daljnje glasanje. Ukoliko korisnik nije glasao, baza podataka sprema glas. Aplikacija obavještava korisnika o uspješnom glasanju.
 				
 				\begin{figure}[hp!]
 				\includegraphics[width=\linewidth]{Slike/SD_Glasanje.png}
