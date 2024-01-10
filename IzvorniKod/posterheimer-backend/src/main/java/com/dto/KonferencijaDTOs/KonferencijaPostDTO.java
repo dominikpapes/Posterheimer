@@ -1,8 +1,12 @@
 package com.dto.KonferencijaDTOs;
 
+import org.springframework.util.Assert;
+
 import java.time.LocalDateTime;
 
 public class KonferencijaPostDTO {
+    private static final String EMAIL_FORMAT = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+    private static final String PASSWORD_FORMAT = "^(?=.*[0-9])(?=.*[A-Z]).{8,}$";
     private String imeKonferencija;
     private String mjesto;
     private String adresa;
@@ -42,10 +46,14 @@ public class KonferencijaPostDTO {
     }
 
     public String getGenericPassword() {
+        Assert.isTrue(genericPassword.matches(PASSWORD_FORMAT), "Password must be at least 8 characters long, " +
+                "must contain at least one digit and " +
+                "at least one uppercase letter.");
         return genericPassword;
     }
 
     public String getGenericUsername() {
+        Assert.isTrue(genericUsername.matches(EMAIL_FORMAT), "Invalid email format: '" + genericUsername + "'");
         return genericUsername;
     }
 
@@ -94,10 +102,16 @@ public class KonferencijaPostDTO {
     public void setVideoUrl(String videoUrl) { this.videoUrl = videoUrl; }
 
     public String getAdminPassword() {
+        Assert.isTrue(adminPassword.matches(PASSWORD_FORMAT), "Password must be at least 8 characters long, " +
+                "must contain at least one digit and " +
+                "at least one uppercase letter.");
         return adminPassword;
     }
 
-    public String getAdminUsername() { return adminUsername; }
+    public String getAdminUsername() {
+        Assert.isTrue(adminUsername.matches(EMAIL_FORMAT), "Invalid email format: '" + adminUsername + "'");
+        return adminUsername;
+    }
 
     public void setAdminPassword(String adminPassword) {
         this.adminPassword = adminPassword;
