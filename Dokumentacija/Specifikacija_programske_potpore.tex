@@ -11,6 +11,7 @@
 				\item Autori radova
 				\item Glasači
 				\item Administrator
+				\item Natkorisnik
 				\item Razvojni tim
 				
 			\end{packed_enum}
@@ -22,7 +23,7 @@
 				
 				\begin{packed_enum}
 					
-					\item upisati lozinku za konferenciju
+					\item prijaviti se pomoću generičkog korisničkog računa
 					
 				\end{packed_enum}
 				
@@ -40,13 +41,13 @@
 				
 				\begin{packed_enum}
 					
-					\item pregledavati i mijenjati osobne podatke
 					\item pregledavati i glasati za postere pri čemu svaki posjetitelj može glasati najviše za jedan poster
 					\item pregledavati promotivne materijale pokrovitelja
 					\item gledati video-prijenos
 					\item pregledavati i preuzimati fotografije
-					\item vidjeti informacije o mjestu održavanja koje uključuju vremenske uvjete i vremensku prognozu
-					\item pristupiti rezultatima jednom kad postanu dostupni
+					\item vidjeti informacije o mjestu održavanja koje uključuju vremenske uvjete, vremensku prognozu i kartu
+					\item \textcolor{red}{pristupiti rezultatima jednom kad postanu dostupni}
+					\item odjaviti se
 				
 				\end{packed_enum}
 				
@@ -63,8 +64,8 @@
 				\begin{packed_enum}
 					
 					\item prijaviti i ukloniti autore, radove i postere
-					\item pristupiti svim podacima
-					\item definirati sve uvjete za rad sustava
+					\item obrisati određene korisničke račune
+					\item pristupiti svim podacima vezanim za konferenciju
 					
 				\end{packed_enum}
 				
@@ -75,7 +76,7 @@
 					\item stvoriti novu konferenciju
 					\item dodati administratora za konferenciju
 					\item izbrisati konferenciju
-				
+					\item definirati sve uvjete za rad sustava
 				\end{packed_enum}
 				
 				\item \underbar{Baza podataka (sudionik):}
@@ -101,6 +102,14 @@
 				\begin{packed_enum}
 					
 					\item poslužuje potrebne podatke vezane za prognozu vremena
+					
+				\end{packed_enum}
+				
+				\item \underbar{Poslužitelj karte (sudionik):}
+				
+				\begin{packed_enum}
+					
+					\item poslužuje potrebne podatke za prikaz karte
 					
 				\end{packed_enum}
 				
@@ -135,7 +144,7 @@
 						\item[] \begin{packed_enum}
 							
 							\item Korisnik odabire konferenciju kojoj želi pristupiti
-							\item Upisuje generičko ime i lozinku za odabranu konferenciju
+							\item Upisuje generičko korisničko ime (predviđenu adresu e-pošte) i lozinku za odabranu konferenciju
 							\item Otvara se pregled konferencije s mogućnostima korisnika posjetitelja
 						\end{packed_enum}
 						
@@ -178,7 +187,7 @@
 							\item[3.a] Korisnik ne postoji u bazi podataka
 							\item[] \begin{packed_enum}
 								
-								\item Sustav obavještava korisnika o upisu pogrešne lozinke ili e-maila
+								\item Sustav obavještava korisnika o upisu pogrešne lozinke ili adrese e-pošte
 								
 							\end{packed_enum}
 							
@@ -207,7 +216,7 @@
 						
 						\item[] \begin{packed_item}
 							
-							\item[2.a] Odabir već zauzetog e-maila, unos korisničkog podatka u nedozvoljenom formatu ili pružanje neispravnog e-maila
+							\item[2.a] Odabir već zauzete adrese e-pošte, unos korisničkog podatka u nedozvoljenom formatu ili pružanje neispravne adrese e-pošte
 							\item[] \begin{packed_enum}
 								
 								\item Sustav obavještava korisnika o neuspjelom upisu i vraća ga na stranicu za registraciju
@@ -265,54 +274,6 @@
 						\end{packed_enum}
 							
 					\end{packed_item}
-
-					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Pregled osobnih podataka i obavijesti}}
-					\begin{packed_item}
-						
-						\item \textbf{Glavni sudionik: } Registrirani korisnik
-						\item  \textbf{Cilj:} Pregledati osobne podatke
-						\item  \textbf{Sudionici:} Baza podataka
-						\item  \textbf{Preduvjet:} Korisnik je registriran i prijavljen
-						\item  \textbf{Opis osnovnog tijeka:}
-						
-						\item[] \begin{packed_enum}
-							
-							\item Korisnik odabire opciju za pregled osobnih podataka
-							\item Aplikacija prikazuje osobne podatke korisnika i obavijesti
-						\end{packed_enum}
-					
-					\end{packed_item}
-					
-					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Promjena osobnih podataka}}
-					\begin{packed_item}
-						
-						\item \textbf{Glavni sudionik: } Registrirani korisnik
-						\item  \textbf{Cilj:} Promijeniti osobne podatke
-						\item  \textbf{Sudionici:} Baza podataka
-						\item  \textbf{Preduvjet:} Korisnik je registriran i prijavljen
-						\item  \textbf{Opis osnovnog tijeka:}
-						
-						\item[] \begin{packed_enum}
-							
-							\item Korisnik odabire opciju za promjenu osobnih podataka
-							\item Korisnik mijenja odabrane podatke
-							\item Korisnik potvrđuje promjene
-						\end{packed_enum}
-						
-						\item  \textbf{Opis mogućih odstupanja:}
-						
-						\item[] \begin{packed_item}
-							
-							\item[3.a] Korisnik odustaje od promjene
-							\item[] \begin{packed_enum}
-								
-								\item Povratak na prethodni zaslon
-								
-							\end{packed_enum}
-							
-						\end{packed_item}
-						
-					\end{packed_item}
 					
 					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Pregled promotivnih materijala}}
 					\begin{packed_item}
@@ -336,14 +297,14 @@
 					\begin{packed_item}
 						
 						\item \textbf{Glavni sudionik: } Registrirani korisnik
-						\item  \textbf{Cilj:} Pregledati informacije o mjestu održavanja konferencije, trenutnim vremenskim uvjetima i vremenskoj prognozi za navedenu lokaciju
+						\item  \textbf{Cilj:} Pregledati informacije o mjestu održavanja konferencije, uključujući kartu i informacije o trenutnim vremenskim uvjetima i vremenskoj prognozi za navedenu lokaciju
 						\item  \textbf{Sudionici:} Baza podataka
 						\item  \textbf{Preduvjet:} Korisnik je registriran i prijavljen
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 							
-							\item Sve se nalazi na traci
+							\item Sve informacije se nalaze na stranici konferencije
 						\end{packed_enum}
 					\end{packed_item}
 					
@@ -489,7 +450,7 @@
 							
 							\item[2.a] Korisnik je već glasovao
 							\item[] \begin{packed_enum}
-								\item U sustavu se briše korisnikovo prethodno glasovanje i registrira se novo
+								\item Korisnik je obaviješten o nemogućnosti daljnjeg glasovanja
 							\end{packed_enum}
 						\end{packed_item}
 					\end{packed_item}
@@ -505,8 +466,8 @@
 						
 						\item[] \begin{packed_enum}
 							
-							\item Korisnik odabire opciju rezultati glasovanja u izborniku
-							\item Otvara se zasebna stranica gdje je rang lista autora/radova
+							\item \textcolor{red}{Korisnik odabire opciju rezultati glasovanja u izborniku}
+							\item \textcolor{red}{Otvara se zasebna stranica gdje je rang lista autora/radova}
 							\item Korisnik pregledava rang listu
 						\end{packed_enum}
 						
@@ -874,6 +835,22 @@
 							\item Nakon prijave registriranog korisnika aplikacija šalje zahtjev za podacima poslužitelju vremenske prognoze
 						\end{packed_enum}
 							
+					\end{packed_item}	
+					
+						\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Dohvat karte}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: } Poslužitelj karte
+						\item  \textbf{Cilj:} Dohvatiti kartu
+						\item  \textbf{Sudionici:} -
+						\item  \textbf{Preduvjet:} Prijavljen je registrirani korisnik, aplikacija je pokrenuta
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Nakon prijave registriranog korisnika aplikacija šalje zahtjev za podacima poslužitelju karte
+						\end{packed_enum}
+						
 					\end{packed_item}	
 					
 					\noindent \underbar{\textbf{UC\theUseCaseCounter \stepcounter{UseCaseCounter} - Slanje poruke e-pošte}}
