@@ -24,7 +24,7 @@ public class ConferenceService {
     private EmailService emailService;
 
 
-    @Scheduled(cron = "0 0 * * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     public void sendConferenceReminders() {
         LocalDateTime twoDaysBefore = LocalDateTime.now().plusDays(2);
         List<Konferencija> upcomingConferences = konferencijaRepository.findAll().stream()
