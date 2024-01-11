@@ -33,45 +33,119 @@
 			\subsection{Ispitivanje komponenti}
 			\textit{Potrebno je provesti ispitivanje jedinica (engl. unit testing) nad razredima koji implementiraju temeljne funkcionalnosti. Razraditi \textbf{minimalno 6 ispitnih slučajeva} u kojima će se ispitati redovni slučajevi, rubni uvjeti te izazivanje pogreške (engl. exception throwing). Poželjno je stvoriti i ispitni slučaj koji koristi funkcionalnosti koje nisu implementirane. Potrebno je priložiti izvorni kôd svih ispitnih slučajeva te prikaz rezultata izvođenja ispita u razvojnom okruženju (prolaz/pad ispita). }
 			
-			U \textbf{prvom ispitnom slučaju} provjerena je funkcionalnost gumba za pristup konferenciji pri incijalnom pristupu pomoću točnog generičkog korisničkog imena i odgovarajuće lozinke. Predviđen rezultat je dozvoljen pristup stranici konferencije na kojoj nije dostupan pregled fotografija, pokrovitelja, vremenske prognoze te video prijenosa.
+			U \textbf{prvom ispitnom slučaju} provjerena je funkcionalnost gumba za pristup konferenciji pri incijalnom pristupu pomoću točnog generičkog korisničkog imena i odgovarajuće lozinke. Predviđen rezultat je dozvoljen pristup stranici konferencije na kojoj je dostupna stranica postera, ali stranice fotografija i pokrovitelja nude prijavu tj. registraciju. Ispitni slučaj je uspješan (Slika 5.1).
 			
-			U \textbf{drugom ispitnom slučaju} provjerena je funkcionalnost gumba za pristup konferenciji pomoću jedinstvenog korisničkog računa pomoću točne email adrese i odgovarajuće lozinke. Predviđen rezultat je dozvoljen pristup stranici konferencije uz omogućen pregled fotografija, pokrovitelja, vremenske prognoze te video prijenosa.
+			\begin{figure} [hbt!]
+				\includegraphics[width=\linewidth]{Slike/genericLoginWithPagesLog}
+				\caption{Prikaz uspješnosti ispitnog slučaja}
+			\end{figure}
 			
-			U \textbf{trećem ispitnom slučaju} provjerena je funkcionalnost gumba za pristup konferenciji pri neispravnoj prijavi. Predviđen rezultat je ostajanje na stranici prijave. 
 			
 			\begin{lstlisting}
-	@Test 
-	public void testLoginTemplate() {
-		System.setProperty("webdriver.chrome.driver", "src/test/java/chromedriver"); 
-		WebDriver driver = new ChromeDriver();
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+  @Test
+public void genericLoginWithPages() {
+	driver.get("https://posterheimer.onrender.com/");
+	driver.manage().window().setSize(new Dimension(1552, 840));
+	driver.findElement(By.cssSelector(".list-group-item:nth-child(5) > .float-end")).click();
+	driver.findElement(By.cssSelector(".mb-3:nth-child(1)")).click();
+	driver.findElement(By.id("username")).click();
+	driver.findElement(By.id("username")).sendKeys("visitor.test@mail.hr");
+	driver.findElement(By.cssSelector(".mb-3:nth-child(2)")).click();
+	driver.findElement(By.id("password")).click();
+	driver.findElement(By.id("password")).click();
+	driver.findElement(By.id("password")).sendKeys("pass");
+	driver.findElement(By.cssSelector(".btn-primary")).click();
+	driver.findElement(By.linkText("Posteri")).click();
+	driver.findElement(By.linkText("Fotografije")).click();
+	driver.findElement(By.linkText("Pokrovitelji")).click();
+	driver.findElement(By.cssSelector(".login-prompt")).click();
+}
+
+
+			\end{lstlisting}
 			
-		driver.get("https://posterheimer.onrender.com/"); 
+			U \textbf{drugom ispitnom slučaju} provjerena je funkcionalnost gumba za pristup konferenciji pomoću jedinstvenog korisničkog računa pomoću točne email adrese i odgovarajuće lozinke. Nakon prijave, korisnik se odjavljuje. Ispitni slučaj je uspješan. 
+			\begin{figure} [hbt!]
+				\includegraphics[width=\linewidth]{Slike/CorrectSpecificLogin}
+				\caption{Prikaz uspješnosti ispitnog slučaja}
+			\end{figure}
 			
-		driver.findElement(By.className("Conference")).click(); 
-			
-		WebElement element = driver.findElement(By.name("username"));
-		element.sendKeys("PLACEHOLDER"); // upisati ime/email za odredeni test
-		element = driver.findElement(By.name("password"));
-		element.sendKeys("PLACEHOLDER"); // upisati lozinku za odredeni test
-			
-		driver.findElement(By.xpath("//button[text()='Pristupi']")).click(); 
-			
-		String redirURL = driver.getCurrentUrl();
-		if(redirURL.contains("PLACEHOLDER")) // upisati kljucno za url stranice koju ocekujemo
-			System.out.println("Dozvoljen je pristup konferenciji");
-		else
-			System.out.println("Neuspjesan pokusaj pristupa");
-		
-		driver.quit(); 
+			\begin{lstlisting}
+  @Test
+public void correctSpecificLogin() {
+	driver.get("https://posterheimer.onrender.com/");
+	driver.manage().window().setSize(new Dimension(1552, 840));
+	driver.findElement(By.cssSelector(".list-group-item:nth-child(5) > .float-end")).click();
+	driver.findElement(By.id("username")).click();
+	driver.findElement(By.id("username")).sendKeys("test.email@mail.hr");
+	driver.findElement(By.id("password")).click();
+	driver.findElement(By.id("password")).sendKeys("pass");
+	driver.findElement(By.cssSelector(".btn-primary")).click();
+	driver.findElement(By.id("user-dropdown")).click();
+	driver.findElement(By.cssSelector(".fa-right-from-bracket")).click();
 }
 			\end{lstlisting}
 			
+			
+			U \textbf{trećem ispitnom slučaju} provjerena je funkcionalnost gumba za pristup konferenciji pri neispravnoj prijavi. Predviđen rezultat je prikaz obavijesti "Pogrešan email ili lozinka!" te ostajanje na sučelje za prijavu. Ispitni slučaj je uspješan.
+			\begin{figure} [hbt!]
+				\includegraphics[width=\linewidth]{Slike/IncorrectLogin}
+				\caption{Prikaz uspješnosti ispitnog slučaja}
+			\end{figure}
+			
+			\begin{lstlisting}
+@Test
+public void incorrectLogin() {
+	driver.get("https://posterheimer.onrender.com/");
+	driver.manage().window().setSize(new Dimension(1552, 840));
+	driver.findElement(By.cssSelector(".list-group-item:nth-child(5) > .float-end")).click();
+	{
+		WebElement element = driver.findElement(By.cssSelector(".list-group-item:nth-child(5) > .float-end"));
+		Actions builder = new Actions(driver);
+		builder.moveToElement(element).perform();
+	}
+	{
+		WebElement element = driver.findElement(By.tagName("body"));
+		Actions builder = new Actions(driver);
+		builder.moveToElement(element, 0, 0).perform();
+	}
+	driver.findElement(By.cssSelector(".mb-3:nth-child(1)")).click();
+	driver.findElement(By.id("username")).click();
+	driver.findElement(By.id("username")).sendKeys("test");
+	driver.findElement(By.id("password")).click();
+	driver.findElement(By.id("password")).sendKeys("test");
+	driver.findElement(By.cssSelector(".btn-primary")).click();
+	driver.findElement(By.cssSelector(".alert")).click();
+	driver.findElement(By.cssSelector(".alert")).click();
+	driver.findElement(By.cssSelector(".alert")).click();
+	{
+		WebElement element = driver.findElement(By.cssSelector(".alert"));
+		Actions builder = new Actions(driver);
+		builder.doubleClick(element).perform();
+	}
+	driver.findElement(By.cssSelector(".alert")).click();
+	driver.findElement(By.cssSelector(".alert")).click();
+	driver.findElement(By.cssSelector(".alert")).click();
+	driver.findElement(By.cssSelector(".btn-close")).click();
+}
+			\end{lstlisting}
+			
+			
 \textbf{Četvrti ispitni slučaj} provjerava funkcionalnost gumba za registraciju pri unosu email adrese točnog formata. Predviđen rezultat je uspješna registracija.
+			\begin{lstlisting}
+	
+			\end{lstlisting}
 
 \textbf{Peti ispitni slučaj} provjerava funkcionalnost gumba za registraciju pri unosu email adrese netočnog formata. Predviđen rezultat je neuspješna registracija.		
+			\begin{lstlisting}
+	
+			\end{lstlisting}
 			
 \textbf{Šesti ispitni slučaj} provjerava funkcionalnost navigacijske trake. Predviđen rezultat je da će nas određeni gumb voditi na stranicu istog naziva.
+
+			\begin{lstlisting}
+	
+			\end{lstlisting}
 
 \textbf{Sedmi ispitni slučaj} provjerava funkcionalnost gumba za dodavanje konferencija/postera.
 			
