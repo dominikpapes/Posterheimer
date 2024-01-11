@@ -183,11 +183,11 @@ public void adminLogin() {
 			\end{lstlisting}
 			
 			
-\textbf{Peti ispitni slučaj} provjerava funkcionalnost gumba za registraciju pri unosu podataka točnog formata. Tijekom registracije odabrana je opcija "Prikaz lozinke" te prođen CAPTCHA test. Rezultat ispitnog slučaja nije uspješan jer Selenium ne "vidi" obavijest o uspješnoj prijavi iako se poojavljuje na ekranu tijekom testa.
+\textbf{Peti ispitni slučaj} provjerava funkcionalnost gumba za registraciju pri unosu podataka točnog formata. Tijekom registracije odabrana je opcija "Prikaz lozinke" te prođen CAPTCHA test. Rezultat ispitnog slučaja je uspješan.
 
 			\begin{figure} [hbt!]
-	\includegraphics[width=\linewidth]{Slike/registerError}
-	\caption{Prikaz greške pri izvođenju ispitnog slučaja}
+	\includegraphics[width=\linewidth]{Slike/Register}
+	\caption{Prikaz uspješnosti ispitnog slučaja}
 			\end{figure}
 			
 			\begin{lstlisting}
@@ -212,7 +212,7 @@ public void register() {
 	driver.findElement(By.id("formPrezime")).sendKeys("TestPrezime");
 	driver.findElement(By.id("formBasicEmail")).click();
 	driver.findElement(By.id("formBasicEmail")).click();
-	driver.findElement(By.id("formBasicEmail")).sendKeys("register.email@mail.hr");
+	driver.findElement(By.id("formBasicEmail")).sendKeys("register.email@mail.hr"); // promijeniti email za svaki test
 	driver.findElement(By.id("formBasicPassword")).click();
 	driver.findElement(By.id("formBasicPassword")).sendKeys("pass");
 	driver.findElement(By.cssSelector(".mb-3:nth-child(2) > #formBasicPassword")).click();
@@ -283,7 +283,55 @@ public void incorrectRegister() {
 }
 			\end{lstlisting}
 			
-\textbf{Sedmi ispitni slučaj} provjerava funkcionalnost gumba za brisanje postera.
+\textbf{Sedmi ispitni slučaj} provjerava funkcionalnost gumba za dodavanje konferencije. Prije dodavanja konferencije potrebna je prijava natkorisnika. Podaci vezani za korisnički račun natkorisnika uklonjeni su iz izvornog koda. Predviđen rezultat  je stvaranje nove konferencije. Ispitni slučaj je uspješan.
+
+	\begin{figure} [hbt!]
+		\includegraphics[width=\linewidth]{Slike/addConferention}
+		\caption{Prikaz uspješnosti ispitnog slučaja}
+	\end{figure}
+
+	\begin{lstlisting}
+ @Test
+public void addConferention() {
+	driver.get("https://posterheimer.onrender.com/");
+	driver.manage().window().setSize(new Dimension(1552, 840));
+	driver.findElement(By.cssSelector(".fa-solid")).click();
+	driver.findElement(By.id("username")).click();
+	driver.findElement(By.id("username")).sendKeys("ime natkorisnika");
+	driver.findElement(By.id("password")).click();
+	driver.findElement(By.id("password")).sendKeys("lozinka natkorisnika");
+	driver.findElement(By.cssSelector(".btn-primary")).click();
+	driver.findElement(By.cssSelector(".fa-square-plus")).click();
+	driver.findElement(By.id("formConferenceName")).click();
+	driver.findElement(By.id("formConferenceName")).sendKeys("AutomaticTestKonferencija");
+	driver.findElement(By.name("videoUrl")).click();
+	driver.findElement(By.name("videoUrl")).sendKeys("https://www.youtube.com/watch?v=ScMzIvxBSi4&ab_channel=BenMarquezTX");
+	driver.findElement(By.id("formConferenceCity")).click();
+	driver.findElement(By.id("formConferenceCity")).sendKeys("Unska ");
+	driver.findElement(By.id("formConferenceCity")).sendKeys("Unska 3");
+	driver.findElement(By.id("formConferenceLocation")).click();
+	driver.findElement(By.id("formConferenceLocation")).sendKeys("Zagreb");
+	driver.findElement(By.id("formConferenceZipCode")).click();
+	driver.findElement(By.id("formConferenceZipCode")).sendKeys("10000");
+	driver.findElement(By.id("formDateStart")).click();
+	driver.findElement(By.id("formDateStart")).sendKeys("2024-01-11T09:13");
+	driver.findElement(By.id("formDateEnd")).click();
+	driver.findElement(By.id("formDateEnd")).sendKeys("2024-01-14T09:13");
+	driver.findElement(By.id("root")).click();
+	driver.findElement(By.id("formBasicEmail")).click();
+	driver.findElement(By.id("formBasicEmail")).sendKeys("visitor");
+	driver.findElement(By.id("formBasicEmail")).sendKeys("visitor.test@mail.hr");
+	driver.findElement(By.id("formBasicPassword")).click();
+	driver.findElement(By.id("formBasicPassword")).sendKeys("pass");
+	driver.findElement(By.cssSelector(".mt-2 > .mb-3:nth-child(2)")).click();
+	driver.findElement(By.name("adminUsername")).click();
+	driver.findElement(By.name("adminUsername")).sendKeys("admin.test@mail.hr");
+	driver.findElement(By.name("adminPassword")).click();
+	driver.findElement(By.name("adminPassword")).sendKeys("pass");
+	driver.findElement(By.cssSelector(".ml-2")).click();
+	js.executeScript("window.scrollTo(0,0)");
+}
+	\end{lstlisting}
 			
 			
 			\subsection{Ispitivanje sustava}
@@ -297,9 +345,68 @@ public void incorrectRegister() {
 			 \end{itemize}
 		 	\textit{Detalji o korištenju alata Selenium bit će prikazani na posebnom predavanju tijekom semestra.}
 		 	
-		 	\textbf{Prvi ispitni slučaj:} prijava administratora, brisanje registriranog korisnika, odjava, pokušaj prijave izbrisanog korisnika. Očekivani rezultat je neuspješna prijava
+		 	\textbf{Prvi ispitni slučaj:} prijava administratora, brisanje registriranog korisnika, odjava, pokušaj prijave izbrisanog korisnika. Očekivani rezultat je neuspješna prijava. Ispitni slučaj je uspješan.
+		 	
+		 	\begin{figure} [hbt!]
+		 		\includegraphics[width=\linewidth]{Slike/deleteUser}
+		 		\caption{Prikaz uspješnosti ispitnog slučaja}
+		 	\end{figure}
+		 	
+		\begin{lstlisting}
+  @Test
+public void deleteUser() {
+	driver.get("https://posterheimer.onrender.com/");
+	driver.manage().window().setSize(new Dimension(1552, 840));
+	driver.findElement(By.cssSelector(".list-group-item:nth-child(5) > .float-end")).click();
+	{
+		WebElement element = driver.findElement(By.cssSelector(".list-group-item:nth-child(5) > .float-end"));
+		Actions builder = new Actions(driver);
+		builder.moveToElement(element).perform();
+	}
+	{
+		WebElement element = driver.findElement(By.tagName("body"));
+		Actions builder = new Actions(driver);
+		builder.moveToElement(element, 0, 0).perform();
+	}
+	driver.findElement(By.cssSelector(".mb-3:nth-child(1)")).click();
+	driver.findElement(By.id("username")).click();
+	driver.findElement(By.id("username")).sendKeys("admin.test@mail.hr");
+	driver.findElement(By.cssSelector("form")).click();
+	driver.findElement(By.id("password")).click();
+	driver.findElement(By.id("password")).sendKeys("pass");
+	driver.findElement(By.cssSelector(".btn-primary")).click();
+	driver.findElement(By.id("user-dropdown")).click();
+	driver.findElement(By.linkText("Korisnici")).click();
+	driver.findElement(By.cssSelector(".list-group-item:nth-child(16) > .float-start")).click();
+	driver.findElement(By.id("root")).click();
+	driver.findElement(By.cssSelector(".list-group-item:nth-child(18) > .btn")).click();
+	driver.findElement(By.id("user-dropdown")).click();
+	driver.findElement(By.linkText("Odjava")).click();
+	driver.findElement(By.cssSelector(".list-group-item:nth-child(5) > .float-end")).click();
+	{
+		WebElement element = driver.findElement(By.cssSelector(".list-group-item:nth-child(5) > .float-end"));
+		Actions builder = new Actions(driver);
+		builder.moveToElement(element).perform();
+	}
+	{
+		WebElement element = driver.findElement(By.tagName("body"));
+		Actions builder = new Actions(driver);
+		builder.moveToElement(element, 0, 0).perform();
+	}
+	driver.findElement(By.id("username")).click();
+	driver.findElement(By.id("username")).sendKeys("register2.");
+	driver.findElement(By.id("username")).sendKeys("register2.email@mail.hr");
+	driver.findElement(By.id("password")).click();
+	driver.findElement(By.id("password")).sendKeys("pass");
+	driver.findElement(By.cssSelector(".btn-primary")).click();
+}
+		\end{lstlisting}
+		 	
+		 	
 		 	\textbf{Drugi ispitni slučaj:} prijava administratora, postavljanje postera u krivom formatu. Očekivani rezultat je greška
+		 	
 		 	\textbf{Treći ispitni slučaj:} prijava registriranog korisnika, odlazak na stranicu pokrovitelja, klik na logo pokrovitelja. Očekivani rezultat je odlazak na stranicu pokrovitelja
+		 	
 		 	\textbf{Četvrti ispitni slučaj:} prijava registriranog korisnika, odlazak na postere, glasanje za jedan od postera, pokušaj glasanja za drugi poster. Očekivani rezultat je obavijest koja korisniku govori da je nemoguće glasati više od jedanput
 			
 			\eject 
