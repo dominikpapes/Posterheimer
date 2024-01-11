@@ -33,32 +33,41 @@
 			\subsection{Ispitivanje komponenti}
 			\textit{Potrebno je provesti ispitivanje jedinica (engl. unit testing) nad razredima koji implementiraju temeljne funkcionalnosti. Razraditi \textbf{minimalno 6 ispitnih slučajeva} u kojima će se ispitati redovni slučajevi, rubni uvjeti te izazivanje pogreške (engl. exception throwing). Poželjno je stvoriti i ispitni slučaj koji koristi funkcionalnosti koje nisu implementirane. Potrebno je priložiti izvorni kôd svih ispitnih slučajeva te prikaz rezultata izvođenja ispita u razvojnom okruženju (prolaz/pad ispita). }
 			
-			U \textbf{prvom ispitnom slučaju} provjerena je funkcionalnost gumba za pristup konferenciji pri incijalnom pristupu pomoću točnog generičkog korisničkog imena i odgovarajuće lozinke. Predviđen rezultat je dozvoljen pristup stranici konferencije na kojoj je dostupna stranica postera, ali stranice fotografija i pokrovitelja nude prijavu tj. registraciju. Ispitni slučaj je uspješan (Slika 5.1).
+			U \textbf{prvom ispitnom slučaju} provjerena je funkcionalnost gumba za pristup konferenciji pri incijalnom pristupu pomoću točnog generičkog korisničkog imena i odgovarajuće lozinke. Predviđen rezultat je dozvoljen pristup stranici konferencije na kojoj je dostupna stranica postera, ali stranice fotografija i pokrovitelja ne prikazuju sadržaj te nude registraciju. Ispitni slučaj je uspješan (Slika 5.1).
 			
 			\begin{figure} [hbt!]
-				\includegraphics[width=\linewidth]{Slike/genericLoginWithPagesLog}
+				\includegraphics[width=\linewidth]{Slike/genericLogin}
 				\caption{Prikaz uspješnosti ispitnog slučaja}
 			\end{figure}
 			
 			
 			\begin{lstlisting}
   @Test
-public void genericLoginWithPages() {
+public void genericLogin() {
 	driver.get("https://posterheimer.onrender.com/");
 	driver.manage().window().setSize(new Dimension(1552, 840));
 	driver.findElement(By.cssSelector(".list-group-item:nth-child(5) > .float-end")).click();
-	driver.findElement(By.cssSelector(".mb-3:nth-child(1)")).click();
+	{
+		WebElement element = driver.findElement(By.cssSelector(".list-group-item:nth-child(5) > .float-end"));
+		Actions builder = new Actions(driver);
+		builder.moveToElement(element).perform();
+	}
+	{
+		WebElement element = driver.findElement(By.tagName("body"));
+		Actions builder = new Actions(driver);
+		builder.moveToElement(element, 0, 0).perform();
+	}
 	driver.findElement(By.id("username")).click();
 	driver.findElement(By.id("username")).sendKeys("visitor.test@mail.hr");
-	driver.findElement(By.cssSelector(".mb-3:nth-child(2)")).click();
-	driver.findElement(By.id("password")).click();
 	driver.findElement(By.id("password")).click();
 	driver.findElement(By.id("password")).sendKeys("pass");
 	driver.findElement(By.cssSelector(".btn-primary")).click();
+	driver.findElement(By.linkText("Konferencija")).click();
 	driver.findElement(By.linkText("Posteri")).click();
 	driver.findElement(By.linkText("Fotografije")).click();
+	driver.findElement(By.linkText("Registracija")).click();
 	driver.findElement(By.linkText("Pokrovitelji")).click();
-	driver.findElement(By.cssSelector(".login-prompt")).click();
+	driver.findElement(By.linkText("Registracija")).click();
 }
 
 
@@ -130,24 +139,151 @@ public void incorrectLogin() {
 }
 			\end{lstlisting}
 			
+			U \textbf{četvrtom ispitnom slučaju} provjerena je funkcionalnost gumba za pristup konferenciji pri prijavi administratora. Predviđen rezultat je dozvoljen pristup konferenciji te mogućnost dodavanja postera, fotografija i pokrovitelja. Ispitni slučaj je uspješan.
 			
-\textbf{Četvrti ispitni slučaj} provjerava funkcionalnost gumba za registraciju pri unosu email adrese točnog formata. Predviđen rezultat je uspješna registracija.
+			\begin{figure} [hbt!]
+				\includegraphics[width=\linewidth]{Slike/adminLogin}
+				\caption{Prikaz uspješnosti ispitnog slučaja}
+			\end{figure}
+			
 			\begin{lstlisting}
-	
-			\end{lstlisting}
-
-\textbf{Peti ispitni slučaj} provjerava funkcionalnost gumba za registraciju pri unosu email adrese netočnog formata. Predviđen rezultat je neuspješna registracija.		
-			\begin{lstlisting}
-	
+@Test
+public void adminLogin() {
+	driver.get("https://posterheimer.onrender.com/");
+	driver.manage().window().setSize(new Dimension(1552, 840));
+	driver.findElement(By.cssSelector(".list-group-item:nth-child(5) > .float-end")).click();
+	driver.findElement(By.id("username")).click();
+	driver.findElement(By.id("username")).sendKeys("admin.");
+	driver.findElement(By.id("username")).click();
+	driver.findElement(By.id("username")).sendKeys("admin.test@mail.hr");
+	driver.findElement(By.id("password")).click();
+	driver.findElement(By.id("password")).sendKeys("pass");
+	driver.findElement(By.cssSelector(".btn-primary")).click();
+	driver.findElement(By.cssSelector(".conference-content")).click();
+	driver.findElement(By.linkText("Posteri")).click();
+	driver.findElement(By.cssSelector(".fa-solid")).click();
+	driver.findElement(By.cssSelector(".btn-close")).click();
+	driver.findElement(By.linkText("Fotografije")).click();
+	driver.findElement(By.cssSelector(".image-container > img")).click();
+	driver.findElement(By.cssSelector(".modal-title")).click();
+	driver.findElement(By.cssSelector(".modal-title")).click();
+	{
+		WebElement element = driver.findElement(By.cssSelector(".modal-title"));
+		Actions builder = new Actions(driver);
+		builder.doubleClick(element).perform();
+	}
+	driver.findElement(By.cssSelector(".modal-title")).click();
+	driver.findElement(By.cssSelector(".modal-title")).click();
+	driver.findElement(By.cssSelector(".btn-close")).click();
+	driver.findElement(By.linkText("Pokrovitelji")).click();
+	driver.findElement(By.cssSelector(".fa-solid")).click();
+	driver.findElement(By.cssSelector(".modal-title")).click();
+	driver.findElement(By.cssSelector(".btn-close")).click();
+}
 			\end{lstlisting}
 			
-\textbf{Šesti ispitni slučaj} provjerava funkcionalnost navigacijske trake. Predviđen rezultat je da će nas određeni gumb voditi na stranicu istog naziva.
+			
+\textbf{Peti ispitni slučaj} provjerava funkcionalnost gumba za registraciju pri unosu podataka točnog formata. Tijekom registracije odabrana je opcija "Prikaz lozinke" te prođen CAPTCHA test. Rezultat ispitnog slučaja nije uspješan jer Selenium ne "vidi" obavijest o uspješnoj prijavi iako se poojavljuje na ekranu tijekom testa.
 
+			\begin{figure} [hbt!]
+	\includegraphics[width=\linewidth]{Slike/registerError}
+	\caption{Prikaz greške pri izvođenju ispitnog slučaja}
+			\end{figure}
+			
 			\begin{lstlisting}
-	
+@Test
+public void register() {
+	driver.get("https://posterheimer.onrender.com/");
+	driver.manage().window().setSize(new Dimension(1552, 840));
+	driver.findElement(By.cssSelector(".list-group-item:nth-child(5) > .float-end")).click();
+	driver.findElement(By.id("username")).click();
+	driver.findElement(By.id("username")).sendKeys("visitor.test@mail.hr");
+	driver.findElement(By.id("password")).click();
+	driver.findElement(By.id("password")).sendKeys("pass");
+	driver.findElement(By.cssSelector(".btn-primary")).click();
+	driver.findElement(By.cssSelector(".conference-content")).click();
+	driver.findElement(By.cssSelector(".mx-auto:nth-child(1)")).click();
+	driver.findElement(By.cssSelector(".card-text")).click();
+	driver.findElement(By.linkText("Registracija")).click();
+	js.executeScript("window.scrollTo(0,0)");
+	driver.findElement(By.id("formIme")).click();
+	driver.findElement(By.id("formIme")).sendKeys("TestIme");
+	driver.findElement(By.id("formPrezime")).click();
+	driver.findElement(By.id("formPrezime")).sendKeys("TestPrezime");
+	driver.findElement(By.id("formBasicEmail")).click();
+	driver.findElement(By.id("formBasicEmail")).click();
+	driver.findElement(By.id("formBasicEmail")).sendKeys("register.email@mail.hr");
+	driver.findElement(By.id("formBasicPassword")).click();
+	driver.findElement(By.id("formBasicPassword")).sendKeys("pass");
+	driver.findElement(By.cssSelector(".mb-3:nth-child(2) > #formBasicPassword")).click();
+	driver.findElement(By.cssSelector(".mb-3:nth-child(2) > #formBasicPassword")).sendKeys("pass");
+	driver.findElement(By.cssSelector(".form-check")).click();
+	driver.findElement(By.id("formShowPassword")).click();
+	driver.findElement(By.id("formShowPassword")).click();
+	driver.switchTo().frame(0);
+	driver.findElement(By.cssSelector(".recaptcha-checkbox-border")).click();
+	driver.switchTo().defaultContent();
+	driver.findElement(By.cssSelector(".ml-2")).click();
+	assertThat(driver.switchTo().alert().getText(), is("Form submission successful!"));
+	js.executeScript("window.scrollTo(0,0)");
+	driver.findElement(By.cssSelector("h1")).click();
+	driver.findElement(By.cssSelector("h1")).click();
+	{
+		WebElement element = driver.findElement(By.cssSelector("h1"));
+		Actions builder = new Actions(driver);
+		builder.doubleClick(element).perform();
+	}
+	driver.findElement(By.cssSelector("h1")).click();
+	driver.findElement(By.cssSelector("h1")).click();
+}
 			\end{lstlisting}
 
-\textbf{Sedmi ispitni slučaj} provjerava funkcionalnost gumba za dodavanje konferencija/postera.
+\textbf{Šesti ispitni slučaj} provjerava funkcionalnost gumba za registraciju pri unosu email adrese netočnog formata. Predviđen rezultat je neuspješna registracija te obavijest o netočnom unosu. Ispitni slučaj je uspješan.		
+
+			\begin{figure} [hbt!]
+	\includegraphics[width=\linewidth]{Slike/IncorrectRegister}
+	\caption{Prikaz uspješnosti ispitnog slučaja}
+			\end{figure}
+
+			\begin{lstlisting}
+ @Test
+public void incorrectRegister() {
+	driver.get("https://posterheimer.onrender.com/");
+	driver.manage().window().setSize(new Dimension(1552, 840));
+	driver.findElement(By.cssSelector(".list-group-item:nth-child(5) > .float-end")).click();
+	driver.findElement(By.cssSelector("form")).click();
+	driver.findElement(By.id("username")).click();
+	driver.findElement(By.id("username")).sendKeys("visitor.test@mail.hr");
+	driver.findElement(By.id("password")).click();
+	driver.findElement(By.id("password")).sendKeys("pass");
+	driver.findElement(By.cssSelector(".btn-primary")).click();
+	driver.findElement(By.linkText("Registracija")).click();
+	js.executeScript("window.scrollTo(0,0)");
+	driver.findElement(By.id("formIme")).click();
+	driver.findElement(By.id("formIme")).sendKeys("TestIme");
+	driver.findElement(By.id("formPrezime")).click();
+	driver.findElement(By.id("formPrezime")).sendKeys("TestPrezime");
+	driver.findElement(By.id("formBasicEmail")).click();
+	driver.findElement(By.id("formBasicEmail")).sendKeys("email");
+	driver.findElement(By.id("formBasicPassword")).click();
+	driver.findElement(By.id("formBasicPassword")).sendKeys("lozinka");
+	driver.findElement(By.cssSelector(".mb-3:nth-child(2) > #formBasicPassword")).click();
+	driver.findElement(By.cssSelector(".mb-3:nth-child(2) > #formBasicPassword")).sendKeys("lozinka");
+	driver.switchTo().frame(0);
+	driver.findElement(By.cssSelector(".recaptcha-checkbox-border")).click();
+	driver.switchTo().defaultContent();
+	driver.findElement(By.cssSelector(".ml-2")).click();
+	driver.findElement(By.cssSelector(".mx-2 > .mb-3:nth-child(1)")).click();
+	driver.findElement(By.cssSelector(".mx-2 > .mb-3:nth-child(1)")).click();
+	{
+		WebElement element = driver.findElement(By.cssSelector(".mx-2 > .mb-3:nth-child(1)"));
+		Actions builder = new Actions(driver);
+		builder.doubleClick(element).perform();
+	}
+}
+			\end{lstlisting}
+			
+\textbf{Sedmi ispitni slučaj} provjerava funkcionalnost gumba za brisanje postera.
 			
 			
 			\subsection{Ispitivanje sustava}
