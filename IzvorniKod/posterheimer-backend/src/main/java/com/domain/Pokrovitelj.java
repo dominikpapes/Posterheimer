@@ -12,6 +12,8 @@ import java.util.Set;
 @Entity
 public class Pokrovitelj {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idPokrovitelj;
     private String imePokrovitelja;
     @Lob
     private byte[] promotivniMaterijal;
@@ -26,7 +28,8 @@ public class Pokrovitelj {
 
     }
 
-    public Pokrovitelj(String imePokrovitelja, byte[] promotivniMaterijal, String urlPromo) {
+    public Pokrovitelj(Integer idPokrovitelj, String imePokrovitelja, byte[] promotivniMaterijal, String urlPromo) {
+        this.idPokrovitelj = idPokrovitelj;
         this.imePokrovitelja = imePokrovitelja;
         this.promotivniMaterijal = promotivniMaterijal;
         this.urlPromo = urlPromo;
@@ -64,10 +67,13 @@ public class Pokrovitelj {
         this.konferencije.add(konferencija);
     }
 
+    public Integer getIdPokrovitelj() { return idPokrovitelj; }
+
     @Override
     public String toString() {
         return "Pokrovitelj{" +
-                "imePokrovitelja='" + imePokrovitelja + '\'' +
+                "idPokrovitelj=" + idPokrovitelj +
+                ", imePokrovitelja='" + imePokrovitelja + '\'' +
                 ", urlPromo='" + urlPromo + '\'' +
                 ", konferencije=" + konferencije +
                 '}';
