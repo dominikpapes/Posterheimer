@@ -5,8 +5,6 @@ import Titlebar from "../components/Titlebar";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
 
-const SUPERUSER_ID = import.meta.env.VITE_SUPERUSER_ID;
-const SUPERUSER_IME = import.meta.env.VITE_SUPERUSER_IME;
 const SUPERUSER = import.meta.env.VITE_SUPERUSER;
 
 interface Conference {
@@ -26,30 +24,6 @@ interface Credentials {
   prezime: string;
 }
 
-async function getConferences() {
-  const response = await fetch("/api/konferencije");
-  const data = await response.json();
-  return data;
-}
-
-async function login(dataToSend: LoginData) {
-  try {
-    const response = await fetch("/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(dataToSend),
-    });
-
-    const data = await response.json();
-    console.log(data);
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
 function Home() {
   const [conferences, setConferences] = useState<Conference[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -60,15 +34,29 @@ function Home() {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setIsLoading(true);
-    getConferences().then((data) => {
+  async function getConferences() {
+    const response = await fetch("/api/konferencije");
+    const data = await response.json();
+    return data;
+  }
+
+  async function login(dataToSend: LoginData) {
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dataToSend),
+      });
+
+      const data = await response.json();
       console.log(data);
-      setConferences(data);
-      setIsLoading(false);
-    });
-    localStorage.clear();
-  }, []);
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   function onSelectKonferencija() {}
   async function superuserLogin(e: any) {
@@ -85,6 +73,16 @@ function Home() {
       setShowModal(false);
     }
   }
+
+  useEffect(() => {
+    setIsLoading(true);
+    getConferences().then((data) => {
+      console.log(data);
+      setConferences(data);
+      setIsLoading(false);
+    });
+    localStorage.clear();
+  }, []);
 
   return (
     <>

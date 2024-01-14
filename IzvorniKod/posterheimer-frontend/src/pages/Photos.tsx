@@ -28,53 +28,6 @@ const empty_photo: NewPhoto = {
   idKonferencija: 0,
 };
 
-async function getPhotos() {
-  const conferenceId = localStorage.getItem("conferenceId");
-  const token = localStorage.getItem("jwtToken");
-  const response = await fetch(
-    `/api/fotografije/idKonferencija/${conferenceId}`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-  const data = await response.json();
-  console.log(data);
-  return data;
-}
-
-async function postPhoto(photo: NewPhoto) {
-  console.log("Photo to send", photo);
-  const token = localStorage.getItem("jwtToken");
-  const response = await fetch(`/api/fotografije`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(photo),
-  });
-  const data = await response.json();
-  console.log(data);
-}
-
-function convertBase64(file: any) {
-  return new Promise((resolve, reject) => {
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(file);
-
-    fileReader.onload = () => {
-      resolve(fileReader.result);
-    };
-
-    fileReader.onerror = (error) => {
-      reject(error);
-    };
-  });
-}
-
 let fileToUpload: File;
 
 function Photos() {
@@ -92,6 +45,51 @@ function Photos() {
 
   const showEdits = userRole === ADMIN || userRole === SUPERUSER;
   const showLoginPrompt = userRole === VISITOR;
+
+  async function getPhotos() {
+    const conferenceId = localStorage.getItem("conferenceId");
+    const token = localStorage.getItem("jwtToken");
+    const response = await fetch(
+      `/api/fotografije/idKonferencija/${conferenceId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await response.json();
+    console.log(data);
+    return data;
+  }
+
+  async function postPhoto(photo: NewPhoto) {
+    console.log("Photo to send", photo);
+    const token = localStorage.getItem("jwtToken");
+    fetch(`/api/fotografije`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(photo),
+    });
+  }
+
+  function convertBase64(file: any) {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  }
 
   function getImg(imgSrc: string, imgIdx: number) {
     setTempImgSrc(imgSrc);
@@ -114,7 +112,8 @@ function Photos() {
 
   async function handleSubmit(event: any) {
     event.preventDefault();
-
+    setIsLoading(true);
+    setShowFormModal(false);
     console.log(fileToUpload);
 
     // Ensure a file is selected
@@ -135,7 +134,9 @@ function Photos() {
       postPhoto({
         idKonferencija: Number(conferenceId),
         filePath: base64.split(",")[1],
-      }).then(() => window.location.reload());
+      }).then(() => {
+        setIsLoading(false);
+      });
     }
   }
 

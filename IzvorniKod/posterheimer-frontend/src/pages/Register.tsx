@@ -37,42 +37,6 @@ const emptyRegistrationData: RegistrationData = {
   visitor: false,
 };
 
-function registerNewUser(dataToSend: RegistrationData) {
-  dataToSend.idKonferencije = Number(localStorage.getItem("conferenceId"));
-  const jwtToken = localStorage.getItem("jwtToken");
-  console.log(dataToSend);
-  fetch("/api/korisnici", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${jwtToken}`,
-    },
-    body: JSON.stringify(dataToSend),
-  })
-    .then((data) => {
-      console.log(data);
-    })
-    .catch((error) => {
-      console.error("Problem with fetch:", error);
-    });
-}
-
-async function verifyCaptcha(captchaValue: string) {
-  let jwtToken = localStorage.getItem("jwtToken");
-  let dataToSend = { captchaValue: captchaValue };
-  const response = await fetch("/api/verify", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${jwtToken}`,
-    },
-    body: JSON.stringify(dataToSend),
-  });
-  const data = await response.json();
-  console.log(data);
-  return data;
-}
-
 function Register() {
   const [formData, setFormData] = useState<RegistrationData>(
     emptyRegistrationData
@@ -84,6 +48,42 @@ function Register() {
   const recaptcha = useRef<ReCAPTCHA>();
 
   const navigate = useNavigate();
+
+  function registerNewUser(dataToSend: RegistrationData) {
+    dataToSend.idKonferencije = Number(localStorage.getItem("conferenceId"));
+    const jwtToken = localStorage.getItem("jwtToken");
+    console.log(dataToSend);
+    fetch("/api/korisnici", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwtToken}`,
+      },
+      body: JSON.stringify(dataToSend),
+    })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("Problem with fetch:", error);
+      });
+  }
+
+  async function verifyCaptcha(captchaValue: string) {
+    let jwtToken = localStorage.getItem("jwtToken");
+    let dataToSend = { captchaValue: captchaValue };
+    const response = await fetch("/api/verify", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwtToken}`,
+      },
+      body: JSON.stringify(dataToSend),
+    });
+    const data = await response.json();
+    console.log(data);
+    return data;
+  }
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;

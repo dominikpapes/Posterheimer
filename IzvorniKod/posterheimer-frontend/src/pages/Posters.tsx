@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Modal, Button, Card, Form } from "react-bootstrap";
+import { Modal, Button, Card, Form, Spinner } from "react-bootstrap";
 import "../styles.css";
 
 import pdf_file1 from "../assets/posters/b5_Programsko_inzenjerstvo_i_informacijski_sustavi.pdf";
@@ -7,6 +7,7 @@ import pdf_file2 from "../assets/posters/b5_Racunalno_inzenjerstvo.pdf";
 import ConferenceNavbar from "../components/ConferenceNavbar";
 import PleaseLogin from "../components/PleaseLogin";
 import Loading from "../components/Loading";
+import { useNavigate } from "react-router-dom";
 
 const VISITOR = import.meta.env.VITE_VISITOR;
 const REGISTERED = import.meta.env.VITE_REGISTERED;
@@ -49,54 +50,11 @@ const empty_get_poster: GetPoster = {
   filePath: "",
 };
 
-function convertBase64(file: any) {
-  return new Promise((resolve, reject) => {
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(file);
-
-    fileReader.onload = () => {
-      resolve(fileReader.result);
-    };
-
-    fileReader.onerror = (error) => {
-      reject(error);
-    };
-  });
-}
-
-async function postPoster(poster: PostPoster) {
-  console.log("Poster to send", poster);
-  const token = localStorage.getItem("jwtToken");
-  const response = await fetch(`/api/posteri`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(poster),
-  });
-  const data = await response.json();
-  console.log(data);
-}
-
-async function getPosters() {
-  const conferenceId = localStorage.getItem("conferenceId");
-  const token = localStorage.getItem("jwtToken");
-  const response = await fetch(`/api/posteri/idKonferencija/${conferenceId}`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const data = await response.json();
-  console.log(data);
-  return data;
-}
-
 let fileToUpload: File;
 
 function Posters() {
   const [isLoading, setIsLoading] = useState(true);
+  const [isSending, setIsSending] = useState(false);
   const [posters, setPosters] = useState<GetPoster[]>([]);
   const [chosenPoster, setChosenPoster] = useState(empty_get_poster);
   const [showPoster, setShowPoster] = useState(false);
@@ -106,6 +64,66 @@ function Posters() {
   const userRole = localStorage.getItem("userRole");
   const showEdits = userRole === ADMIN || userRole === SUPERUSER;
   const showLoginPrompt = userRole === VISITOR;
+
+  const navigate = useNavigate();
+
+  function convertBase64(file: any) {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  }
+
+  async function postPoster(poster: PostPoster) {
+    console.log("Poster to send", poster);
+    const token = localStorage.getItem("jwtToken");
+    fetch(`/api/posteri`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(poster),
+    });
+  }
+
+  async function getPosters() {
+    const conferenceId = localStorage.getItem("conferenceId");
+    const token = localStorage.getItem("jwtToken");
+    const response = await fetch(
+      `/api/posteri/idKonferencija/${conferenceId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await response.json();
+    console.log(data);
+    return data;
+  }
+
+  async function deletePoster(posterId: Number) {
+    const token = localStorage.getItem("jwtToken");
+    const response = await fetch(`/api/posteri/id/${posterId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+    setPosters((prev) => prev.filter((o) => o.idPoster !== posterId));
+  }
 
   function handleChange(e: any) {
     const { name, value } = e.target;
@@ -118,9 +136,7 @@ function Posters() {
 
   async function handleSubmit(event: any) {
     event.preventDefault();
-
-    console.log(fileToUpload);
-
+    setIsLoading(true);
     // Ensure a file is selected
     if (!fileToUpload) {
       alert("Niste izabrali datoteku!");
@@ -144,21 +160,8 @@ function Posters() {
         prezimeAutor: newPoster.prezimeAutor,
         posterEmail: newPoster?.posterEmail,
       };
-      postPoster(poster).then(() => window.location.reload());
+      postPoster(poster).then(() => setShowPosterForm(false));
     }
-  }
-
-  async function deletePoster(posterId: Number) {
-    const token = localStorage.getItem("jwtToken");
-    const response = await fetch(`/api/posteri/id/${posterId}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await response.json();
-    console.log(data);
-    setPosters((prev) => prev.filter((o) => o.idPoster !== posterId));
   }
 
   useEffect(() => {
@@ -311,7 +314,18 @@ function Posters() {
                 required
               ></Form.Control>
             </Form.Group>
-            <Button type="submit">U redu</Button>
+            <Button type="submit" disabled={isSending}>
+              {isSending && (
+                <Spinner
+                  as="span"
+                  animation="grow"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+              )}
+              U redu
+            </Button>
           </Form>
         </Modal.Body>
       </Modal>

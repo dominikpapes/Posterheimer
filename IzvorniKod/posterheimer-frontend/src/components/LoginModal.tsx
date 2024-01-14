@@ -27,23 +27,6 @@ interface Credentials {
   prezime: string;
 }
 
-async function login(dataToSend: LoginData) {
-  try {
-    const response = await fetch("/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(dataToSend),
-    });
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
 function LoginModal({ conferenceId, conferenceName }: Props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -51,6 +34,23 @@ function LoginModal({ conferenceId, conferenceName }: Props) {
   const navigate = useNavigate();
 
   const [showAlert, setShowAlert] = useState(false);
+
+  async function login(dataToSend: LoginData) {
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dataToSend),
+      });
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();

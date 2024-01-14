@@ -32,18 +32,6 @@ const empty_conference: Conference = {
   videoUrl: "",
 };
 
-async function getConferences(conferenceId: number) {
-  let token = localStorage.getItem("jwtToken");
-  const response = await fetch(`/api/konferencije/${conferenceId}`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const data = await response.json();
-  return data;
-}
-
 function Conference() {
   const userRole = localStorage.getItem("userRole");
   const conferenceId = Number(localStorage.getItem("conferenceId"));
@@ -63,6 +51,18 @@ function Conference() {
     minute: "numeric",
     second: "numeric",
   };
+
+  async function getConferences(conferenceId: number) {
+    let token = localStorage.getItem("jwtToken");
+    const response = await fetch(`/api/konferencije/${conferenceId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+    return data;
+  }
 
   useEffect(() => {
     setIsLoading(true);

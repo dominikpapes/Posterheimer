@@ -44,19 +44,6 @@ const emptyConference: Conference = {
   adminPassword: "",
 };
 
-async function PostConference(conference: Conference, token: string) {
-  const response = await fetch("/api/konferencije", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(conference),
-  });
-  const data = await response.json();
-  console.log(data);
-}
-
 function NewConference() {
   const [newConference, setNewConference] =
     useState<Conference>(emptyConference);
@@ -67,9 +54,18 @@ function NewConference() {
   const token = localStorage.getItem("jwtToken") || "";
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setNewConference(emptyConference);
-  }, []);
+  async function PostConference(conference: Conference, token: string) {
+    const response = await fetch("/api/konferencije", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(conference),
+    });
+    const data = await response.json();
+    console.log(data);
+  }
 
   function handleChange(e: any) {
     const { name, value } = e.target;
@@ -128,6 +124,10 @@ function NewConference() {
 
     navigate("/");
   }
+
+  useEffect(() => {
+    setNewConference(emptyConference);
+  }, []);
 
   return (
     <>

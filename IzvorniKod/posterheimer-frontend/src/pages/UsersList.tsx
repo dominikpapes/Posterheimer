@@ -28,23 +28,23 @@ interface DeleteUser {
   email: string;
 }
 
-async function getUsers() {
-  const conferenceId = localStorage.getItem("conferenceId");
-  const token = localStorage.getItem("jwtToken");
-  const response = await fetch(`/api/korisnici`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const data = await response.json();
-  console.log(data);
-  return data;
-}
-
 export default function UsersList() {
   const [isLoading, setIsLoading] = useState(true);
   const [users, setUsers] = useState<GetUser[]>([]);
+
+  async function getUsers() {
+    const conferenceId = localStorage.getItem("conferenceId");
+    const token = localStorage.getItem("jwtToken");
+    const response = await fetch(`/api/korisnici`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+    return data;
+  }
 
   async function removeUser(userToRemove: DeleteUser) {
     const token = localStorage.getItem("jwtToken");

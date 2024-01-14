@@ -45,8 +45,6 @@ function Weather({ location }: Props) {
     fetchForecast().then(() => setIsLoading(false));
   }, []);
 
-  console.log(forecasts);
-
   return (
     <>
       <div className="weather-card card my-1">

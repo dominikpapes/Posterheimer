@@ -40,53 +40,6 @@ const empty_post_sponsor: PostSponsor = {
   idKonferencija: "",
 };
 
-async function getSponsors() {
-  const conferenceId = localStorage.getItem("conferenceId");
-  const token = localStorage.getItem("jwtToken");
-  const response = await fetch(
-    `/api/pokrovitelji/idKonferencija/${conferenceId}`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-  const data = await response.json();
-  console.log(data);
-  return data;
-}
-
-async function postSponsor(sponsor: PostSponsor) {
-  console.log("Sponsor to send", sponsor);
-  const token = localStorage.getItem("jwtToken");
-  const response = await fetch(`/api/pokrovitelji`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(sponsor),
-  });
-  const data = await response.json();
-  console.log(data);
-}
-
-function convertBase64(file: any) {
-  return new Promise((resolve, reject) => {
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(file);
-
-    fileReader.onload = () => {
-      resolve(fileReader.result);
-    };
-
-    fileReader.onerror = (error) => {
-      reject(error);
-    };
-  });
-}
-
 let fileToUpload: File;
 
 export default function Sponsors() {
@@ -98,6 +51,53 @@ export default function Sponsors() {
   const userRole = localStorage.getItem("userRole") || "";
   const showEdits = userRole === ADMIN || userRole === SUPERUSER;
   const showLoginPrompt = userRole === VISITOR;
+
+  async function getSponsors() {
+    const conferenceId = localStorage.getItem("conferenceId");
+    const token = localStorage.getItem("jwtToken");
+    const response = await fetch(
+      `/api/pokrovitelji/idKonferencija/${conferenceId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await response.json();
+    console.log(data);
+    return data;
+  }
+
+  async function postSponsor(sponsor: PostSponsor) {
+    console.log("Sponsor to send", sponsor);
+    const token = localStorage.getItem("jwtToken");
+    const response = await fetch(`/api/pokrovitelji`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(sponsor),
+    });
+    const data = await response.json();
+    console.log(data);
+  }
+
+  function convertBase64(file: any) {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  }
 
   function handleChange(e: any) {
     const { name, value } = e.target;
