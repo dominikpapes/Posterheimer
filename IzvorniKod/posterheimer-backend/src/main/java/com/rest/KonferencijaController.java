@@ -56,7 +56,7 @@ public class KonferencijaController {
     //dobavljamo listu svih usera od konferencije s poslanim IDom npr .../3/users poslat ce se sve od one s IDom 3,
     // secured govori tko moze pristupit tome
     @GetMapping("/{idKonferencija}/users")
-    //@Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
+    @Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
     public List<KorisnikGetDTO> getUsers(@PathVariable("idKonferencija") Integer idKonferencija) {
         return konferencijeService.fetch(idKonferencija).getUsers().stream().map(KorisnikGetMapper::toDTO)
                 .collect(Collectors.toList());
