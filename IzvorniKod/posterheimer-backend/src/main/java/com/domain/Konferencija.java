@@ -38,7 +38,7 @@ public class Konferencija {
     @OneToMany(mappedBy = "konferencija", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Set<Poster> posters;
-    @ManyToMany(mappedBy = "konferencije")
+    @ManyToMany(mappedBy = "konferencije", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Pokrovitelj> pokrovitelji;
     @OneToMany(mappedBy = "konferencija", cascade = CascadeType.ALL, orphanRemoval = true)
