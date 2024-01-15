@@ -2,7 +2,7 @@ import ConferenceNavbar from "../components/ConferenceNavbar";
 import "../styles.css";
 import addImage from "/add-image.png";
 import { useEffect, useState } from "react";
-import { Button, Form, Modal } from "react-bootstrap";
+import { Button, Form, Modal, Spinner } from "react-bootstrap";
 import PleaseLogin from "../components/PleaseLogin";
 import Loading from "../components/Loading";
 
@@ -32,12 +32,13 @@ let fileToUpload: File;
 
 function Photos() {
   const [isLoading, setIsLoading] = useState(true);
+  const [isSending, setIsSending] = useState(false);
   const [modal, setModal] = useState(false);
   const [showFormModal, setShowFormModal] = useState(false);
+
   const [tempImgSrc, setTempImgSrc] = useState("");
   const [tempIdx, setTempIdx] = useState(-1);
   const [newPhoto, setNewPhoto] = useState<NewPhoto>(empty_photo);
-
   const [photos, setPhotos] = useState<Photo[]>([]);
 
   const userRole = localStorage.getItem("userRole") || "";
@@ -64,16 +65,22 @@ function Photos() {
   }
 
   async function postPhoto(photo: NewPhoto) {
-    console.log("Photo to send", photo);
-    const token = localStorage.getItem("jwtToken");
-    fetch(`/api/fotografije`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(photo),
-    });
+    try {
+      const token = localStorage.getItem("jwtToken");
+      const response = await fetch(`/api/fotografije`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(photo),
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSending(false);
+      setShowFormModal(false);
+    }
   }
 
   function convertBase64(file: any) {
@@ -112,8 +119,7 @@ function Photos() {
 
   async function handleSubmit(event: any) {
     event.preventDefault();
-    setIsLoading(true);
-    setShowFormModal(false);
+    setIsSending(true);
     console.log(fileToUpload);
 
     // Ensure a file is selected
@@ -134,8 +140,6 @@ function Photos() {
       postPhoto({
         idKonferencija: Number(conferenceId),
         filePath: base64.split(",")[1],
-      }).then(() => {
-        setIsLoading(false);
       });
     }
   }
@@ -262,7 +266,18 @@ function Photos() {
                 onChange={handleChange}
               ></Form.Control>
             </Form.Group>
-            <Button type="submit">U redu</Button>
+            <Button type="submit" disabled={isSending}>
+              {isSending && (
+                <Spinner
+                  as="span"
+                  animation="grow"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+              )}
+              U redu
+            </Button>
           </Form>
         </Modal.Body>
       </Modal>

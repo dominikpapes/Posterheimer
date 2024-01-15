@@ -67,6 +67,7 @@ function LoginModal({ conferenceId, conferenceName }: Props) {
       const credentials: Credentials = await login(data);
       console.log("Credentials", credentials);
 
+      localStorage.setItem("userEmail", username);
       localStorage.setItem("userRole", credentials.role);
       localStorage.setItem("userName", credentials.ime);
       localStorage.setItem("userSurname", credentials.prezime);
