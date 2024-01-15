@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Titlebar from "../components/Titlebar";
 import {
+  Alert,
   Button,
   ButtonGroup,
   Card,
@@ -48,8 +49,8 @@ function NewConference() {
   const [newConference, setNewConference] =
     useState<Conference>(emptyConference);
   const [validationError, setValidationError] = useState("");
-  const [visitorConfirmPassword, setVisitorConfirmPassword] = useState("");
-  const [adminConfirmPassword, setAdminConfirmPassword] = useState("");
+  const [hasVideoSrcError, setHasVideoSrcError] = useState(false);
+  const [hasDurationError, setHasDurationError] = useState(false);
 
   const token = localStorage.getItem("jwtToken") || "";
   const navigate = useNavigate();
@@ -78,6 +79,8 @@ function NewConference() {
   function handleSubmit(e: any) {
     e.preventDefault();
 
+    let hasErrors = false;
+
     let htmlString = newConference.videoUrl;
 
     let match = htmlString.match(/src="(.*?)"/);
@@ -89,38 +92,51 @@ function NewConference() {
       console.log(srcValue);
     } else {
       srcValue = "";
+      setHasVideoSrcError(true);
       console.log("src attribute not found");
+      hasErrors = true;
     }
 
     let conf: Conference = {
-      imeKonferencija: newConference.imeKonferencija,
-      mjesto: newConference.mjesto,
-      adresa: newConference.adresa,
-      zipCode: newConference.zipCode,
+      imeKonferencija: newConference.imeKonferencija.trim(),
+      mjesto: newConference.mjesto.trim(),
+      adresa: newConference.adresa.trim(),
+      zipCode: newConference.zipCode.trim(),
       datumVrijemePocetka: newConference.datumVrijemePocetka,
       datumVrijemeZavrsetka: newConference.datumVrijemeZavrsetka,
       videoUrl: srcValue,
-      genericUsername: newConference.genericUsername,
-      genericPassword: newConference.genericPassword,
-      adminUsername: newConference.adminUsername,
-      adminPassword: newConference.adminPassword,
+      genericUsername: newConference.genericUsername.trim(),
+      genericPassword: newConference.genericPassword.trim(),
+      adminUsername: newConference.adminUsername.trim(),
+      adminPassword: newConference.adminPassword.trim(),
     };
+
+    let confDuration =
+      (new Date(conf.datumVrijemeZavrsetka).valueOf() -
+        new Date(conf.datumVrijemePocetka).valueOf()) /
+      (1000 * 3600 * 24);
+
+    if (confDuration < 3) {
+      setHasDurationError(true);
+      hasErrors = true;
+    }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(newConference.genericUsername)) {
       setValidationError("Pogrešan format adrese e-pošte posjetitelja");
-      return;
+      hasErrors = true;
     }
 
     if (!emailRegex.test(newConference.adminUsername)) {
       setValidationError("Pogrešan format adrese e-pošte administratora");
-      return;
+      hasErrors = true;
     }
 
     console.log(conf);
 
-    PostConference(conf, token);
+    if (!hasErrors) PostConference(conf, token);
+    else return;
 
     navigate("/");
   }
@@ -157,6 +173,16 @@ function NewConference() {
                 onChange={handleChange}
                 required
               />
+              <Alert
+                show={hasVideoSrcError}
+                variant="danger"
+                className="mt-2"
+                dismissible
+              >
+                Pogrešan format URL-a videoprijenosa.
+                <br />
+                Molimo Vas zalijepite <i>embed code</i> željenog YouTube videa.
+              </Alert>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formConferenceCity">
               <Form.Label>Adresa</Form.Label>
@@ -210,6 +236,15 @@ function NewConference() {
                 onChange={handleChange}
                 required
               />
+
+              <Alert
+                show={hasDurationError}
+                variant="danger"
+                className="mt-2"
+                dismissible
+              >
+                Konferencija mora trajati barem 3 dana.
+              </Alert>
             </Form.Group>
           </Card>
 

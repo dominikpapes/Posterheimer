@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button, Form, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 const VISITOR = import.meta.env.VITE_VISITOR;
@@ -30,6 +30,7 @@ interface Credentials {
 function LoginModal({ conferenceId, conferenceName }: Props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   const navigate = useNavigate();
 
@@ -49,12 +50,14 @@ function LoginModal({ conferenceId, conferenceName }: Props) {
       return data;
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoggingIn(false);
     }
   }
 
   async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
+    setIsLoggingIn(true);
     const data = {
       username: username,
       password: password,
@@ -108,13 +111,22 @@ function LoginModal({ conferenceId, conferenceName }: Props) {
               onChange={(e) => setPassword(e.target.value)}
             />
           </Form.Group>
-          <Button variant="primary" type="submit">
-            Login
+          <Button variant="primary" type="submit" disabled={isLoggingIn}>
+            {isLoggingIn && (
+              <Spinner
+                as="span"
+                animation="grow"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+            )}
+            Prijava
           </Button>
         </Form>
         {showAlert && (
           <div className="alert alert-danger mt-3" role="alert">
-            Pogrešan email ili lozinka!
+            Pogrešni podaci za prijavu
           </div>
         )}
       </Modal.Body>
