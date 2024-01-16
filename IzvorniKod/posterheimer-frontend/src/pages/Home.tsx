@@ -84,7 +84,6 @@ function Home() {
   useEffect(() => {
     setIsLoading(true);
     getConferences().then((data) => {
-      console.log(data);
       setConferences(data);
       setIsLoading(false);
     });
