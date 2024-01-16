@@ -20,7 +20,7 @@ public class Pokrovitelj {
     private String urlPromo;
 
     @ManyToMany(mappedBy = "pokrovitelji")
-    private List<Konferencija> konferencije;
+    private List<Konferencija> konferencije=new ArrayList<>();
 
     public Pokrovitelj() {
 

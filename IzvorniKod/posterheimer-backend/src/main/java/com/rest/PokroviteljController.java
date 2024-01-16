@@ -62,7 +62,7 @@ public class PokroviteljController {
             pokrovitelj.setPromotivniMaterijal(pokroviteljDTO.decodeBase64String(pokroviteljDTO.getPromotivniMaterijal()));
             pokrovitelj.setUrlPromo(pokroviteljDTO.getUrlPromo());
             Pokrovitelj saved = pokroviteljService.createPokrovitelj(pokrovitelj);
-            existingKonferencija.get().setPokrovitelj(saved);
+            //existingKonferencija.get().setPokrovitelj(saved);
             return ResponseEntity.created(URI.create("/pokrovitelji/" + saved.getImePokrovitelja())).body(saved);
         }
         else
