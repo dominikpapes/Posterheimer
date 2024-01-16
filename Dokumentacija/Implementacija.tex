@@ -34,8 +34,8 @@
 			\subsection{Ispitivanje komponenti}
 			\textit{Potrebno je provesti ispitivanje jedinica (engl. unit testing) nad razredima koji implementiraju temeljne funkcionalnosti. Razraditi \textbf{minimalno 6 ispitnih slučajeva} u kojima će se ispitati redovni slučajevi, rubni uvjeti te izazivanje pogreške (engl. exception throwing). Poželjno je stvoriti i ispitni slučaj koji koristi funkcionalnosti koje nisu implementirane. Potrebno je priložiti izvorni kôd svih ispitnih slučajeva te prikaz rezultata izvođenja ispita u razvojnom okruženju (prolaz/pad ispita). }
 			
-			Ispitivanje komponenti provedeno je pomoću Selenium WebDrivera\footnote{https://www.selenium.dev/documentation/webdriver/} unutar JUnit testova kao podršku za pisanje ispita unutar programskog jezika Java.
-			Izrađeno je 6 ispitnih slučajeva. Njihova uspješnost prikazana je na slici 5.1.
+			Ispitivanje komponenti provedeno je pomoću Selenium WebDrivera\footnote{https://www.selenium.dev/documentation/webdriver/} unutar JUnit 4 testova kao podršku za pisanje ispita unutar programskog jezika Java. Ispitivanje je provedeno nad konferencijom naziva "TestKonferencija". U vrijeme izrade dokumentacije, konferencija se nalazila na drugom mjestu na listi konferencija. 
+			Izrađeno je 6 ispitnih slučajeva. Njihova uspješnost prikazana je na slici 5.1. 
 			
 			\begin{figure} [hbt!]
 				\includegraphics[width=\linewidth]{Slike/testResults}
@@ -268,7 +268,8 @@ public void navBar() {
 }
 	\end{lstlisting}
 	
-	U \textbf{šestom ispitnom slučaju} provjerena je funkcionalnost gumba za registraciju pri unosu email adrese netočnog formata. Predviđen rezultat je neuspješna registracija te obavijest o netočnom unosu. Ispitni slučaj je uspješan. 
+	U \textbf{šestom ispitnom slučaju} provjerena je funkcionalnost gumba za registraciju pri unosu email adrese netočnog formata. Sva ostala polja su točno ispunjena te je prođen reCAPTCHA test. Predviđen rezultat je neuspješna registracija te obavijest o netočnom unosu. Ispitni slučaj je uspješan.
+	Ispitni slučaj je neuspješan u slučaju CAPTCHA Image testa 
 
 			\begin{lstlisting}
 	  @Test
@@ -330,7 +331,7 @@ public void incorrectRegister() {
 			 \end{itemize}
 		 	\textit{Detalji o korištenju alata Selenium bit će prikazani na posebnom predavanju tijekom semestra.}
 		 	
-		 	Ispitivanje sustava provedeno je pomoću dodatka za preglednik Selenium IDE\footnote{https://www.selenium.dev/selenium-ide/}.
+		 	Ispitivanje sustava provedeno je pomoću dodatka za preglednik Selenium IDE\footnote{https://www.selenium.dev/selenium-ide/}. JUnit ispitni slučajevi generirani su pomoću Selenium IDE ispitnih slučajeva.
 		 	
 		 	\textbf{Prvi ispitni slučaj} provjerava funkcionalnost brisanja korisnika. Prije brisanja korisnika potrebna je prijava registratora. Administrator briše određenog korisnika te se odjavljuje. Uspješnost brisanja korisnika provjeravamo pokušajem prijave izbrisanog korisnika. Očekivani rezultat je neuspješna prijava. Ispitni slučaj je uspješan.
 		 	
