@@ -7,6 +7,7 @@ import loading from "../../public/spinner.gif";
 import { Card, CardTitle, Offcanvas, Spinner } from "react-bootstrap";
 import PleaseLogin from "../components/PleaseLogin";
 import Loading from "../components/Loading";
+import LocationMap from "../components/LocationMap";
 
 const VISITOR = import.meta.env.VITE_VISITOR;
 
@@ -73,7 +74,6 @@ function Conference() {
   }, []);
 
   useEffect(() => {
-    console.log(conference);
     setDateStart(new Date(conference.datumVrijemePocetka));
     setDateEnd(new Date(conference.datumVrijemeZavrsetka));
   }, [conference]);
@@ -81,6 +81,7 @@ function Conference() {
   return (
     <>
       <ConferenceNavbar />
+
       <>
         {isLoading ? (
           <Loading />
@@ -91,9 +92,16 @@ function Conference() {
               <Card.Body>
                 {dateStart.toLocaleString("hr-HR", dateOptions)} -{" "}
                 {dateEnd.toLocaleString("hr-HR", dateOptions)}
-                <Card className="location-container">
+                <LocationMap
+                  adresa={conference.adresa}
+                  grad={conference.mjesto}
+                  pbr={conference.zipCode}
+                  konfIme={conference.imeKonferencija}
+                />
+                <Card className="location-container mt-2">
                   <a
                     href={`https://maps.google.com/?q=${conference.adresa}+${conference.mjesto}`}
+                    target="_blank"
                   >
                     <i className="fa-solid fa-location-dot fa-2x"></i>
                     <br />
