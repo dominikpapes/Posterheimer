@@ -15,7 +15,7 @@ export default function Results() {
     const conferenceId = localStorage.getItem("conferenceId");
     const token = localStorage.getItem("jwtToken");
     const response = await fetch(
-      `/api/fotografije/idKonferencija/${conferenceId}`,
+      `/api/posteri/idKonferencija/${conferenceId}/rezultati`,
       {
         method: "GET",
         headers: {
@@ -37,6 +37,16 @@ export default function Results() {
   const goldStyle: React.CSSProperties = { color: "gold" };
   const silverStyle: React.CSSProperties = { color: "silver" };
   const bronzeStyle: React.CSSProperties = { color: "#cd7f32" };
+
+  /* interface Winner {
+    place: number;
+    color: string;
+    name: string;
+    poster: PosterGetWithVotes;
+  }
+  const winners: Winner[] = [
+    {place: 1, color: "gold", name: results.at(0)?.imeAutor + " " + results.at(0)?.prezimeAutor, poster:results.at(0)}
+  ]; */
 
   return (
     <>
