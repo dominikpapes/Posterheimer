@@ -19,10 +19,8 @@ public class Pokrovitelj {
     private byte[] promotivniMaterijal;
     private String urlPromo;
 
-    @ManyToMany
-    @JoinColumn(name="id_konferencija")
-    //@JsonIgnore
-    private List<Konferencija> konferencije = new ArrayList<Konferencija>();
+    @ManyToMany(mappedBy = "pokrovitelji")
+    private List<Konferencija> konferencije;
 
     public Pokrovitelj() {
 
