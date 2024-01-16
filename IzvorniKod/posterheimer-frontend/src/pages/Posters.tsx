@@ -63,6 +63,7 @@ function Posters() {
 
   const userRole = localStorage.getItem("userRole");
   const showEdits = userRole === ADMIN || userRole === SUPERUSER;
+  const showVoting = userRole === REGISTERED;
   const showLoginPrompt = userRole === VISITOR;
 
   const navigate = useNavigate();
@@ -123,6 +124,18 @@ function Posters() {
     const data = await response.json();
     console.log(data);
     setPosters((prev) => prev.filter((o) => o.idPoster !== posterId));
+  }
+
+  function sendVote(posterId: Number) {
+    const token = localStorage.getItem("jwtToken");
+    fetch(`/api/posteri`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      // body: JSON.stringify(),
+    });
   }
 
   function handleChange(e: any) {
@@ -234,9 +247,11 @@ function Posters() {
           />
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="success" onClick={() => setShowPoster(false)}>
-            Glasaj
-          </Button>
+          {showVoting && (
+            <Button variant="success" onClick={() => setShowPoster(false)}>
+              Glasaj
+            </Button>
+          )}
           <Button
             variant="primary"
             href={chosenPoster.filePath}
