@@ -103,6 +103,14 @@
   text-decoration: none;
 }
 
+/* MAP */
+
+.leaflet-container {
+  width: 25rem;
+  height: 20rem;
+  margin: auto;
+}
+
 /* WEATHER */
 
 .weather-container {

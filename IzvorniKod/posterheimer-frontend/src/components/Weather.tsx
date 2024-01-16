@@ -26,7 +26,6 @@ function Weather({ location }: Props) {
     fetch(`${api.base}forecast?q=${location}&units=metric&APPID=${api.key}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log("Forecast: ", data);
         data.list.forEach((element: any) => {
           const weatherData: WeatherData = {
             temperature: element.main.temp,
