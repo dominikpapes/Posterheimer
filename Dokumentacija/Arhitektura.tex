@@ -11,8 +11,7 @@ Arhitektura je podijeljena u tri podsustava:
 \newline
 \indent Web poslužitelj je posrednik između korisnika i aplikacije, te služi kao osnova rada aplikacije. Komunikacija se ostvaruje korisničkim HTTP (engl. \textit{Hyper Text Transfer Protocol}) zahtjevima koji obično u zaglavlju imaju definiranu GET ili POST metodu za dohvaćanje odnosno predaju podataka. Poslužitelj na njih odgovara dostavom traženog sadržaja.
 \newline
-\indent Web aplikacija po nalogu poslužitelja pristupa ili mijenja podatke iz baze podataka i vraća HTML dokument koji se potom prikazuje korisniku u sučelju preglednika.
-Programski jezik koji smo odabrali za razvoj pozadinskog dijela aplikacije je "Java" zajedno sa "Spring" radnim okvirom, a za dizajn korisničkog sučelja odabrali smo "JavaScript", s radnim okvirom "React". Odabrano razvojno okružje je "IntelliJ IDEA". Arhitektura sustava će se temeljiti na stilističkoj varijaciji arhitekture zasnovane na događajima (engl. \textit{event based architecture}) - MVC obrazcu. Spring radni okvir podržava MVC (Model-View-Controller) obrazac, te kao takav ima gotove predloške koji nam olakšavaju razvoj web aplikacije.
+\indent Web aplikacija po nalogu poslužitelja pristupa ili mijenja podatke iz baze podataka i vraća HTML dokument koji se potom prikazuje korisniku u sučelju preglednika. Arhitektura sustava će se temeljiti na stilističkoj varijaciji arhitekture zasnovane na događajima (engl. \textit{event based architecture}) - MVC obrazcu. Spring - radni okvir korišten za razvoj pozadinskog dijela aplikacije, podržava MVC (Model-View-Controller) obrazac, te kao takav ima gotove predloške koji nam olakšavaju razvoj web aplikacije.
 \newline
 
 \clearpage
@@ -34,7 +33,7 @@ Dijelovi MVC obrazca su:
 
 		\section{Baza podataka}
 			
-		Za potrebe našeg sustava koristiti ćemo relacijsku bazu podataka koja svojom strukturom olakšava modeliranje stvarnog svijeta. Gradivna jedinka baze je relacija, odnosno tablica koja je definirana svojim imenom i skupom atributa. Zadaća baze podataka je brza i jednostavna pohrana, izmjena i dohvat podataka za daljnju obradu.
+		Za potrebe našeg sustava koristit ćemo relacijsku bazu podataka koja svojom strukturom olakšava modeliranje stvarnog svijeta. Gradivna jedinka baze je relacija, odnosno tablica koja je definirana svojim imenom i skupom atributa. Zadaća baze podataka je brza i jednostavna pohrana, izmjena i dohvat podataka za daljnju obradu.
 		Baza podataka ove aplikacije sastoji se od sljedećih entiteta: 
 		
 		\begin{itemize}
@@ -50,7 +49,9 @@ Dijelovi MVC obrazca su:
 		
 		\subsection{Opis tablica}
 	
-	\noindent\textbf{Konferencija } Ovaj entitet sadržava sve važne informacije o stručnoj konferenciji. Sadrži atribute: Identifikator konferencije, ime konferencije, datum i vrijeme početka konferencije, datum i vrijeme završetka konferencije, mjesto održavanja konferencije, adresu održavanja konferencije, poštanski broj mjesta, generičko korisničko ime i pripadajuću lozinku koja se koristi za pristup konferenciji, poveznicu na video prijenos konferencije i oznaku o trajanju glasovanja. Ovaj entitet u vezi je \textit{One-to-Many} s entitetom Korisnik preko identifikatora konferencije, u vezi \textit{One-to-Many} s entitetom Poster preko identifikatora konferencije, u vezi \textit{One-to-Many} s entitetom Fotografija preko identifikatora konferencije i u vezi \textit{Many-to-Many} s entitetom Pokrovitelj preko identifikatora konferencije. 
+	\noindent\textbf{Konferencija }
+	
+	Ovaj entitet sadržava sve važne informacije o stručnoj konferenciji. Sadrži atribute: identifikator konferencije, ime konferencije, datum i vrijeme početka konferencije, datum i vrijeme završetka konferencije, mjesto održavanja konferencije, adresu održavanja konferencije, poštanski broj mjesta, generičko korisničko ime i pripadajuću lozinku koja se koristi za pristup konferenciji, poveznicu na video prijenos konferencije i oznaku o trajanju glasovanja. Ovaj entitet u vezi je \textit{jedan na više} s entitetom Korisnik preko identifikatora konferencije, u vezi \textit{jedan na više} s entitetom Poster preko identifikatora konferencije, u vezi \textit{jedan na više} s entitetom Fotografija preko identifikatora konferencije i u vezi \textit{više na više} s entitetom Pokrovitelj preko identifikatora konferencije. 
 	
 	\begin{longtblr}[
 		label=none,
@@ -76,7 +77,9 @@ Dijelovi MVC obrazca su:
 	
 	\clearpage
 	
-	\noindent\textbf{Korisnik } Ovaj entitet sadržava sve važne informacije o korisniku aplikacije. Sadrži atribute: Identifikator korisnika, e-mail adresu korisnika, lozinku, ime, prezime, oznaku ima li korisnik ovlasti administratora, oznaku radi li se o generičkom računu, oznaku je li korisnik glasao i identifikator konferencije na kojoj korisnik sudjeluje.  Ovaj entitet je u vezi \textit{Many-to-One} s entitetom Konferencija preko identifikatora konferencije. 
+	\noindent\textbf{Korisnik }
+	
+	Ovaj entitet sadržava sve važne informacije o korisniku aplikacije. Sadrži atribute: identifikator korisnika, e-mail adresu korisnika, lozinku, ime, prezime, oznaku ima li korisnik ovlasti administratora, oznaku radi li se o generičkom računu, oznaku je li korisnik glasao i identifikator konferencije na kojoj korisnik sudjeluje.  Ovaj entitet je u vezi \textit{više na jedan} s entitetom Konferencija preko identifikatora konferencije. 
 	
 	\begin{longtblr}[
 		label=none,
@@ -100,7 +103,9 @@ Dijelovi MVC obrazca su:
 	
 	\clearpage
 	
-	\noindent \textbf{Poster } Ovaj entitet sadržava sve važne informacije o radu i/ili izlaganju koje je prikazano odgovarajućim posterom ili prezentacijom. Sadrži atribute: Identifikator postera, ime postera, datoteku postera, broj glasova za poster, ime i prezime autora, e-mail adresu kojom je autor poslao poster i identifikator konferencije na kojoj se rad izlaže. Ovaj entitet je u vezi \textit{Many-to-One} s entitetom Konferencija preko identifikatora konferencije. 
+	\noindent \textbf{Poster }
+	
+	Ovaj entitet sadržava sve važne informacije o radu prikazanom odgovarajućim posterom/prezentacijom. Sadrži atribute: identifikator postera, ime postera, datoteku postera, broj glasova za poster, ime i prezime autora, e-mail adresu kojom je autor poslao poster i identifikator konferencije na kojoj se rad izlaže. Ovaj entitet je u vezi \textit{više na jedan} s entitetom Konferencija preko identifikatora konferencije.
 	
 	
 	\begin{longtblr}[
@@ -124,7 +129,9 @@ Dijelovi MVC obrazca su:
 	
 	\clearpage
 	
-	\noindent \textbf{Pokrovitelj } Ovaj entitet sadržava sve važne informacije o pokrovitelju. Sadrži atribute: Ime pokrovitelja, promotivne materijale i poveznicu na stranicu pokrovitelja. Ovaj entitet je u vezi \textit{Many-to-Many} s entitetom Konferencija.
+	\noindent \textbf{Pokrovitelj }
+	
+	Ovaj entitet sadržava sve važne informacije o pokrovitelju. Sadrži atribute: ime pokrovitelja, promotivne materijale i poveznicu na stranicu pokrovitelja. Ovaj entitet je u vezi \textit{više na više} s entitetom Konferencija.
 	
 	
 	\begin{longtblr}[
@@ -141,7 +148,9 @@ Dijelovi MVC obrazca su:
 		url\_promo & VARCHAR & poveznica na stranicu pokrovitelja \\ \hline 
 	\end{longtblr}
 	
-	\noindent \textbf{Pokrovitelj-Konferencije } Ovaj entitet nastaje zbog \textit{Many-to-Many} veze između entiteta Konferencija i Pokrovitelj. Sadržava sve informacije o odnosu konferencije i pokrovitelja odnosno kojoj konferenciji pokrovitelj pripada. 
+	\noindent \textbf{Pokrovitelj-Konferencije }
+	
+	Ovaj entitet nastaje zbog \textit{više na više} veze između entiteta Konferencija i Pokrovitelj. Sadržava sve informacije o odnosu konferencije i pokrovitelja odnosno kojoj konferenciji pokrovitelj pripada. 
 	
 	
 	\begin{longtblr}[
@@ -160,7 +169,9 @@ Dijelovi MVC obrazca su:
 	\end{longtblr}
 	
 	
-	\noindent \textbf{Fotografija } Ovaj entitet sadržava sve informacije o fotografijama s konferencije. Sadrži atribute: Identifikator fotografije, sliku fotografije i identifikator konferencije koja je fotografirana. Ovaj entitet u vezi je \textit{Many-to-One} s entitetom Konferencija. 
+	\noindent \textbf{Fotografija }
+	
+	Ovaj entitet sadržava sve informacije o fotografijama s konferencije. Sadrži atribute: identifikator fotografije, sliku fotografije i identifikator konferencije kojoj fotografija pripada. Ovaj entitet u vezi je \textit{više na jedan} s entitetom Konferencija. 
 	
 	
 	\begin{longtblr}[
