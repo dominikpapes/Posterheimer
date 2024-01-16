@@ -27,9 +27,9 @@ public class PokroviteljServiceJpa implements PokroviteljService {
     }
 
     @Override
-    public Pokrovitelj fetch(String imePokrovitelja) {
-        return pokroviteljRepository.findByImePokrovitelj(imePokrovitelja).orElseThrow(
-                () -> new EntityMissingException(Pokrovitelj.class, imePokrovitelja));
+    public Pokrovitelj fetch(Integer idPokrovitelj) {
+        return pokroviteljRepository.findByIdPokrovitelj(idPokrovitelj).orElseThrow(
+                () -> new EntityMissingException(Pokrovitelj.class, idPokrovitelj));
     }
 
     @Override
@@ -61,8 +61,8 @@ public class PokroviteljServiceJpa implements PokroviteljService {
     }
 
     @Override
-    public Pokrovitelj deletePokrovitelj(String imePokrovitelja) {
-        Pokrovitelj pokrovitelj = fetch(imePokrovitelja);
+    public Pokrovitelj deletePokrovitelj(Integer idPokrovitelj) {
+        Pokrovitelj pokrovitelj = fetch(idPokrovitelj);
         pokroviteljRepository.delete(pokrovitelj);
         return pokrovitelj;
     }
@@ -70,6 +70,11 @@ public class PokroviteljServiceJpa implements PokroviteljService {
     @Override
     public Optional<Pokrovitelj> findByImePokrovitelj(String imePokrovitelja) {
         return pokroviteljRepository.findByImePokrovitelj(imePokrovitelja);
+    }
+
+    @Override
+    public Optional<Pokrovitelj> findByIdPokrovitelj(Integer idPokrovitelj) {
+        return pokroviteljRepository.findByIdPokrovitelj(idPokrovitelj);
     }
 
     private void validate(Pokrovitelj pokrovitelj) {

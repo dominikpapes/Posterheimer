@@ -16,6 +16,9 @@ public interface PokroviteljRepository
     @Query("SELECT p FROM Pokrovitelj p WHERE p.imePokrovitelja = :imePokrovitelja")
     Optional<Pokrovitelj> findByImePokrovitelj(@Param("imePokrovitelja") String imePokrovitelja);
 
+    @Query("SELECT p FROM Pokrovitelj p WHERE p.idPokrovitelj = :idPokrovitelj")
+    Optional<Pokrovitelj> findByIdPokrovitelj(@Param("idPokrovitelj") Integer idPokrovitelj);
+
     @Query("SELECT COUNT(p) FROM Pokrovitelj p WHERE p.imePokrovitelja = :imePokrovitelja")
     int countByImePokrovitelja(@Param("imePokrovitelja") String imePokrovitelja);
 

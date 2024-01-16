@@ -62,12 +62,12 @@ public class PokroviteljController {
             return ResponseEntity.notFound().build();
     }
     
-    @DeleteMapping("/ime/{imePokrovitelja}")
+    @DeleteMapping("/id/{idPokrovitelj}")
     @Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
-    public ResponseEntity<Object> deletePokrovitelj(@PathVariable("imePokrovitelja") String imePokrovitelja){
-        Optional<Pokrovitelj> existingPokrovitelj = pokroviteljService.findByImePokrovitelj(imePokrovitelja);
+    public ResponseEntity<Object> deletePokroviteljById(@PathVariable("idPokrovitelj") Integer idPokrovitelj){
+        Optional<Pokrovitelj> existingPokrovitelj = pokroviteljService.findByIdPokrovitelj(idPokrovitelj);
         if (existingPokrovitelj.isPresent()) {
-            pokroviteljService.deletePokrovitelj(imePokrovitelja);
+            pokroviteljService.deletePokrovitelj(idPokrovitelj);
             return ResponseEntity.ok().build();
         }
         else {
@@ -85,7 +85,7 @@ public class PokroviteljController {
                             .anyMatch(konferencija -> konferencija.getIdKonferencija().equals(idKonferencija))).toList();
 
             for (Pokrovitelj p : list) {
-                pokroviteljService.deletePokrovitelj(p.getImePokrovitelja());
+                pokroviteljService.deletePokrovitelj(p.getIdPokrovitelj());
             }
             return ResponseEntity.noContent().build();
         }

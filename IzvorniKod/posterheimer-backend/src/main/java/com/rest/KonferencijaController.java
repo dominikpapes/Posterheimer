@@ -62,19 +62,42 @@ public class KonferencijaController {
                 .collect(Collectors.toList());
     }
 
-    //dto
+    /*
+    @PostMapping("")
+    //@Secured("ROLE_SUPERUSER")
+    public ResponseEntity<Konferencija> createKonferencija(@RequestBody KonferencijaPostDTO konferencijaPostDTO) {
+        Konferencija konferencija = KonferencijaPostMapper.toEntity(konferencijaPostDTO);
+        konferencija.setIdKonferencija(-1);
+        Korisnik tempKorisnik = new Korisnik(konferencija.getGenericUsername(),
+                pwdEncoder.encode(konferencija.getGenericPassword()), "posjetitelj", "", false, true);
+        konferencija.setGenericPassword(tempKorisnik.getLozinka());
+        tempKorisnik.setKonferencija(konferencija);
+        konferencija.setVotingReminderSent(false);
+        Konferencija saved = konferencijeService.createKonferencija(konferencija);
+        korisnikService.createKorisnik(tempKorisnik);
+        tempKorisnik=new Korisnik(konferencijaPostDTO.getAdminUsername(), pwdEncoder.encode(konferencijaPostDTO.getAdminPassword()), "admin", "",true,false);
+        tempKorisnik.setKonferencija(konferencija);
+        korisnikService.createKorisnik(tempKorisnik);
+        return ResponseEntity.created(URI.create("/konferencije/" + saved.getIdKonferencija())).body(saved);
+    }
+     */
+
     @PostMapping("")
     @Secured("ROLE_SUPERUSER")
     public ResponseEntity<Konferencija> createKonferencija(@RequestBody KonferencijaPostDTO konferencijaPostDTO) {
         Konferencija konferencija = KonferencijaPostMapper.toEntity(konferencijaPostDTO);
         konferencija.setIdKonferencija(-1);
-        Korisnik tempKorisnik = new Korisnik(konferencija.getGenericUsername(), pwdEncoder.encode(konferencija.getGenericPassword()), konferencija.getIdKonferencija().toString(), konferencija.getImeKonferencija(), false, true);
-        konferencija.setGenericPassword(tempKorisnik.getLozinka());
-        tempKorisnik.setKonferencija(konferencija);
+        Korisnik posjetitelj = new Korisnik(konferencija.getGenericUsername(),
+                pwdEncoder.encode(konferencija.getGenericPassword()), "posjetitelj", "", false, true);
+        Korisnik administrator = new Korisnik(konferencijaPostDTO.getAdminUsername(),
+                pwdEncoder.encode(konferencijaPostDTO.getAdminPassword()), "admin", "",true,false);
+        konferencija.setGenericPassword(posjetitelj.getLozinka());
+        posjetitelj.setKonferencija(konferencija);
+        konferencija.setVotingReminderSent(false);
+        administrator.setKonferencija(konferencija);
         Konferencija saved = konferencijeService.createKonferencija(konferencija);
-        korisnikService.createKorisnik(tempKorisnik);
-        tempKorisnik=new Korisnik(konferencijaPostDTO.getAdminUsername(), pwdEncoder.encode(konferencijaPostDTO.getAdminPassword()), null,null,true,false);
-        korisnikService.createKorisnik(tempKorisnik);
+        korisnikService.createKorisnik(posjetitelj);
+        korisnikService.createKorisnik(administrator);
         return ResponseEntity.created(URI.create("/konferencije/" + saved.getIdKonferencija())).body(saved);
     }
 
