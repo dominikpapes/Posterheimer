@@ -52,6 +52,8 @@ public class PokroviteljController {
             if(existingPokrovitelj.isPresent()){
                 existingPokrovitelj.get().setKonferencije(existingKonferencija.get());
                 existingKonferencija.get().setPokrovitelj(existingPokrovitelj.get());
+                pokroviteljService.createPokrovitelj(existingPokrovitelj.get());
+                konferencijeService.createKonferencija(existingKonferencija.get());
                 return ResponseEntity.created(URI.create("/pokrovitelji/" + existingPokrovitelj.get().getImePokrovitelja())).body(existingPokrovitelj.get());
             }
             Pokrovitelj pokrovitelj = new Pokrovitelj();
