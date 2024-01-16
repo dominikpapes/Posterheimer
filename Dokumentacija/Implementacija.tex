@@ -57,18 +57,8 @@ public void genericLogin() {
 	org.openqa.selenium.Dimension target = new  org.openqa.selenium.Dimension(1552, 840);
 	driver.manage().window().setSize(target);
 	
-	driver.findElement(By.xpath("(//button[contains(text(),'Pristupi')])[4]")).click();
+	driver.findElement(By.xpath("(//button[contains(text(),'Pristupi')])[2]")).click();
 	// broj postaviti na mjesto konferencije u listi
-	{
-		WebElement element = driver.findElement(By.xpath("(//button[@type=\'button\'])[4]"));
-		Actions builder = new Actions(driver);
-		builder.moveToElement(element).perform();
-	}
-	{
-		WebElement element = driver.findElement(By.tagName("body"));
-		Actions builder = new Actions(driver);
-		builder.moveToElement(element, 0, 0).perform();
-	}
 	
 	driver.findElement(By.id("username")).click();
 	driver.findElement(By.id("username")).sendKeys("visitor.test@mail.hr");
@@ -145,17 +135,8 @@ public void incorrectLogin() {
 	
 	driver.get("https://posterheimer.onrender.com/");
 	driver.manage().window().setSize(new Dimension(1552, 840));
-	driver.findElement(By.xpath("(//button[@type=\'button\'])[3]")).click();
-	{
-		WebElement element = driver.findElement(By.xpath("(//button[@type=\'button\'])[3]"));
-		Actions builder = new Actions(driver);
-		builder.moveToElement(element).perform();
-	}
-	{
-		WebElement element = driver.findElement(By.tagName("body"));
-		Actions builder = new Actions(driver);
-		builder.moveToElement(element, 0, 0).perform();
-	}
+	driver.findElement(By.xpath("(//button[@type=\'button\'])[2]")).click();
+
 	driver.findElement(By.cssSelector(".mb-3:nth-child(1)")).click();
 	driver.findElement(By.id("username")).click();
 	driver.findElement(By.id("username")).sendKeys("test");
@@ -198,7 +179,7 @@ public void adminLogin() {
 	
 	driver.get("https://posterheimer.onrender.com/");
 	driver.manage().window().setSize(new Dimension(1552, 840));
-	driver.findElement(By.cssSelector(".list-group-item:nth-child(3) > .float-end")).click();
+	driver.findElement(By.cssSelector(".list-group-item:nth-child(2) > .float-end")).click();
 	driver.findElement(By.id("username")).click();
 	driver.findElement(By.id("username")).sendKeys("admin.test@mail.hr");
 	driver.findElement(By.id("password")).click();
@@ -210,14 +191,6 @@ public void adminLogin() {
 	driver.findElement(By.cssSelector(".btn-close")).click();
 	driver.findElement(By.linkText("Fotografije")).click();
 	driver.findElement(By.cssSelector(".image-container > img")).click();
-	driver.findElement(By.cssSelector(".modal-title")).click();
-	driver.findElement(By.cssSelector(".modal-title")).click();
-	{
-		WebElement element = driver.findElement(By.cssSelector(".modal-title"));
-		Actions builder = new Actions(driver);
-		builder.doubleClick(element).perform();
-	}
-	driver.findElement(By.cssSelector(".modal-title")).click();
 	driver.findElement(By.cssSelector(".modal-title")).click();
 	driver.findElement(By.cssSelector(".btn-close")).click();
 	driver.findElement(By.linkText("Pokrovitelji")).click();
@@ -248,18 +221,8 @@ public void navBar() {
 	org.openqa.selenium.Dimension target = new  org.openqa.selenium.Dimension(1552, 840);
 	driver.manage().window().setSize(target);
 	
-	driver.findElement(By.xpath("(//button[contains(text(),'Pristupi')])[3]")).click();
+	driver.findElement(By.xpath("(//button[contains(text(),'Pristupi')])[2]")).click();
 	// broj postaviti na mjesto konferencije u listi
-	{
-		WebElement element = driver.findElement(By.xpath("(//button[@type=\'button\'])[3]"));
-		Actions builder = new Actions(driver);
-		builder.moveToElement(element).perform();
-	}
-	{
-		WebElement element = driver.findElement(By.tagName("body"));
-		Actions builder = new Actions(driver);
-		builder.moveToElement(element, 0, 0).perform();
-	}
 	
 	driver.findElement(By.id("username")).click();
 	driver.findElement(By.id("username")).sendKeys("visitor.test@mail.hr");
@@ -342,11 +305,6 @@ public void incorrectRegister() {
 	driver.findElement(By.cssSelector(".ml-2")).click();
 	driver.findElement(By.cssSelector(".mx-2 > .mb-3:nth-child(1)")).click();
 	driver.findElement(By.cssSelector(".mx-2 > .mb-3:nth-child(1)")).click();
-	{
-		WebElement element = driver.findElement(By.cssSelector(".mx-2 > .mb-3:nth-child(1)"));
-		Actions builder = new Actions(driver);
-		builder.doubleClick(element).perform();
-	}
 	
 	String redirURL = driver.getCurrentUrl();
 	boolean comperRes = redirURL.contains("/register");
