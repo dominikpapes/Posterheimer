@@ -53,6 +53,10 @@ function NewConference() {
   const [validationError, setValidationError] = useState("");
   const [hasVideoSrcError, setHasVideoSrcError] = useState(false);
   const [hasDurationError, setHasDurationError] = useState(false);
+  const [adminEmailError, setAdminEmailError] = useState("");
+  const [adminPasswordError, setAdminPasswordError] = useState("");
+  const [visitorEmailError, setVisitorEmailError] = useState("");
+  const [visitorPasswordError, setVisitorPasswordError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const token = localStorage.getItem("jwtToken") || "";
@@ -134,12 +138,28 @@ function NewConference() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(newConference.genericUsername)) {
-      setValidationError("Pogrešan format adrese e-pošte posjetitelja");
+      setVisitorEmailError("Pogrešan format adrese e-pošte posjetitelja");
       hasErrors = true;
     }
 
     if (!emailRegex.test(newConference.adminUsername)) {
-      setValidationError("Pogrešan format adrese e-pošte administratora");
+      setAdminEmailError("Pogrešan format adrese e-pošte administratora");
+      hasErrors = true;
+    }
+
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+    if (!passwordRegex.test(newConference.adminPassword)) {
+      setAdminPasswordError(
+        "Lozinka mora biti dugačka barem 8 znakova, sadržavati barem jedno veliko slovo i barem jedan broj"
+      );
+      hasErrors = true;
+    }
+
+    if (!passwordRegex.test(newConference.genericPassword)) {
+      setVisitorPasswordError(
+        "Lozinka mora biti dugačka barem 8 znakova, sadržavati barem jedno veliko slovo i barem jedan broj"
+      );
       hasErrors = true;
     }
 
@@ -188,7 +208,6 @@ function NewConference() {
                   show={hasVideoSrcError}
                   variant="danger"
                   className="mt-2"
-                  dismissible
                 >
                   Pogrešan format URL-a videoprijenosa.
                   <br />
@@ -253,7 +272,6 @@ function NewConference() {
                   show={hasDurationError}
                   variant="danger"
                   className="mt-2"
-                  dismissible
                 >
                   Konferencija mora trajati barem 3 dana.
                 </Alert>
@@ -272,6 +290,13 @@ function NewConference() {
                   onChange={handleChange}
                   required
                 />
+                <Alert
+                  show={visitorEmailError != ""}
+                  variant="danger"
+                  className="mt-2"
+                >
+                  {visitorEmailError}
+                </Alert>
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -284,6 +309,13 @@ function NewConference() {
                   onChange={handleChange}
                   required
                 ></Form.Control>
+                <Alert
+                  show={visitorPasswordError != ""}
+                  variant="danger"
+                  className="mt-2"
+                >
+                  {visitorPasswordError}
+                </Alert>
               </Form.Group>
             </Card>
 
@@ -299,6 +331,13 @@ function NewConference() {
                   onChange={handleChange}
                   required
                 />
+                <Alert
+                  show={adminEmailError != ""}
+                  variant="danger"
+                  className="mt-2"
+                >
+                  {adminEmailError}
+                </Alert>
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -311,6 +350,13 @@ function NewConference() {
                   onChange={handleChange}
                   required
                 ></Form.Control>
+                <Alert
+                  show={adminPasswordError != ""}
+                  variant="danger"
+                  className="mt-2"
+                >
+                  {adminPasswordError}
+                </Alert>
               </Form.Group>
             </Card>
 
@@ -324,32 +370,6 @@ function NewConference() {
               </Button>
             </ButtonGroup>
           </Form>
-        </div>
-      )}
-
-      {validationError && (
-        <div>
-          <Toast
-            onClose={() => setValidationError("")}
-            show={validationError != ""}
-            animation
-            style={{
-              position: "absolute",
-              top: 20,
-              right: 20,
-            }}
-          >
-            <Toast.Header>
-              <i className="fa-solid fa-triangle-exclamation"></i>
-              <img
-                src="holder.js/20x20?text=%20"
-                className="rounded me-2"
-                alt=""
-              />
-              <strong className="me-auto">Greška</strong>
-            </Toast.Header>
-            <Toast.Body>{validationError}</Toast.Body>
-          </Toast>
         </div>
       )}
     </>
