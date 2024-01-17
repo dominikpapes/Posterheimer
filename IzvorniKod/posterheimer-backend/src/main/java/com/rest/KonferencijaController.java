@@ -61,7 +61,9 @@ public class KonferencijaController {
     @GetMapping("/{idKonferencija}/users")
     @Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
     public List<KorisnikGetDTO> getUsers(@PathVariable("idKonferencija") Integer idKonferencija) {
-        return konferencijeService.fetch(idKonferencija).getUsers().stream().map(KorisnikGetMapper::toDTO)
+        return konferencijeService.fetch(idKonferencija).getUsers().stream()
+                .filter(korisnik -> !korisnik.isAdmin())
+                .map(KorisnikGetMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
