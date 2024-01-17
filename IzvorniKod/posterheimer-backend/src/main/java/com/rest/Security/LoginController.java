@@ -39,7 +39,7 @@ public class LoginController {
             String role = authentication.getAuthorities().toString();
             Optional<Korisnik> korisnik=korisnikRepository.findByEmail(loginRequest.getUsername());
 
-            return ResponseEntity.ok(new AuthenticationResponse(jwt, role,korisnik.get().getIme(),korisnik.get().getPrezime()));
+            return ResponseEntity.ok(new AuthenticationResponse(jwt, role,korisnik.get().getIme(),korisnik.get().getPrezime(),korisnik.get().isVoted()));
         } catch (BadCredentialsException e) {
             throw new Exception("Incorrect username or password", e);
         }
