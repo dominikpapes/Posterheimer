@@ -140,6 +140,12 @@ function Photos() {
       postPhoto({
         idKonferencija: Number(conferenceId),
         filePath: base64.split(",")[1],
+      }).then(() => {
+        setIsLoading(true);
+        getPhotos().then((data) => {
+          setPhotos(data);
+          setIsLoading(false);
+        });
       });
     }
   }

@@ -8,6 +8,7 @@ import com.service.PosterService;
 import com.service.RequestDeniedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class PosterServiceJpa implements PosterService {
     public Poster fetch(Integer idPoster){
         return posterRepository.findByIdPoster(idPoster).orElseThrow((()->new EntityMissingException(Poster.class,idPoster)));
     }
+    @Transactional
     @Override
     public Poster createPoster(Poster poster){
         validate(poster);
@@ -35,6 +37,7 @@ public class PosterServiceJpa implements PosterService {
                             + poster.getKonferencija().getIdKonferencija());
         return posterRepository.save(poster);
     }
+    @Transactional
     @Override
     public Poster deletePoster(Integer idPoster){
         Poster poster=fetch(idPoster);

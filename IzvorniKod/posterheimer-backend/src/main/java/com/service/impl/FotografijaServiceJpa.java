@@ -28,7 +28,9 @@ public class FotografijaServiceJpa implements FotografijaService {
                 () -> new EntityMissingException(Fotografija.class, idFotografija));
     }
 
+
     @Override
+    @Transactional
     public Fotografija createFotografija(Fotografija fotografija) {
         validate(fotografija);
         Assert.notNull(fotografija, "Fotografija must not be null!");

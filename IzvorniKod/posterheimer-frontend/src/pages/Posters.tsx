@@ -84,16 +84,22 @@ function Posters() {
   }
 
   async function postPoster(poster: PostPoster) {
-    console.log("Poster to send", poster);
-    const token = localStorage.getItem("jwtToken");
-    fetch(`/api/posteri`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(poster),
-    });
+    try {
+      const token = localStorage.getItem("jwtToken");
+      await fetch(`/api/posteri`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(poster),
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSending(false);
+      setShowPosterForm(false);
+    }
   }
 
   async function getPosters() {
@@ -149,7 +155,7 @@ function Posters() {
 
   async function handleSubmit(event: any) {
     event.preventDefault();
-    setIsLoading(true);
+    setIsSending(true);
     // Ensure a file is selected
     if (!fileToUpload) {
       alert("Niste izabrali datoteku!");
@@ -173,7 +179,13 @@ function Posters() {
         prezimeAutor: newPoster.prezimeAutor,
         posterEmail: newPoster?.posterEmail,
       };
-      postPoster(poster).then(() => setShowPosterForm(false));
+      postPoster(poster).then(() => {
+        setIsLoading(true);
+        getPosters().then((data) => {
+          setPosters(data);
+          setIsLoading(false);
+        });
+      });
     }
   }
 

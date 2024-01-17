@@ -5,9 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.domain.Fotografija;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+@Transactional
 public interface FotografijaRepository
         extends JpaRepository<Fotografija, Integer>
 

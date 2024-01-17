@@ -134,7 +134,7 @@ export default function Sponsors() {
         imePokrovitelja: newSponsor.imePokrovitelja,
         urlPromo: newSponsor.urlPromo,
       };
-      postSponsor(sponsor).then(() => window.location.reload());
+      postSponsor(sponsor);
     }
   }
 
