@@ -8,6 +8,7 @@ import com.domain.Poster;
 import com.service.EntityMissingException;
 import com.service.PokroviteljService;
 import com.service.RequestDeniedException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,6 +65,7 @@ public class PokroviteljServiceJpa implements PokroviteljService {
 
     @Transactional
     @Override
+    @Transactional
     public Pokrovitelj deletePokrovitelj(Integer idPokrovitelj) {
         Pokrovitelj pokrovitelj = fetch(idPokrovitelj);
         pokroviteljRepository.delete(pokrovitelj);
@@ -78,6 +80,11 @@ public class PokroviteljServiceJpa implements PokroviteljService {
     @Override
     public Optional<Pokrovitelj> findByIdPokrovitelj(Integer idPokrovitelj) {
         return pokroviteljRepository.findByIdPokrovitelj(idPokrovitelj);
+    }
+
+    @Override
+    public void save(Pokrovitelj pokrovitelj) {
+        pokroviteljRepository.save(pokrovitelj);
     }
 
     private void validate(Pokrovitelj pokrovitelj) {
