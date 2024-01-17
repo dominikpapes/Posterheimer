@@ -46,7 +46,8 @@ public class PosterController {
     @Secured({"ROLE_SUPERUSER","ROLE_ADMIN", "ROLE_USER"})
     public List<PosterGetWithVotesDTO> posterListWithVotes(@PathVariable("idKonferencija") Integer idKonferencija) {
         List<Poster> list = posterService.listAll().stream().filter(poster -> poster.getKonferencija().getIdKonferencija()
-                .equals(idKonferencija)).sorted(Comparator.comparingInt(Poster::getBrGlasova).reversed()).toList();
+                .equals(idKonferencija)).sorted(Comparator.comparingInt(Poster::getBrGlasova).reversed())
+                .limit(3).toList();
         return list.stream().map(PosterGetWithVotesMapper::toDTO).toList();
     }
 
