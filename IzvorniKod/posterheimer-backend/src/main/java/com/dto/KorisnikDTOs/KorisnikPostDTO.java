@@ -8,7 +8,7 @@ import org.springframework.util.Assert;
 
 public class KorisnikPostDTO {
     private static final String EMAIL_FORMAT = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-    private static final String PASSWORD_FORMAT = "^(?=.*[0-9])(?=.*[A-Z]).{8,}$";
+
     private String email;
     private String ime;
     private String prezime;
@@ -87,9 +87,6 @@ public class KorisnikPostDTO {
     }
 
     public String getLozinka() {
-        Assert.isTrue(lozinka.matches(PASSWORD_FORMAT), "Password must be at least 8 characters long, " +
-                "must contain at least one digit and " +
-                "at least one uppercase letter.");
         return lozinka;
     }
 }

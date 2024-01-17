@@ -10,6 +10,7 @@ import com.mapper.KonferencijaMappers.KonferencijaPostMapper;
 import com.mapper.KorisnikMappers.KorisnikGetMapper;
 import com.service.KonferencijeService;
 import com.service.KorisnikService;
+import com.service.RequestDeniedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.access.annotation.Secured;
@@ -36,6 +37,8 @@ public class KonferencijaController {
 
     @Autowired
     private  PasswordEncoder pwdEncoder;
+
+    private static final String PASSWORD_FORMAT = "^(?=.*[0-9])(?=.*[A-Z]).{8,}$";
 
     //dohvacanje svih konferencija
     @GetMapping("")
@@ -87,6 +90,16 @@ public class KonferencijaController {
     public ResponseEntity<Konferencija> createKonferencija(@RequestBody KonferencijaPostDTO konferencijaPostDTO) {
         Konferencija konferencija = KonferencijaPostMapper.toEntity(konferencijaPostDTO);
         konferencija.setIdKonferencija(-1);
+        if (!konferencija.getGenericPassword().matches(PASSWORD_FORMAT)) {
+            throw new RequestDeniedException("Password must be at least 8 characters long, " +
+                    "must contain at least one digit and " +
+                    "at least one uppercase letter.");
+        }
+        if (!konferencijaPostDTO.getAdminPassword().matches(PASSWORD_FORMAT)) {
+            throw new RequestDeniedException("Password must be at least 8 characters long, " +
+                    "must contain at least one digit and " +
+                    "at least one uppercase letter.");
+        }
         Korisnik posjetitelj = new Korisnik(konferencija.getGenericUsername(),
                 pwdEncoder.encode(konferencija.getGenericPassword()), "posjetitelj", "", false, true);
         Korisnik administrator = new Korisnik(konferencijaPostDTO.getAdminUsername(),
