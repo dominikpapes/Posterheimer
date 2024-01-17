@@ -5,6 +5,7 @@ import Loading from "../components/Loading";
 import PleaseLogin from "../components/PleaseLogin";
 
 interface GetSponsor {
+  idPokrovitelj: string;
   imePokrovitelja: string;
   promotivniMaterijal: string;
   urlPromo: string;
@@ -31,6 +32,7 @@ const empty_get_sponsor: GetSponsor = {
   imePokrovitelja: "",
   promotivniMaterijal: "",
   urlPromo: "",
+  idPokrovitelj: "",
 };
 
 const empty_post_sponsor: PostSponsor = {
@@ -138,9 +140,9 @@ export default function Sponsors() {
     }
   }
 
-  async function deleteSponsor(sponsor: string) {
+  async function deleteSponsor(sponsorId: string) {
     const token = localStorage.getItem("jwtToken");
-    const response = await fetch(`/api/pokrovitelji/ime/${sponsor}`, {
+    const response = await fetch(`/api/pokrovitelji/id/${sponsorId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -148,7 +150,7 @@ export default function Sponsors() {
     });
     const data = await response.json();
     console.log(data);
-    setSponsors((prev) => prev.filter((o) => o.imePokrovitelja !== sponsor));
+    setSponsors((prev) => prev.filter((o) => o.idPokrovitelj !== sponsorId));
   }
 
   useEffect(() => {
@@ -203,7 +205,7 @@ export default function Sponsors() {
                 <Button
                   variant="danger"
                   className="delete-poster"
-                  onClick={() => deleteSponsor(sponsor.imePokrovitelja)}
+                  onClick={() => deleteSponsor(sponsor.idPokrovitelj)}
                 >
                   Obriši
                 </Button>

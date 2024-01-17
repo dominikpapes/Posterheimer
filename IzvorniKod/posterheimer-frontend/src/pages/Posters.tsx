@@ -1,5 +1,14 @@
 import { useEffect, useState } from "react";
-import { Modal, Button, Card, Form, Spinner } from "react-bootstrap";
+import {
+  Modal,
+  Button,
+  Card,
+  Form,
+  Spinner,
+  OverlayTrigger,
+  Popover,
+  Overlay,
+} from "react-bootstrap";
 import "../styles.css";
 
 import pdf_file1 from "../assets/posters/b5_Programsko_inzenjerstvo_i_informacijski_sustavi.pdf";
@@ -55,11 +64,14 @@ let fileToUpload: File;
 function Posters() {
   const [isLoading, setIsLoading] = useState(true);
   const [isSending, setIsSending] = useState(false);
-  const [posters, setPosters] = useState<GetPoster[]>([]);
   const [chosenPoster, setChosenPoster] = useState(empty_get_poster);
   const [showPoster, setShowPoster] = useState(false);
   const [showPosterForm, setShowPosterForm] = useState(false);
+  const [showVotingModal, setShowVotingModal] = useState(false);
+  const [target, setTarget] = useState(null);
+
   const [newPoster, setNewPoster] = useState<PostPoster>(empty_post_poster);
+  const [posters, setPosters] = useState<GetPoster[]>([]);
 
   const userRole = localStorage.getItem("userRole");
   const showEdits = userRole === ADMIN || userRole === SUPERUSER;
@@ -131,7 +143,7 @@ function Posters() {
     console.log(data);
     setPosters((prev) => prev.filter((o) => o.idPoster !== posterId));
   }
-
+  // todo
   function sendVote(posterId: Number) {
     const token = localStorage.getItem("jwtToken");
     fetch(`/api/posteri`, {
@@ -260,10 +272,41 @@ function Posters() {
         </Modal.Body>
         <Modal.Footer>
           {showVoting && (
-            <Button variant="success" onClick={() => setShowPoster(false)}>
-              Glasaj
-            </Button>
+            <Overlay
+              rootClose
+              show={showVotingModal}
+              placement="top"
+              target={target}
+            >
+              <Popover id="popover-basic">
+                <Popover.Header as="h3">Jeste li sigurni</Popover.Header>
+                <Popover.Body>
+                  <Button
+                    className="mx-2"
+                    variant="success"
+                    onClick={() => sendVote(chosenPoster.idPoster)}
+                  >
+                    Da
+                  </Button>
+                  <Button
+                    variant="danger"
+                    onClick={() => setShowVotingModal(false)}
+                  >
+                    Ne
+                  </Button>
+                </Popover.Body>
+              </Popover>
+            </Overlay>
           )}
+          <Button
+            variant="success"
+            onClick={(event: any) => {
+              setShowVotingModal(true);
+              setTarget(event.target);
+            }}
+          >
+            Glasaj
+          </Button>
           <Button
             variant="primary"
             href={chosenPoster.filePath}

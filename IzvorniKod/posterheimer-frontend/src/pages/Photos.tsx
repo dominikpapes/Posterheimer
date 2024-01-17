@@ -217,7 +217,7 @@ function Photos() {
         <img src={`${BASE64_JPG},${tempImgSrc}`} />
         <div className="photo-control">
           <a
-            href={tempImgSrc}
+            href={`data:image/jpeg;base64,${tempImgSrc}`}
             download="Slika"
             target="_blank"
             rel="noreferrer"

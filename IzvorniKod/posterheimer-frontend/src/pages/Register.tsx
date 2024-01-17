@@ -8,6 +8,7 @@ import {
   Toast,
   ToastBody,
   FloatingLabel,
+  Modal,
 } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -44,6 +45,8 @@ function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [validationError, setValidationError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  const [captchaError, setCaptchaError] = useState("");
 
   const recaptcha = useRef<ReCAPTCHA>();
 
@@ -118,16 +121,18 @@ function Register() {
     const captchaValue = recaptcha.current?.getValue();
 
     if (!captchaValue) {
-      alert("Molim Vas potvrdite reCAPTCHA!");
+      setCaptchaError("Molim Vas potvrdite reCAPTCHA!");
     } else {
       // make form submission
       const captchaVerification = await verifyCaptcha(captchaValue);
-      if (captchaVerification.success) {
-        registerNewUser(formData);
-        alert("Form submission successful!");
-      } else alert("Uh Oh");
+      if (!captchaVerification.success) {
+        setCaptchaError(
+          "ReCAPTCHA nije uspjela, molimo Vas pokušajte ponovno."
+        );
+        return;
+      }
     }
-    navigate("/");
+    navigate("/conference");
   }
 
   return (
@@ -211,6 +216,10 @@ function Register() {
             ref={recaptcha as React.RefObject<ReCAPTCHA>}
             sitekey={SITE_KEY}
           />
+
+          <Alert show={captchaError != ""} variant="danger" className="mt-2">
+            {captchaError}
+          </Alert>
 
           <ButtonGroup className="mt-2">
             <Button variant="primary" type="submit" className="ml-2">
