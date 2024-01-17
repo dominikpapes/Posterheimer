@@ -97,7 +97,7 @@ function Register() {
     e.preventDefault();
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const onlyLettersRegex = /^[a-zA-Z]+$/;
+    const onlyLettersRegex = /^[A-Za-zšđćčŠĐĆČ]+$/;
     if (!emailRegex.test(formData.email)) {
       setValidationError("Pogrešan format adrese e-pošte");
       return;

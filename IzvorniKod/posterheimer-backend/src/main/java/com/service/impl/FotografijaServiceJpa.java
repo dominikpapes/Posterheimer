@@ -7,6 +7,7 @@ import com.service.FotografijaService;
 import com.service.RequestDeniedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -27,7 +28,9 @@ public class FotografijaServiceJpa implements FotografijaService {
                 () -> new EntityMissingException(Fotografija.class, idFotografija));
     }
 
+
     @Override
+    @Transactional
     public Fotografija createFotografija(Fotografija fotografija) {
         validate(fotografija);
         Assert.notNull(fotografija, "Fotografija must not be null!");
@@ -54,6 +57,7 @@ public class FotografijaServiceJpa implements FotografijaService {
     }
 
     @Override
+    @Transactional
     public Fotografija deleteFotografija(Integer idFotografija) {
         Fotografija fotografija = fetch(idFotografija);
         fotografijaRepository.delete(fotografija);

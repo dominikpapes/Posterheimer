@@ -7,6 +7,7 @@ import com.service.EntityMissingException;
 import com.service.RequestDeniedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
@@ -24,6 +25,7 @@ public class KonferencijeServiceJpa implements KonferencijeService {
     }
 
     //imena metoda govore manje vise sama za sebe
+
     @Override
         public Optional<Konferencija> findById(Integer konferencijaId) {
         return konferencijaRepository.findById(konferencijaId);
