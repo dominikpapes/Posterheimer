@@ -34,6 +34,8 @@ public class KorisnikController {
     @Autowired
     private PasswordEncoder encoder;
 
+    private static final String PASSWORD_FORMAT = "^(?=.*[0-9])(?=.*[A-Z]).{8,}$";
+
     @GetMapping("")
     @Secured({"ROLE_SUPERUSER","ROLE_ADMIN"})
     public List<KorisnikGetDTO> korisnikList() {
@@ -54,6 +56,11 @@ public class KorisnikController {
     @PostMapping("")
     @Secured({"ROLE_SUPERUSER","ROLE_ADMIN","ROLE_VISITOR"})
     public ResponseEntity<Korisnik> createKorisnik(@RequestBody KorisnikPostDTO korisnikDTO) {
+        if (!korisnikDTO.getLozinka().matches(PASSWORD_FORMAT)) {
+            throw new RequestDeniedException("Password must be at least 8 characters long, " +
+                    "must contain at least one digit and " +
+                    "at least one uppercase letter.");
+        }
         korisnikDTO.setLozinka(encoder.encode(korisnikDTO.getLozinka()));
         Optional<Korisnik> existingKorisnik = korisnikService.findByEmailAndIdKonferencija(korisnikDTO.getEmail(), korisnikDTO.getIdKonferencije());
         Optional<Konferencija> existingKonferencija = konferencijeService.findById(korisnikDTO.getIdKonferencije());
