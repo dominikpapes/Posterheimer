@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, Spinner } from "react-bootstrap";
 import LoginModal from "./LoginModal";
 
 interface Conference {
@@ -22,6 +22,8 @@ function ConferencesList({
 }: Props) {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [showModal, setShowModal] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+  const [confs, setConfs] = useState(conferences);
 
   const selectedConference = conferences[selectedIndex];
 
@@ -34,19 +36,24 @@ function ConferencesList({
   }
 
   async function deleteConference(id: number) {
-    let conf = { idKonferencija: id };
-    const token = localStorage.getItem("jwtToken");
-    const response = await fetch(`/api/konferencije`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(conf),
-    });
-    const data = await response.json();
-    console.log(data);
-    conferences = conferences.filter((o) => o.idKonferencija !== id);
+    try {
+      setIsSending(true);
+      let conf = { idKonferencija: id };
+      const token = localStorage.getItem("jwtToken");
+      const response = await fetch(`/api/konferencije`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(conf),
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSending(false);
+      setConfs(conferences.filter((o) => o.idKonferencija !== id));
+    }
   }
 
   return (
@@ -60,7 +67,7 @@ function ConferencesList({
 
       <h1>{heading}</h1>
       <ul className="list-group">
-        {conferences.map((item, index) => (
+        {confs.map((item, index) => (
           <li
             className={
               selectedIndex === index
@@ -85,11 +92,24 @@ function ConferencesList({
             )}
             {showDelete && (
               <Button
+                onClick={() => deleteConference(item.idKonferencija)}
+                disabled={
+                  isSending &&
+                  selectedConference.idKonferencija == item.idKonferencija
+                }
                 variant="danger"
                 className="mx-2 float-end"
-                onClick={() => deleteConference(item.idKonferencija)}
-                title="Obriši konferenciju"
               >
+                {isSending &&
+                  selectedConference.idKonferencija == item.idKonferencija && (
+                    <Spinner
+                      as="span"
+                      animation="grow"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                    />
+                  )}
                 Obriši
               </Button>
             )}
