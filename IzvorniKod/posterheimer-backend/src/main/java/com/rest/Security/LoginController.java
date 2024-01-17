@@ -20,28 +20,30 @@ import java.util.stream.Collectors;
 
 @RestController
 public class LoginController {
-    @Autowired
-    private AuthenticationManager authenticationManager;
+  @Autowired
+  private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private JwtUtil jwtUtil;
-    @Autowired
-    private KorisnikRepository korisnikRepository;
+  @Autowired
+  private JwtUtil jwtUtil;
+  @Autowired
+  private KorisnikRepository korisnikRepository;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginRequest loginRequest) throws Exception {
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
-            );
+  @PostMapping("/login")
+  public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginRequest loginRequest) throws Exception {
+    try {
+      Authentication authentication = authenticationManager.authenticate(
+          new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
-            final String jwt = jwtUtil.generateToken(authentication);
-            String role = authentication.getAuthorities().toString();
-            Optional<Korisnik> korisnik=korisnikRepository.findByEmail(loginRequest.getUsername());
-
-            return ResponseEntity.ok(new AuthenticationResponse(jwt, role,korisnik.get().getIme(),korisnik.get().getPrezime()));
-        } catch (BadCredentialsException e) {
-            throw new Exception("Incorrect username or password", e);
-        }
+      final String jwt = jwtUtil.generateToken(authentication);
+      String role = authentication.getAuthorities().toString();
+      Optional<Korisnik> korisnik = korisnikRepository.findByEmail(loginRequest.getUsername());
+      if (korisnik.isEmpty()) {
+        throw new Exception();
+      }
+      return ResponseEntity
+          .ok(new AuthenticationResponse(jwt, role, korisnik.get().getIme(), korisnik.get().getPrezime()));
+    } catch (BadCredentialsException e) {
+      throw new Exception("Incorrect username or password", e);
     }
+  }
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import { Navbar, Container } from "react-bootstrap";
+import logo from "/logo.png";
 
 export default function Titlebar() {
   return (
@@ -8,7 +9,7 @@ export default function Titlebar() {
         <Navbar.Brand href="/">
           <img
             alt=""
-            src="../../public/logo.png"
+            src={logo}
             width="30"
             height="30"
             className="d-inline-block align-top"

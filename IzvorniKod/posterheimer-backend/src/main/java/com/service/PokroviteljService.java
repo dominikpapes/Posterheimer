@@ -9,14 +9,16 @@ public interface PokroviteljService {
 
     List<Pokrovitelj> listAll();
 
-    Pokrovitelj fetch(String imePokrovitelja);
+    Pokrovitelj fetch(Integer idPokrovitelj);
 
     Pokrovitelj createPokrovitelj(Pokrovitelj pokrovitelj);
 
     Pokrovitelj updatePokroviteljIme(Pokrovitelj pokrovitelj, String NewImePokrovitelja);
 
-    Pokrovitelj deletePokrovitelj(String imePokrovitelja);
+    Pokrovitelj deletePokrovitelj(Integer idPokrovitelj);
 
     Optional<Pokrovitelj> findByImePokrovitelj(String imePokrovitelja);
+
+    Optional<Pokrovitelj> findByIdPokrovitelj(Integer idPokrovitelj);
 
 }

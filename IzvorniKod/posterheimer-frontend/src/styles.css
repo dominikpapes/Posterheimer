@@ -103,6 +103,14 @@
   text-decoration: none;
 }
 
+/* MAP */
+
+.leaflet-container {
+  width: 25rem;
+  height: 20rem;
+  margin: auto;
+}
+
 /* WEATHER */
 
 .weather-container {
@@ -164,13 +172,12 @@
   height: 10rem;
   margin: 1rem;
   padding: 1rem;
-  border: 1px solid black;
-  border-radius: 1rem;
   cursor: pointer;
+  transition: 250ms ease all;
 }
 
 .poster-container:hover {
-  background-color: aliceblue;
+  padding-top: 0rem;
 }
 
 .poster-embed {

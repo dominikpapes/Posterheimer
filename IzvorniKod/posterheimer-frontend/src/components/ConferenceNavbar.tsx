@@ -11,6 +11,8 @@ import { useNavigate, Link, NavLink, useLocation } from "react-router-dom";
 import LoginModal from "./LoginModal";
 import { useState } from "react";
 
+import logo from "/logo.png";
+
 const VISITOR = import.meta.env.VITE_VISITOR;
 const REGISTERED = import.meta.env.VITE_REGISTERED;
 const ADMIN = import.meta.env.VITE_ADMIN;
@@ -89,10 +91,10 @@ function ConferenceNavbar() {
         data-bs-theme="dark"
       >
         <Container>
-          <Navbar.Brand>
+          <Navbar.Brand href="/">
             <img
               alt=""
-              src="../../public/logo.png"
+              src={logo}
               width="30"
               height="30"
               className="d-inline-block align-top"
@@ -110,6 +112,12 @@ function ConferenceNavbar() {
               </Nav.Link>
               <Nav.Link as={Link} to="/photos" className="text-link">
                 Fotografije
+              </Nav.Link>
+              <Nav.Link as={Link} to="/sponsors" className="text-link">
+                Pokrovitelji
+              </Nav.Link>
+              <Nav.Link as={Link} to="/results" className="text-link">
+                Rezultati
               </Nav.Link>
             </Nav>
             <Nav className="justify-content-end">

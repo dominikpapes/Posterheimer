@@ -1,5 +1,7 @@
 package com.dto.PokroviteljDTOs;
 
+import com.service.RequestDeniedException;
+
 import java.util.Base64;
 
 public class PokroviteljPostDTO {
@@ -50,7 +52,12 @@ public class PokroviteljPostDTO {
     }
 
     public byte[] decodeBase64String(String promotivniMaterijal) {
-        return Base64.getDecoder().decode(promotivniMaterijal);
+        if (promotivniMaterijal.startsWith("iVBORw0KGgo") || promotivniMaterijal.startsWith("/9j/")) {
+            return Base64.getDecoder().decode(promotivniMaterijal);
+        }
+        else {
+            throw new RequestDeniedException("File type not valid!");
+        }
     }
 }
 

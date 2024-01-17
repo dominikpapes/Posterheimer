@@ -1,5 +1,7 @@
 package com.dto.PosterDTOs;
 
+import com.service.RequestDeniedException;
+
 import java.util.Base64;
 
 public class PosterPostDTO {
@@ -39,35 +41,40 @@ public class PosterPostDTO {
             return filePath;
         }
 
-        public String getImeAutor() {
+    public String getImeAutor() {
             return imeAutor;
         }
 
-        public String getImePoster() {
+    public String getImePoster() {
             return imePoster;
         }
 
-        public String getPrezimeAutor() {
+    public String getPrezimeAutor() {
             return prezimeAutor;
         }
 
-        public void setFilePath(String filePath) {
+    public void setFilePath(String filePath) {
             this.filePath = filePath;
         }
 
-        public void setImeAutor(String imeAutor) {
+    public void setImeAutor(String imeAutor) {
             this.imeAutor = imeAutor;
         }
 
-        public void setImePoster(String imePoster) {
+    public void setImePoster(String imePoster) {
             this.imePoster = imePoster;
         }
 
-        public void setPrezimeAutor(String prezimeAutor) {
+    public void setPrezimeAutor(String prezimeAutor) {
             this.prezimeAutor = prezimeAutor;
         }
 
-        public byte[] decodeBase64String(String filePath) {
-        return Base64.getDecoder().decode(filePath);
+    public byte[] decodeBase64String(String filePath) {
+        if (filePath.startsWith("JVBERi0")) {
+            return Base64.getDecoder().decode(filePath);
+        }
+        else {
+            throw new RequestDeniedException("File type not valid!");
+        }
     }
 }

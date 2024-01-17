@@ -33,7 +33,21 @@ function ConferencesList({
     setShowModal(false);
   }
 
-  function handleDeleteConference() {}
+  async function deleteConference(id: number) {
+    let conf = { idKonferencija: id };
+    const token = localStorage.getItem("jwtToken");
+    const response = await fetch(`/api/konferencije`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(conf),
+    });
+    const data = await response.json();
+    console.log(data);
+    conferences = conferences.filter((o) => o.idKonferencija !== id);
+  }
 
   return (
     <>
@@ -73,7 +87,7 @@ function ConferencesList({
               <Button
                 variant="danger"
                 className="mx-2 float-end"
-                onClick={handleDeleteConference}
+                onClick={() => deleteConference(item.idKonferencija)}
                 title="Obriši konferenciju"
               >
                 Obriši

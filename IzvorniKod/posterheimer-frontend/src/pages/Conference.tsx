@@ -6,6 +6,8 @@ import Weather from "../components/Weather";
 import loading from "../../public/spinner.gif";
 import { Card, CardTitle, Offcanvas, Spinner } from "react-bootstrap";
 import PleaseLogin from "../components/PleaseLogin";
+import Loading from "../components/Loading";
+import LocationMap from "../components/LocationMap";
 
 const VISITOR = import.meta.env.VITE_VISITOR;
 
@@ -31,18 +33,6 @@ const empty_conference: Conference = {
   videoUrl: "",
 };
 
-async function getConferences(conferenceId: number) {
-  let token = localStorage.getItem("jwtToken");
-  const response = await fetch(`/api/konferencije/${conferenceId}`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const data = await response.json();
-  return data;
-}
-
 function Conference() {
   const userRole = localStorage.getItem("userRole");
   const conferenceId = Number(localStorage.getItem("conferenceId"));
@@ -63,6 +53,18 @@ function Conference() {
     second: "numeric",
   };
 
+  async function getConferences(conferenceId: number) {
+    let token = localStorage.getItem("jwtToken");
+    const response = await fetch(`/api/konferencije/${conferenceId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+    return data;
+  }
+
   useEffect(() => {
     setIsLoading(true);
     getConferences(conferenceId).then((data) => {
@@ -72,7 +74,6 @@ function Conference() {
   }, []);
 
   useEffect(() => {
-    console.log(conference);
     setDateStart(new Date(conference.datumVrijemePocetka));
     setDateEnd(new Date(conference.datumVrijemeZavrsetka));
   }, [conference]);
@@ -80,13 +81,10 @@ function Conference() {
   return (
     <>
       <ConferenceNavbar />
+
       <>
         {isLoading ? (
-          <Spinner
-            className="m-auto"
-            animation="border"
-            role="status"
-          ></Spinner>
+          <Loading />
         ) : (
           <div className="conference-content">
             <Card className="conference-info my-2 p-2">
@@ -94,9 +92,16 @@ function Conference() {
               <Card.Body>
                 {dateStart.toLocaleString("hr-HR", dateOptions)} -{" "}
                 {dateEnd.toLocaleString("hr-HR", dateOptions)}
-                <Card className="location-container">
+                <LocationMap
+                  adresa={conference.adresa}
+                  grad={conference.mjesto}
+                  pbr={conference.zipCode}
+                  konfIme={conference.imeKonferencija}
+                />
+                <Card className="location-container mt-2">
                   <a
                     href={`https://maps.google.com/?q=${conference.adresa}+${conference.mjesto}`}
+                    target="_blank"
                   >
                     <i className="fa-solid fa-location-dot fa-2x"></i>
                     <br />
