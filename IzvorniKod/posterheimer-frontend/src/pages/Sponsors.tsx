@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, Modal, Button, Spinner } from "react-bootstrap";
+import { Form, Modal, Button, Spinner, Alert } from "react-bootstrap";
 import ConferenceNavbar from "../components/ConferenceNavbar";
 import Loading from "../components/Loading";
 import PleaseLogin from "../components/PleaseLogin";
@@ -46,44 +46,64 @@ let fileToUpload: File;
 
 export default function Sponsors() {
   const [isLoading, setIsLoading] = useState(true);
+  const [isSending, setIsSending] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [showSponsorForm, setShowSponsorForm] = useState(false);
   const [newSponsor, setNewSponsor] = useState<PostSponsor>(empty_post_sponsor);
   const [sponsors, setSponsors] = useState<GetSponsor[]>([empty_get_sponsor]);
+  const [hasError, setHasError] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+
+  let promoExistsError = false;
 
   const userRole = localStorage.getItem("userRole") || "";
   const showEdits = userRole === ADMIN || userRole === SUPERUSER;
   const showLoginPrompt = userRole === VISITOR;
 
   async function getSponsors() {
-    const conferenceId = localStorage.getItem("conferenceId");
-    const token = localStorage.getItem("jwtToken");
-    const response = await fetch(
-      `/api/pokrovitelji/idKonferencija/${conferenceId}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    const data = await response.json();
-    console.log(data);
-    return data;
+    try {
+      setIsLoading(true);
+      const conferenceId = localStorage.getItem("conferenceId");
+      const token = localStorage.getItem("jwtToken");
+      const response = await fetch(
+        `/api/pokrovitelji/idKonferencija/${conferenceId}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   async function postSponsor(sponsor: PostSponsor) {
-    console.log("Sponsor to send", sponsor);
-    const token = localStorage.getItem("jwtToken");
-    const response = await fetch(`/api/pokrovitelji`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(sponsor),
-    });
-    const data = await response.json();
-    console.log(data);
+    try {
+      setIsSending(true);
+      const token = localStorage.getItem("jwtToken");
+      const response = await fetch(`/api/pokrovitelji`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(sponsor),
+      });
+      const data = await response.json();
+    } catch (error) {
+      promoExistsError = true;
+      setHasError(true);
+      console.log(error);
+    } finally {
+      setIsSending(false);
+      if (!promoExistsError) setShowSponsorForm(false);
+    }
   }
 
   function convertBase64(file: any) {
@@ -112,7 +132,8 @@ export default function Sponsors() {
 
   async function handleSubmit(event: any) {
     event.preventDefault();
-
+    promoExistsError = false;
+    setHasError(false);
     console.log(fileToUpload);
 
     // Ensure a file is selected
@@ -136,29 +157,37 @@ export default function Sponsors() {
         imePokrovitelja: newSponsor.imePokrovitelja,
         urlPromo: newSponsor.urlPromo,
       };
-      postSponsor(sponsor);
+      postSponsor(sponsor).then(() => {
+        if (!promoExistsError)
+          getSponsors().then((data) => {
+            setSponsors(data);
+          });
+      });
     }
   }
 
   async function deleteSponsor(sponsorId: string) {
-    const token = localStorage.getItem("jwtToken");
-    const response = await fetch(`/api/pokrovitelji/id/${sponsorId}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await response.json();
-    console.log(data);
+    try {
+      setIsDeleting(true);
+      const token = localStorage.getItem("jwtToken");
+      const response = await fetch(`/api/pokrovitelji/id/${sponsorId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsDeleting(false);
+    }
     setSponsors((prev) => prev.filter((o) => o.idPokrovitelj !== sponsorId));
   }
 
   useEffect(() => {
-    setIsLoading(true);
     if (!showLoginPrompt)
       getSponsors().then((data) => {
         setSponsors(data);
-        setIsLoading(false);
       });
   }, []);
 
@@ -182,7 +211,11 @@ export default function Sponsors() {
             </div>
           )}
           {sponsors.map((sponsor, index) => (
-            <div className="poster-grid-element" key={index}>
+            <div
+              className="poster-grid-element"
+              key={index}
+              onClick={() => setSelectedIndex(index)}
+            >
               <div
                 className="poster-container"
                 onClick={() => {
@@ -206,7 +239,17 @@ export default function Sponsors() {
                   variant="danger"
                   className="delete-poster"
                   onClick={() => deleteSponsor(sponsor.idPokrovitelj)}
+                  disabled={isDeleting}
                 >
+                  {isDeleting && selectedIndex == index && (
+                    <Spinner
+                      as="span"
+                      animation="grow"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                    />
+                  )}
                   Obriši
                 </Button>
               )}
@@ -221,6 +264,7 @@ export default function Sponsors() {
         onHide={() => {
           setNewSponsor(empty_post_sponsor);
           setShowSponsorForm(false);
+          setHasError(false);
         }}
       >
         <Modal.Header closeButton>
@@ -256,10 +300,23 @@ export default function Sponsors() {
                 onChange={handleChange}
               />
             </Form.Group>
-            <Button variant="primary" type="submit">
-              Spremi
+            <Button variant="primary" type="submit" disabled={isSending}>
+              {isSending && (
+                <Spinner
+                  as="span"
+                  animation="grow"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+              )}
+              U redu
             </Button>
           </Form>
+
+          <Alert show={hasError} className="mt-2" variant="danger">
+            Pokrovitelj s istim imenom već postoji
+          </Alert>
         </Modal.Body>
       </Modal>
     </>

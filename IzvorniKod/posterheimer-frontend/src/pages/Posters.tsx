@@ -8,6 +8,7 @@ import {
   OverlayTrigger,
   Popover,
   Overlay,
+  Toast,
 } from "react-bootstrap";
 import "../styles.css";
 
@@ -64,6 +65,8 @@ let fileToUpload: File;
 function Posters() {
   const [isLoading, setIsLoading] = useState(true);
   const [isSending, setIsSending] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
   const [chosenPoster, setChosenPoster] = useState(empty_get_poster);
   const [showPoster, setShowPoster] = useState(false);
   const [showPosterForm, setShowPosterForm] = useState(false);
@@ -76,6 +79,7 @@ function Posters() {
   const userRole = localStorage.getItem("userRole");
   const showEdits = userRole === ADMIN || userRole === SUPERUSER;
   const showVoting = userRole === REGISTERED;
+  const enableVoting = localStorage.getItem("voted") == "false";
   const showLoginPrompt = userRole === VISITOR;
 
   const navigate = useNavigate();
@@ -115,45 +119,74 @@ function Posters() {
   }
 
   async function getPosters() {
-    const conferenceId = localStorage.getItem("conferenceId");
-    const token = localStorage.getItem("jwtToken");
-    const response = await fetch(
-      `/api/posteri/idKonferencija/${conferenceId}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    const data = await response.json();
-    console.log(data);
-    return data;
+    try {
+      setIsLoading(true);
+      const conferenceId = localStorage.getItem("conferenceId");
+      const token = localStorage.getItem("jwtToken");
+      const response = await fetch(
+        `/api/posteri/idKonferencija/${conferenceId}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const data = await response.json();
+      data.forEach(
+        (element: GetPoster) =>
+          (element.imePoster = decodeURI(element.imePoster))
+      );
+      return data;
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   async function deletePoster(posterId: Number) {
-    const token = localStorage.getItem("jwtToken");
-    const response = await fetch(`/api/posteri/id/${posterId}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await response.json();
-    console.log(data);
-    setPosters((prev) => prev.filter((o) => o.idPoster !== posterId));
+    try {
+      setIsDeleting(true);
+      const token = localStorage.getItem("jwtToken");
+      const response = await fetch(`/api/posteri/id/${posterId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsDeleting(false);
+      getPosters().then((data) => setPosters(data));
+    }
   }
+
   // todo
-  function sendVote(posterId: Number) {
-    const token = localStorage.getItem("jwtToken");
-    fetch(`/api/posteri`, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      // body: JSON.stringify(),
-    });
+  async function sendVote(poster: GetPoster) {
+    try {
+      setIsSending(true);
+      let data = {
+        imePoster: poster.imePoster,
+        idKonferencija: localStorage.getItem("conferenceId"),
+        email: localStorage.getItem("userEmail"),
+      };
+      const token = localStorage.getItem("jwtToken");
+      await fetch(`/api/posteri`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      localStorage.setItem("voted", "true");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSending(false);
+    }
   }
 
   function handleChange(e: any) {
@@ -186,26 +219,22 @@ function Posters() {
       let poster: PostPoster = {
         idKonferencija: Number(localStorage.getItem("conferenceId")),
         filePath: base64.split(",")[1],
-        imePoster: newPoster.imePoster,
+        imePoster: encodeURI(newPoster.imePoster),
         imeAutor: newPoster.imeAutor,
         prezimeAutor: newPoster.prezimeAutor,
         posterEmail: newPoster?.posterEmail,
       };
       postPoster(poster).then(() => {
-        setIsLoading(true);
         getPosters().then((data) => {
           setPosters(data);
-          setIsLoading(false);
         });
       });
     }
   }
 
   useEffect(() => {
-    setIsLoading(true);
     getPosters().then((data) => {
       setPosters(data);
-      setIsLoading(false);
     });
   }, []);
 
@@ -227,7 +256,11 @@ function Posters() {
             </div>
           )}
           {posters.map((poster, index) => (
-            <div className="poster-grid-element" key={poster.imePoster}>
+            <div
+              className="poster-grid-element"
+              key={poster.imePoster}
+              onClick={() => setSelectedIndex(index)}
+            >
               <div
                 className="poster-container"
                 onClick={() => {
@@ -249,7 +282,17 @@ function Posters() {
                   onClick={() => {
                     deletePoster(poster.idPoster);
                   }}
+                  disabled={isDeleting}
                 >
+                  {isDeleting && selectedIndex == index && (
+                    <Spinner
+                      as="span"
+                      animation="grow"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                    />
+                  )}
                   Obriši
                 </Button>
               )}
@@ -284,7 +327,10 @@ function Posters() {
                   <Button
                     className="mx-2"
                     variant="success"
-                    onClick={() => sendVote(chosenPoster.idPoster)}
+                    onClick={() => {
+                      sendVote(chosenPoster);
+                      setShowVotingModal(false);
+                    }}
                   >
                     Da
                   </Button>
@@ -298,18 +344,30 @@ function Posters() {
               </Popover>
             </Overlay>
           )}
-          <Button
-            variant="success"
-            onClick={(event: any) => {
-              setShowVotingModal(true);
-              setTarget(event.target);
-            }}
-          >
-            Glasaj
-          </Button>
+          {showVoting && (
+            <Button
+              variant="success"
+              onClick={(event: any) => {
+                setShowVotingModal(true);
+                setTarget(event.target);
+              }}
+              disabled={isSending || !enableVoting}
+            >
+              {isSending && (
+                <Spinner
+                  as="span"
+                  animation="grow"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+              )}
+              {enableVoting ? "Glasaj" : "Glas zabilježen"}
+            </Button>
+          )}
           <Button
             variant="primary"
-            href={chosenPoster.filePath}
+            href={`data:application/pdf;base64,${chosenPoster.filePath}`}
             target="_blank"
             rel="norefferer"
           >

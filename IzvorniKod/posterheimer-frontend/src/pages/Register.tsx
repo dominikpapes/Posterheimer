@@ -9,6 +9,7 @@ import {
   ToastBody,
   FloatingLabel,
   Modal,
+  Spinner,
 } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -42,34 +43,48 @@ function Register() {
   const [formData, setFormData] = useState<RegistrationData>(
     emptyRegistrationData
   );
+  const [isSending, setIsSending] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [validationError, setValidationError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
+  const [passwordError, setPasswordError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [nameError, setNameError] = useState("");
+  const [surnameError, setSurnameError] = useState("");
   const [captchaError, setCaptchaError] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+
+  const [registrationError, setRegistrationError] = useState("");
 
   const recaptcha = useRef<ReCAPTCHA>();
+  let hasErrors = false;
 
   const navigate = useNavigate();
 
-  function registerNewUser(dataToSend: RegistrationData) {
-    dataToSend.idKonferencije = Number(localStorage.getItem("conferenceId"));
-    const jwtToken = localStorage.getItem("jwtToken");
-    console.log(dataToSend);
-    fetch("/api/korisnici", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${jwtToken}`,
-      },
-      body: JSON.stringify(dataToSend),
-    })
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error("Problem with fetch:", error);
+  async function registerNewUser(dataToSend: RegistrationData) {
+    try {
+      setIsSending(true);
+      dataToSend.idKonferencije = Number(localStorage.getItem("conferenceId"));
+      const jwtToken = localStorage.getItem("jwtToken");
+      console.log(dataToSend);
+      const response = await fetch("/api/korisnici", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${jwtToken}`,
+        },
+        body: JSON.stringify(dataToSend),
       });
+      if (!response.ok) {
+        throw new Error();
+      }
+    } catch (error) {
+      console.log("Problem ", error);
+      setShowAlert(true);
+    } finally {
+      setIsSending(false);
+    }
   }
 
   async function verifyCaptcha(captchaValue: string) {
@@ -97,42 +112,66 @@ function Register() {
   };
 
   async function handleSubmit(e: any) {
-    e.preventDefault();
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const onlyLettersRegex = /^[A-Za-zšđćčŠĐĆČ]+$/;
-    if (!emailRegex.test(formData.email)) {
-      setValidationError("Pogrešan format adrese e-pošte");
-      return;
-    }
-
-    if (formData.lozinka !== confirmPassword) {
-      setValidationError("Unesene lozinke su različite");
-      return;
-    }
-
-    if (
-      !onlyLettersRegex.test(formData.ime) ||
-      !onlyLettersRegex.test(formData.prezime)
-    ) {
-      setValidationError("Ime i prezime smije sadržavati samo slova");
-      return;
-    }
-    const captchaValue = recaptcha.current?.getValue();
-
-    if (!captchaValue) {
-      setCaptchaError("Molim Vas potvrdite reCAPTCHA!");
-    } else {
-      // make form submission
-      const captchaVerification = await verifyCaptcha(captchaValue);
-      if (!captchaVerification.success) {
-        setCaptchaError(
-          "ReCAPTCHA nije uspjela, molimo Vas pokušajte ponovno."
-        );
-        return;
+    try {
+      e.preventDefault();
+      setEmailError("");
+      setNameError("");
+      setSurnameError("");
+      setPasswordError("");
+      setCaptchaError("");
+      setShowAlert(false);
+      hasErrors = false;
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const onlyLettersRegex = /^[A-Za-zšđćčŠĐĆČ]+$/;
+      if (!emailRegex.test(formData.email)) {
+        setEmailError("Pogrešan format adrese e-pošte");
+        hasErrors = true;
       }
+
+      const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+      if (!passwordRegex.test(formData.lozinka)) {
+        setPasswordError(
+          "Lozinka mora biti dugačka barem 8 znakova, sadržavati barem jedno veliko slovo i barem jedan broj"
+        );
+        hasErrors = true;
+      }
+
+      if (formData.lozinka !== confirmPassword) {
+        setPasswordError("Unesene lozinke su različite");
+        hasErrors = true;
+      }
+
+      if (!onlyLettersRegex.test(formData.ime)) {
+        setNameError("Ime smije sadržavati samo slova");
+        hasErrors = true;
+      }
+
+      if (!onlyLettersRegex.test(formData.prezime)) {
+        setSurnameError("Prezime smije sadržavati samo slova");
+        hasErrors = true;
+      }
+      const captchaValue = recaptcha.current?.getValue();
+
+      if (!captchaValue) {
+        setCaptchaError("Molim Vas potvrdite reCAPTCHA!");
+        hasErrors = true;
+      } else {
+        // make form submission
+        const captchaVerification = await verifyCaptcha(captchaValue);
+        if (!captchaVerification.success) {
+          setCaptchaError(
+            "ReCAPTCHA nije uspjela, molimo Vas pokušajte ponovno."
+          );
+          hasErrors = true;
+        }
+      }
+      if (!hasErrors) {
+        await registerNewUser(formData);
+      }
+    } catch (error) {
+      setShowAlert(true);
     }
-    navigate("/conference");
   }
 
   return (
@@ -149,9 +188,13 @@ function Register() {
                 placeholder="Unesite ime"
                 value={formData.ime}
                 onChange={handleChange}
+                disabled={isSending}
                 required
               />
             </FloatingLabel>
+            <Alert show={nameError != ""} variant="danger" className="mt-2">
+              {nameError}
+            </Alert>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formPrezime">
             <FloatingLabel controlId="formPrezime" label="Prezime">
@@ -161,9 +204,13 @@ function Register() {
                 placeholder="Unesite prezime"
                 value={formData.prezime}
                 onChange={handleChange}
+                disabled={isSending}
                 required
               />
             </FloatingLabel>
+            <Alert show={surnameError != ""} variant="danger" className="mt-2">
+              {surnameError}
+            </Alert>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <FloatingLabel controlId="formBasicEmail" label="Email">
@@ -173,9 +220,13 @@ function Register() {
                 placeholder="Unesite email"
                 value={formData.email}
                 onChange={handleChange}
+                disabled={isSending}
                 required
               />
             </FloatingLabel>
+            <Alert show={emailError != ""} variant="danger" className="mt-2">
+              {emailError}
+            </Alert>
           </Form.Group>
 
           <div className="mx-2">
@@ -187,6 +238,7 @@ function Register() {
                 placeholder="Unesite lozinku"
                 value={formData.lozinka}
                 onChange={handleChange}
+                disabled={isSending}
                 required
               ></Form.Control>
             </Form.Group>
@@ -198,8 +250,16 @@ function Register() {
                 placeholder="Ponovite lozinku"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
+                disabled={isSending}
                 required
               ></Form.Control>
+              <Alert
+                show={passwordError != ""}
+                variant="danger"
+                className="mt-2"
+              >
+                {passwordError}
+              </Alert>
             </Form.Group>
           </div>
 
@@ -209,6 +269,7 @@ function Register() {
               label="Prikaži lozinku"
               checked={showPassword}
               onChange={() => setShowPassword(!showPassword)}
+              disabled={isSending}
             />
           </Form.Group>
 
@@ -222,42 +283,39 @@ function Register() {
           </Alert>
 
           <ButtonGroup className="mt-2">
-            <Button variant="primary" type="submit" className="ml-2">
+            <Button
+              variant="primary"
+              type="submit"
+              className="ml-2"
+              disabled={isSending}
+            >
+              {isSending && (
+                <Spinner
+                  as="span"
+                  animation="grow"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+              )}
               U redu
             </Button>
 
-            <Button variant="secondary" href="/conference">
+            <Button variant="secondary" href="/conference" disabled={isSending}>
               Odustani
             </Button>
           </ButtonGroup>
         </Form>
+        <Alert
+          show={showAlert}
+          className="mt-2"
+          variant="danger"
+          dismissible
+          onClose={() => setShowAlert(false)}
+        >
+          Greška prilikom registracije.
+        </Alert>
       </div>
-
-      {validationError && (
-        <div>
-          <Toast
-            onClose={() => setValidationError("")}
-            show={validationError != ""}
-            animation
-            style={{
-              position: "absolute",
-              top: 20,
-              right: 20,
-            }}
-          >
-            <Toast.Header>
-              <i className="fa-solid fa-triangle-exclamation"></i>
-              <img
-                src="holder.js/20x20?text=%20"
-                className="rounded me-2"
-                alt=""
-              />
-              <strong className="me-auto">Greška</strong>
-            </Toast.Header>
-            <Toast.Body>{validationError}</Toast.Body>
-          </Toast>
-        </div>
-      )}
     </>
   );
 }

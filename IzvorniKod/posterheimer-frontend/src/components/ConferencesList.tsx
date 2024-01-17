@@ -94,7 +94,7 @@ function ConferencesList({
               <Button
                 onClick={() => deleteConference(item.idKonferencija)}
                 disabled={
-                  isSending &&
+                  isSending ||
                   selectedConference.idKonferencija == item.idKonferencija
                 }
                 variant="danger"

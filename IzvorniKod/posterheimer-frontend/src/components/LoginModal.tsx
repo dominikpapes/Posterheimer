@@ -25,6 +25,7 @@ interface Credentials {
   role: string;
   ime: string;
   prezime: string;
+  voted: string;
 }
 
 function LoginModal({ conferenceId, conferenceName }: Props) {
@@ -72,6 +73,7 @@ function LoginModal({ conferenceId, conferenceName }: Props) {
       localStorage.setItem("userName", credentials.ime);
       localStorage.setItem("userSurname", credentials.prezime);
       localStorage.setItem("jwtToken", credentials.jwtToken);
+      localStorage.setItem("voted", credentials.voted);
       if (
         conferenceId === Number(localStorage.getItem("conferenceId")) &&
         conferenceName === localStorage.getItem("conferenceName") &&

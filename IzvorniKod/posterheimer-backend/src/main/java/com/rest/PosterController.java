@@ -123,7 +123,7 @@ public class PosterController {
             poster.vote();
             posterService.save(poster);
             existingKorisnik.get().setVoted(true);
-            korisnikService.deleteKorisnik(existingKorisnik.get().getIme(),existingKorisnik.get().getKonferencijaId());
+            korisnikService.deleteKorisnik(existingKorisnik.get().getEmail(),existingKorisnik.get().getKonferencijaId());
             korisnikService.createKorisnik(existingKorisnik.get());
             return ResponseEntity.ok().build();
 
