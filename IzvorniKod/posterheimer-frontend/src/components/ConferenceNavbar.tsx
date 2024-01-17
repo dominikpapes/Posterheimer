@@ -116,6 +116,9 @@ function ConferenceNavbar() {
               <Nav.Link as={Link} to="/sponsors" className="text-link">
                 Pokrovitelji
               </Nav.Link>
+              <Nav.Link as={Link} to="/results" className="text-link">
+                Rezultati
+              </Nav.Link>
             </Nav>
             <Nav className="justify-content-end">
               <NavDropdown
