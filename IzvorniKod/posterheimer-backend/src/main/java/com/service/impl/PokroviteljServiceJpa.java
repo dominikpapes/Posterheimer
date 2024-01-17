@@ -28,6 +28,7 @@ public class PokroviteljServiceJpa implements PokroviteljService {
     }
 
     @Override
+    @Transactional
     public Pokrovitelj fetch(Integer idPokrovitelj) {
         return pokroviteljRepository.findByIdPokrovitelj(idPokrovitelj).orElseThrow(
                 () -> new EntityMissingException(Pokrovitelj.class, idPokrovitelj));
@@ -71,16 +72,19 @@ public class PokroviteljServiceJpa implements PokroviteljService {
     }
 
     @Override
+    @Transactional
     public Optional<Pokrovitelj> findByImePokrovitelj(String imePokrovitelja) {
         return pokroviteljRepository.findByImePokrovitelj(imePokrovitelja);
     }
 
     @Override
+    @Transactional
     public Optional<Pokrovitelj> findByIdPokrovitelj(Integer idPokrovitelj) {
         return pokroviteljRepository.findByIdPokrovitelj(idPokrovitelj);
     }
 
     @Override
+    @Transactional
     public void save(Pokrovitelj pokrovitelj) {
         pokroviteljRepository.save(pokrovitelj);
     }
