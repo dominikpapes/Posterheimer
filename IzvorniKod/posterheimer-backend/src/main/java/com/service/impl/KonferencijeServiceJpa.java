@@ -31,6 +31,11 @@ public class KonferencijeServiceJpa implements KonferencijeService {
     }
 
     @Override
+    public void save(Konferencija konferencija) {
+        konferencijaRepository.save(konferencija);
+    }
+
+    @Override
     public Konferencija fetch(Integer konferencijaId) {
         return findById(konferencijaId).orElseThrow(
                 () -> new EntityMissingException(Konferencija.class, konferencijaId)

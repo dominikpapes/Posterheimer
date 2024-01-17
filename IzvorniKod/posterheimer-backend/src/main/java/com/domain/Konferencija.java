@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -38,9 +39,15 @@ public class Konferencija {
     @OneToMany(mappedBy = "konferencija", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Set<Poster> posters;
-    @ManyToMany(mappedBy = "konferencije")
+    @ManyToMany
+    @JoinTable(
+            name = "pokrovitelj_konferencije",
+            joinColumns = @JoinColumn(name = "id_konferencija"),
+            inverseJoinColumns = @JoinColumn(name = "id_pokrovitelj")
+    )
     @JsonIgnore
-    private List<Pokrovitelj> pokrovitelji;
+    private List<Pokrovitelj> pokrovitelji = new ArrayList<>();
+
     @OneToMany(mappedBy = "konferencija", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Set<Fotografija> fotografije;

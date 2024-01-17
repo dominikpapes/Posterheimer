@@ -21,4 +21,6 @@ public interface PokroviteljService {
 
     Optional<Pokrovitelj> findByIdPokrovitelj(Integer idPokrovitelj);
 
+    void save(Pokrovitelj pokrovitelj);
+
 }

@@ -18,4 +18,6 @@ public interface KonferencijeService {
     Konferencija deleteKonferencija(Integer idKonferencija);
 
     Optional<Konferencija> findById(Integer idKonferencija);
+
+    void save(Konferencija konferencija);
 }

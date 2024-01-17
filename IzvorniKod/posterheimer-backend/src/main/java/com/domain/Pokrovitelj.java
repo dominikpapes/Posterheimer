@@ -19,9 +19,9 @@ public class Pokrovitelj {
     private byte[] promotivniMaterijal;
     private String urlPromo;
 
-    @ManyToMany
-    @JoinColumn(name="id_konferencija")
-    //@JsonIgnore
+    @ManyToMany(mappedBy = "pokrovitelji", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    //@JoinColumn(name="id_konferencija")
+    @JsonIgnore
     private List<Konferencija> konferencije = new ArrayList<Konferencija>();
 
     public Pokrovitelj() {
