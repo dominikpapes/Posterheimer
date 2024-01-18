@@ -576,5 +576,45 @@ public void deleteUser() {
 			
 			 \textit{Dovršenu aplikaciju potrebno je pokrenuti na javno dostupnom poslužitelju. Studentima se preporuča korištenje neke od sljedećih besplatnih usluga: \href{https://aws.amazon.com/}{Amazon AWS}, \href{https://azure.microsoft.com/en-us/}{Microsoft Azure} ili \href{https://www.heroku.com/}{Heroku}. Mobilne aplikacije trebaju biti objavljene na F-Droid, Google Play ili Amazon App trgovini.}
 			
+			\subsubsection{Puštanje frontenda u pogon}
+			Prije svega trebamo imati Github profil s repozitorijem koji sadrži naš kod. U ovom primjeru radi se o repozitoriju Posterheimer. Potom se trebamo prijaviti na Render s pripadajućim Github profilom. U Render Dashboardu odabiremo opciju "New" - "Web Service". 
 			
+			\newpage
+			\begin{figure} [h]
+			\includegraphics[width=\linewidth]{Slike/Render-Dashboard}
+			\caption{Render Dashboard}
+			\end{figure}
+			
+			\newpage
+			U sljedećem izborniku odabiremo opciju "Build and deploy from a Git repository"
+			
+			\begin{figure} [h]
+				\includegraphics[width=\linewidth]{Slike/Build-and-deploy}
+				\caption{Build and deploy}
+			\end{figure}
+			
+			Iz izbornika izabiremo željeni repozitorij i odaberemo opciju "Connect". U sljedećem izborniku odaberemo željeno ime našeg servisa, regiju u kojoj će se servis pokretati, za europsko tržište odaberemo Frankfurt. Odabiremo granu s koje će se servis pokretati, u našem slučaju to je grana master. Specifično za pokretanje frontend koda želimo da se sve komande pokreću unutar direktorija IzvorniKod/posterheimer-frontend, stoga ćemo to upisati u polje Root directory. Runtime za naš servis je Node. Komanda izgradnje mora biti npm install \&\& npm run build. Kod samog pokretanja servisa treba se izvršiti naredba npm run start koju upisujemo u Start command polje.
+			
+			\newpage
+			\begin{figure} [h]
+			\includegraphics[width=\linewidth]{Slike/Run-Commands}
+			\caption{Komande za pokretanje}
+			\end{figure}
+			
+			Možemo odabrati vrstu instance našeg servisa, postoji besplatna opcija koja nudi najlošije performanse te koju ćemo koristiti  za potrebe ovog projekta.
+			Potrebne su nam 3 varijable okoline, Environment variables.
+			
+			\begin{itemize}
+				\item  API\_BASE\_URL = https://posterheimer-service.onrender.com - središnja ruta za sve API pozive prema serveru
+				\item HOST = 0.0.0.0 - IP računala na kojem se izvodi servis
+				\item  PORT = 3000 - port na kojem računalo sluša
+			\end{itemize}
+			
+			Nakon što smo unijeli sve vrijednosti možemo kliknuti na "Create Web Service" gumb čime će se započeti puštanje aplikacije u pogon. Nakon kratkog čekanja trebali bismo vidjeti poruku "Your service is live!" nakon čega joj možemo pristupiti putem dodijeljenog linka, u ovom slučaju https://posterheimer-example.onrender.com/.
+			
+			\newpage
+			\begin{figure} [h]
+				\includegraphics[width=\linewidth]{Slike/Frontend-Deployed}
+				\caption{Aplikacija uspješno pokrenuta u pogon}
+			\end{figure}
 			\eject 
