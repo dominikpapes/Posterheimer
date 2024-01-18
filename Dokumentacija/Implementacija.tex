@@ -578,12 +578,72 @@ public void deleteUser() {
 		
 		\section{Upute za puštanje u pogon}
 		
-			\textbf{\textit{dio 2. revizije}}\\
-		
-			 \textit{U ovom poglavlju potrebno je dati upute za puštanje u pogon (engl. deployment) ostvarene aplikacije. Na primjer, za web aplikacije, opisati postupak kojim se od izvornog kôda dolazi do potpuno postavljene baze podataka i poslužitelja koji odgovara na upite korisnika. Za mobilnu aplikaciju, postupak kojim se aplikacija izgradi, te postavi na neku od trgovina. Za stolnu (engl. desktop) aplikaciju, postupak kojim se aplikacija instalira na računalo. Ukoliko mobilne i stolne aplikacije komuniciraju s poslužiteljem i/ili bazom podataka, opisati i postupak njihovog postavljanja. Pri izradi uputa preporučuje se \textbf{naglasiti korake instalacije uporabom natuknica} te koristiti što je više moguće \textbf{slike ekrana} (engl. screenshots) kako bi upute bile jasne i jednostavne za slijediti.}
+			\subsubsection{Kreiranje baze podataka na serveru}
+			U ovom projektu je korišten Render oblak. Nakon izrade korisničkog računa možemo pristupiti opciji Dashboard, zatim odabiremo opciju "New +" - PostgreSQL. Unese se ime baze, ostalo se autogenerira, odabire se plan plaćanja (besplatna verzija te različite plaćene) te zatim Create. Time je baza kreirana. Sada ulaskom u dashboard imamo opciju imebaze-db. Klikom na bazu ulazimo u prozor s informacijama o bazi od kojih su nam neke ključne za spajanje baze s backend servisom.
+			\newpage
+			\begin{figure} [h]
+				\includegraphics[width=\linewidth]{Slike/Dashboard-New-PostgreSQL}
+				\caption{Dashboard-New-PostgreSQL}
+			\end{figure}
+			\newpage
+			\begin{figure} [h]
+				\includegraphics[width=\linewidth]{Slike/Izrada Baze Podataka}
+				\caption{Izrada Baze Podataka}
+			\end{figure}
+			\newpage
+			\begin{figure} [h]
+				\includegraphics[width=\linewidth]{Slike/Info o Bazi Podataka}
+				\caption{Info o Bazi Podataka}
+			\end{figure}
 			
-			
-			 \textit{Dovršenu aplikaciju potrebno je pokrenuti na javno dostupnom poslužitelju. Studentima se preporuča korištenje neke od sljedećih besplatnih usluga: \href{https://aws.amazon.com/}{Amazon AWS}, \href{https://azure.microsoft.com/en-us/}{Microsoft Azure} ili \href{https://www.heroku.com/}{Heroku}. Mobilne aplikacije trebaju biti objavljene na F-Droid, Google Play ili Amazon App trgovini.}
+			\newpage
+			\subsubsection{Postavljanje backend servisa na server}
+			Prije svega treba pripremiti backend za puštanje na server. Dodaje se Dockerfile u direktorij docker. Sličnim postupkom kao i za bazu, u Dashboard kliknemo "New +", zatim Web Service, nakon povezivanja git računa, dobije se pristup svim repozitorijima kojima račun ima pravo pristupa. Stisnuti connect kraj odgovarajućeg projekta.
+			\begin{itemize}
+			\item Postaviti ime servisa
+			\item Root directory postaviti na IzvorniKod/posterheimer-backend
+			\item Environment Docker
+			\item Region postaviti na Frankfurt
+			\item Na dnu proširiti advanced opciju
+			\item Dodati potrebne environment varijable
+			\item Stisnuti Create Web Service
+			\end{itemize}
+			Ako je sve dobro postavljeno, nakon što prođe neko vrijeme dok sve "deploya" na server, servis bi trebao biti "live". 
+			\newpage
+			\begin{figure} [h]
+				\includegraphics[width=\linewidth]{Slike/Dashboard-New-Web Service}
+				\caption{Dashboard-New-Web Service }
+			\end{figure}
+			\newpage
+			\begin{figure} [h]
+				\includegraphics[width=\linewidth]{Slike/Stvaranje iz git repozitorija}
+				\caption{Stvaranje iz git repozitorija}
+			\end{figure}
+			\newpage
+			\begin{figure} [h]
+				\includegraphics[width=\linewidth]{Slike/Spajanje s repozitorijem}
+				\caption{Spajanje s repozitorijem}
+			\end{figure}
+			\newpage
+			\begin{figure} [h]
+				\includegraphics[width=\linewidth]{Slike/Polja za ispunjavanje}
+				\caption{Polja za ispunjavanje}
+			\end{figure}
+			\newpage
+			\begin{figure} [h]
+				\includegraphics[width=\linewidth]{Slike/Dodavanje Environment varijabli}
+				\caption{Dodavanje Environment varijabli}
+			\end{figure}
+			\newpage
+			\begin{figure} [h]
+				\includegraphics[width=\linewidth]{Slike/Advance-Docker path}
+				\caption{Advance-Docker path}
+			\end{figure}
+			\newpage
+			\begin{figure} [h]
+				\includegraphics[width=\linewidth]{Slike/Environment varijable}
+				\caption{Environment varijable }
+			\end{figure}
 			
 			\subsubsection{Puštanje frontenda u pogon}
 			Prije svega trebamo imati Github profil s repozitorijem koji sadrži naš kod. U ovom primjeru radi se o repozitoriju Posterheimer. Potom se trebamo prijaviti na Render s pripadajućim Github profilom. U Render Dashboardu odabiremo opciju "New" - "Web Service". 
