@@ -135,7 +135,7 @@ public void incorrectLogin() {
 	
 	driver.get("https://posterheimer.onrender.com/");
 	driver.manage().window().setSize(new Dimension(1552, 840));
-	driver.findElement(By.xpath("(//button[@type=\'button\'])[2]")).click();
+	driver.findElement(By.xpath("(//button[@type=\'button\'])[2]")).click(); // vrijednost koju mijenjamo
 
 	driver.findElement(By.cssSelector(".mb-3:nth-child(1)")).click();
 	driver.findElement(By.id("username")).click();
@@ -162,6 +162,15 @@ public void incorrectLogin() {
 	driver.quit();
 }
 			\end{lstlisting}
+			
+			Neispravnu prijavu ispitati ćemo i pomoću postojećeg korisničkog računa koji nije namijenjen odabranoj konferenciji. Upisat ćemo redni broj druge konferencije, kao \textit{username} poslati "visitor.test@mail.hr" te "Lozinka1" za \textit{password}. Predviđeni rezultat je ponovan prikaz obavijesti "Pogrešan email ili lozinka!". Ispitni slučaj nije uspješan - obavijest se ne prikazuje te je korisniku dozvoljen pristup konferenciji. Funkcionalnost bi u budućnosti trebalo implementirati.
+			
+			\begin{figure} [hbt!]
+				\includegraphics[width=\linewidth]{Slike/incorrectLoginFail}
+				\caption{Prikaz pada ispitnog slučaja}
+			\end{figure}
+			
+			
 			
 			U \textbf{četvrtom ispitnom slučaju} provjerena je funkcionalnost gumba za pristup konferenciji pri prijavi administratora. Predviđen rezultat je dozvoljen pristup konferenciji te mogućnost dodavanja postera, fotografija i pokrovitelja. Ispitni slučaj je uspješan.
 			
