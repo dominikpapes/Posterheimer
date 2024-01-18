@@ -8,6 +8,10 @@ interface PosterGetWithVotes {
   brGlasova: number;
 }
 
+const disableHorizontalScrollBar = {
+  overflowX: 'hidden',
+} as React.CSSProperties;
+
 export default function Results() {
   const [results, setResults] = useState<PosterGetWithVotes[]>([]);
 
@@ -42,7 +46,7 @@ export default function Results() {
       <div style={{ marginTop: "50px", marginBottom: "50px" }} className="text-center">
         <h2 style={{ marginBottom: "20px" }}>Rezultati natjecanja</h2>
 
-        <div className="row">
+        <div className="row" style = {disableHorizontalScrollBar}>
           {results.slice(0, 3).map((result, index) => (
             <div key={index} className="col-md-4" style={{ marginBottom: "20px" }}>
               <div className="card text-center m-3">
