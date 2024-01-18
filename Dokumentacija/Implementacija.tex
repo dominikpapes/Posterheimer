@@ -556,7 +556,42 @@ public void deleteUser() {
 \end{lstlisting}
 		 	
 		 	
-		\textbf{Četvrti ispitni slučaj:} prijava registriranog korisnika, odlazak na postere, glasanje za jedan od postera, pokušaj glasanja za drugi poster. Očekivani rezultat je obavijest koja korisniku govori da je nemoguće glasati više od jedanput
+		\textbf{Četvrti ispitni slučaj} provjerava funkcionalnost glasovanja. Prije samog glasovanja potrebna je prijava registriranog korisnika te odlazak na postere. Korisnik odabire jedan od postera, glasuje za njega te potvrđuje svoj glas. Zatim otvara drugi poster te više nema mogućnost glasovanja. Ispitni slučaj je uspješan.
+		\begin{figure} [hbt!]
+			\includegraphics[width=\linewidth]{Slike/votingTest}
+			\caption{Prikaz uspješnosti ispitnog slučaja}
+		\end{figure}
+		
+		\begin{lstlisting}
+@Test
+public void voting() {
+	driver.get("https://posterheimer.onrender.com/");
+	driver.manage().window().setSize(new Dimension(1536, 824));
+	driver.findElement(By.cssSelector(".list-group-item:nth-child(4) > .float-end")).click();
+	driver.findElement(By.cssSelector("form")).click();
+	driver.findElement(By.id("username")).click();
+	driver.findElement(By.id("username")).sendKeys("register2.email@mail.hr");
+	driver.findElement(By.id("password")).click();
+	driver.findElement(By.id("password")).sendKeys("Lozinka1");
+	driver.findElement(By.cssSelector(".btn-primary")).click();
+	driver.findElement(By.linkText("Posteri")).click();
+	driver.findElement(By.cssSelector(".poster-grid-element:nth-child(1) .fa-solid")).click();
+	driver.findElement(By.cssSelector(".btn-success")).click();
+	driver.findElement(By.cssSelector(".mx-2")).click();
+	driver.findElement(By.cssSelector(".modal-header > .btn-close")).click();
+	driver.findElement(By.cssSelector(".poster-grid-element:nth-child(2) .fa-solid")).click();
+	driver.findElement(By.cssSelector(".modal-footer")).click();
+	driver.findElement(By.cssSelector(".modal-footer")).click();
+	{
+		WebElement element = driver.findElement(By.cssSelector(".modal-footer"));
+		Actions builder = new Actions(driver);
+		builder.doubleClick(element).perform();
+	}
+	driver.findElement(By.cssSelector(".modal-footer")).click();
+	driver.findElement(By.cssSelector(".modal-footer")).click();
+	driver.findElement(By.cssSelector(".modal-header > .btn-close")).click();
+}
+		\end{lstlisting}
 			
 			\eject 
 		
