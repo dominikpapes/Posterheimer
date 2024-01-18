@@ -18,6 +18,9 @@ const REGISTERED = import.meta.env.VITE_REGISTERED;
 const ADMIN = import.meta.env.VITE_ADMIN;
 const SUPERUSER = import.meta.env.VITE_SUPERUSER;
 
+/* const showResults = localStorage.getItem("votingOver"); */
+const showResults = true;
+
 function ConferenceNavbar() {
   const conference = localStorage.getItem("conference");
   const [showModal, setShowModal] = useState(false);
@@ -116,9 +119,11 @@ function ConferenceNavbar() {
               <Nav.Link as={Link} to="/sponsors" className="text-link">
                 Pokrovitelji
               </Nav.Link>
-              <Nav.Link as={Link} to="/results" className="text-link">
-                Rezultati
-              </Nav.Link>
+              {showResults && (
+                <Nav.Link as={Link} to="/results" className="text-link">
+                  Rezultati
+                </Nav.Link>
+              )}
             </Nav>
             <Nav className="justify-content-end">
               <NavDropdown
