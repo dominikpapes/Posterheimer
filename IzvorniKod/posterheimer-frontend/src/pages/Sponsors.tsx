@@ -3,6 +3,7 @@ import { Form, Modal, Button, Spinner, Alert } from "react-bootstrap";
 import ConferenceNavbar from "../components/ConferenceNavbar";
 import Loading from "../components/Loading";
 import PleaseLogin from "../components/PleaseLogin";
+import ConferenceNotYetStarted from "../components/ConferenceNotYetStarted";
 
 interface GetSponsor {
   idPokrovitelj: string;
@@ -53,6 +54,7 @@ export default function Sponsors() {
   const [sponsors, setSponsors] = useState<GetSponsor[]>([empty_get_sponsor]);
   const [hasError, setHasError] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
+  const confStarted = localStorage.getItem("confStarted");
 
   let promoExistsError = false;
 
@@ -194,7 +196,10 @@ export default function Sponsors() {
   return (
     <>
       <ConferenceNavbar />
-      {showLoginPrompt ? (
+      {confStarted == "false" &&
+      (userRole != ADMIN || userRole != SUPERUSER) ? (
+        <ConferenceNotYetStarted />
+      ) : showLoginPrompt ? (
         <PleaseLogin />
       ) : isLoading ? (
         <Loading />

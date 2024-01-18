@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Button, Form, Modal, Spinner } from "react-bootstrap";
 import PleaseLogin from "../components/PleaseLogin";
 import Loading from "../components/Loading";
+import ConferenceNotYetStarted from "../components/ConferenceNotYetStarted";
 
 const VISITOR = import.meta.env.VITE_VISITOR;
 const REGISTERED = import.meta.env.VITE_REGISTERED;
@@ -43,6 +44,7 @@ function Photos() {
 
   const userRole = localStorage.getItem("userRole") || "";
   const conferenceId = localStorage.getItem("conferenceId") || "";
+  const confStarted = localStorage.getItem("confStarted");
 
   const showEdits = userRole === ADMIN || userRole === SUPERUSER;
   const showLoginPrompt = userRole === VISITOR;
@@ -189,7 +191,10 @@ function Photos() {
   return (
     <>
       <ConferenceNavbar />
-      {showLoginPrompt ? (
+      {confStarted == "false" &&
+      (userRole != ADMIN || userRole != SUPERUSER) ? (
+        <ConferenceNotYetStarted />
+      ) : showLoginPrompt ? (
         <PleaseLogin />
       ) : isLoading ? (
         <Loading />

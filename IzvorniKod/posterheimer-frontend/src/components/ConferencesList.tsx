@@ -52,7 +52,8 @@ function ConferencesList({
       console.log(error);
     } finally {
       setIsSending(false);
-      setConfs(conferences.filter((o) => o.idKonferencija !== id));
+      if (conferences.length === 1) setConfs([]);
+      else setConfs(conferences.filter((o) => o.idKonferencija !== id));
     }
   }
 
@@ -93,23 +94,19 @@ function ConferencesList({
             {showDelete && (
               <Button
                 onClick={() => deleteConference(item.idKonferencija)}
-                disabled={
-                  isSending ||
-                  selectedConference.idKonferencija == item.idKonferencija
-                }
+                disabled={isSending}
                 variant="danger"
                 className="mx-2 float-end"
               >
-                {isSending &&
-                  selectedConference.idKonferencija == item.idKonferencija && (
-                    <Spinner
-                      as="span"
-                      animation="grow"
-                      size="sm"
-                      role="status"
-                      aria-hidden="true"
-                    />
-                  )}
+                {isSending && (
+                  <Spinner
+                    as="span"
+                    animation="grow"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                )}
                 Obriši
               </Button>
             )}

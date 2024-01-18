@@ -65,6 +65,8 @@ function LoginModal({ conferenceId, conferenceName }: Props) {
     };
 
     try {
+      console.log(data);
+      console.log(conferenceId);
       const credentials: Credentials = await login(data);
       console.log("Credentials", credentials);
 

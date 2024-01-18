@@ -40,6 +40,11 @@
   padding: 0.5rem;
 }
 
+.not-started {
+  width: 30rem;
+  padding: 2rem;
+}
+
 /* HOME */
 
 .fa-square-plus {

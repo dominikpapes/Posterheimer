@@ -18,6 +18,7 @@ import ConferenceNavbar from "../components/ConferenceNavbar";
 import PleaseLogin from "../components/PleaseLogin";
 import Loading from "../components/Loading";
 import { useNavigate } from "react-router-dom";
+import ConferenceNotYetStarted from "../components/ConferenceNotYetStarted";
 
 const VISITOR = import.meta.env.VITE_VISITOR;
 const REGISTERED = import.meta.env.VITE_REGISTERED;
@@ -71,11 +72,18 @@ function Posters() {
   const [showPoster, setShowPoster] = useState(false);
   const [showPosterForm, setShowPosterForm] = useState(false);
   const [showVotingModal, setShowVotingModal] = useState(false);
+  const [showToast, setShowToast] = useState(true);
   const [target, setTarget] = useState(null);
 
   const [newPoster, setNewPoster] = useState<PostPoster>(empty_post_poster);
   const [posters, setPosters] = useState<GetPoster[]>([]);
+  const [timeLeft, setTimeLeft] = useState("");
 
+  const [votingOver, setVotingOver] = useState(
+    localStorage.getItem("votingOver")
+  );
+  const confStarted = localStorage.getItem("confStarted");
+  const dateEnd = localStorage.getItem("dateEnd") || "";
   const userRole = localStorage.getItem("userRole");
   const showEdits = userRole === ADMIN || userRole === SUPERUSER;
   const showVoting = userRole === REGISTERED;
@@ -232,16 +240,52 @@ function Posters() {
     }
   }
 
+  function countdown() {
+    var countDownDate = new Date(dateEnd).getTime();
+    // Update the count down every 1 second
+
+    // Get today's date and time
+    var now = new Date().getTime();
+
+    // Find the distance between now and the count down date
+    var distance = countDownDate - now;
+    // Time calculations for days, hours, minutes and seconds
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor(
+      (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    // Output the result in an element with id="demo"
+    setTimeLeft(days + "d " + hours + "h " + minutes + "m " + seconds + "s ");
+
+    // If the count down is over, write some text
+    if (distance < 0) {
+      setVotingOver("true");
+    }
+  }
+
   useEffect(() => {
     getPosters().then((data) => {
       setPosters(data);
     });
+    const interval = setInterval((): any => {
+      if (votingOver === "false") {
+        countdown();
+      } else {
+        clearInterval(interval);
+      }
+    }, 1000);
   }, []);
 
   return (
     <>
       <ConferenceNavbar />
-      {isLoading ? (
+      {confStarted == "false" &&
+      (userRole != ADMIN || userRole != SUPERUSER) ? (
+        <ConferenceNotYetStarted />
+      ) : isLoading ? (
         <Loading />
       ) : (
         <div className="poster-grid mx-auto w-75">
@@ -457,6 +501,25 @@ function Posters() {
           </Form>
         </Modal.Body>
       </Modal>
+
+      <Toast
+        show={showToast && !isLoading && confStarted == "true"}
+        onClose={() => setShowToast(false)}
+        animation
+        style={{
+          position: "absolute",
+          top: 80,
+          right: 20,
+          width: "10rem",
+        }}
+      >
+        <Toast.Header>
+          <strong className="me-auto">
+            {votingOver === "true" ? "Glasanje završeno" : "Glasanje u tijeku"}
+          </strong>
+        </Toast.Header>
+        {votingOver === "false" && <Toast.Body>{timeLeft}</Toast.Body>}
+      </Toast>
     </>
   );
 }

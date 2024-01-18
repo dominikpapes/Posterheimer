@@ -8,6 +8,7 @@ import { Card, CardTitle, Offcanvas, Spinner } from "react-bootstrap";
 import PleaseLogin from "../components/PleaseLogin";
 import Loading from "../components/Loading";
 import LocationMap from "../components/LocationMap";
+import ConferenceNotYetStarted from "../components/ConferenceNotYetStarted";
 
 const VISITOR = import.meta.env.VITE_VISITOR;
 
@@ -40,6 +41,8 @@ function Conference() {
   const [conference, setConference] = useState<Conference>(empty_conference);
   const showLoginPrompt = userRole === VISITOR;
 
+  const [confNotStarted, setConfNotStarted] = useState(false);
+
   const [dateStart, setDateStart] = useState(new Date());
   const [dateEnd, setDateEnd] = useState(new Date());
 
@@ -69,6 +72,30 @@ function Conference() {
     setIsLoading(true);
     getConferences(conferenceId).then((data) => {
       setConference(data);
+
+      localStorage.setItem("dateEnd", data.datumVrijemeZavrsetka);
+      localStorage.setItem("dateStart", data.datumVrijemePocetka);
+      let confDuration =
+        (new Date(data.datumVrijemeZavrsetka).valueOf() -
+          new Date().valueOf()) /
+        (1000 * 3600 * 24);
+
+      if (confDuration < 2) {
+        localStorage.setItem("votingOver", "true");
+      } else {
+        localStorage.setItem("votingOver", "false");
+      }
+      confDuration =
+        (new Date().valueOf() - new Date(data.datumVrijemePocetka).valueOf()) /
+        (1000 * 3600 * 24);
+
+      if (confDuration < 0) {
+        localStorage.setItem("confStarted", "false");
+        setConfNotStarted(true);
+      } else {
+        localStorage.setItem("confStarted", "true");
+        setConfNotStarted(false);
+      }
       setIsLoading(false);
     });
   }, []);
@@ -81,52 +108,57 @@ function Conference() {
   return (
     <>
       <ConferenceNavbar />
-
-      <>
-        {isLoading ? (
-          <Loading />
-        ) : (
-          <div className="conference-content">
-            <Card className="conference-info my-2 p-2">
-              <CardTitle>{conference.imeKonferencija.toUpperCase()}</CardTitle>
-              <Card.Body>
-                {dateStart.toLocaleString("hr-HR", dateOptions)} -{" "}
-                {dateEnd.toLocaleString("hr-HR", dateOptions)}
-                <LocationMap
-                  adresa={conference.adresa}
-                  grad={conference.mjesto}
-                  pbr={conference.zipCode}
-                  konfIme={conference.imeKonferencija}
-                />
-                <Card className="location-container mt-2">
-                  <a
-                    href={`https://maps.google.com/?q=${conference.adresa}+${conference.mjesto}`}
-                    target="_blank"
-                  >
-                    <i className="fa-solid fa-location-dot fa-2x"></i>
-                    <br />
-                    {conference.adresa}
-                    <br />
-                    {conference.mjesto}
-                    <br />
-                    {conference.zipCode}
-                  </a>
-                </Card>
-              </Card.Body>
-            </Card>
-            {conference.mjesto && <Weather location={conference.mjesto} />}
-            {showLoginPrompt ? (
-              <PleaseLogin />
-            ) : (
-              <iframe
-                className="video mb-3"
-                src={conference.videoUrl}
-                title="conference-video"
-              ></iframe>
-            )}
-          </div>
-        )}
-      </>
+      {confNotStarted ? (
+        <ConferenceNotYetStarted />
+      ) : (
+        <>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <div className="conference-content">
+              <Card className="conference-info my-2 p-2">
+                <CardTitle>
+                  {conference.imeKonferencija.toUpperCase()}
+                </CardTitle>
+                <Card.Body>
+                  {dateStart.toLocaleString("hr-HR", dateOptions)} -{" "}
+                  {dateEnd.toLocaleString("hr-HR", dateOptions)}
+                  <LocationMap
+                    adresa={conference.adresa}
+                    grad={conference.mjesto}
+                    pbr={conference.zipCode}
+                    konfIme={conference.imeKonferencija}
+                  />
+                  <Card className="location-container mt-2">
+                    <a
+                      href={`https://maps.google.com/?q=${conference.adresa}+${conference.mjesto}`}
+                      target="_blank"
+                    >
+                      <i className="fa-solid fa-location-dot fa-2x"></i>
+                      <br />
+                      {conference.adresa}
+                      <br />
+                      {conference.mjesto}
+                      <br />
+                      {conference.zipCode}
+                    </a>
+                  </Card>
+                </Card.Body>
+              </Card>
+              {conference.mjesto && <Weather location={conference.mjesto} />}
+              {showLoginPrompt ? (
+                <PleaseLogin />
+              ) : (
+                <iframe
+                  className="video mb-3"
+                  src={conference.videoUrl}
+                  title="conference-video"
+                ></iframe>
+              )}
+            </div>
+          )}
+        </>
+      )}
     </>
   );
 }

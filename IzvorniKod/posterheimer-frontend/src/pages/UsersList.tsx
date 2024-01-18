@@ -35,7 +35,7 @@ export default function UsersList() {
   async function getUsers() {
     const conferenceId = localStorage.getItem("conferenceId");
     const token = localStorage.getItem("jwtToken");
-    const response = await fetch(`/api/korisnici`, {
+    const response = await fetch(`/api/konferencije/${conferenceId}/users`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
