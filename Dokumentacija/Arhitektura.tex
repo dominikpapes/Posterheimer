@@ -131,7 +131,7 @@ Dijelovi MVC obrazca su:
 	
 	\noindent \textbf{Pokrovitelj }
 	
-	Ovaj entitet sadržava sve važne informacije o pokrovitelju. Sadrži atribute: ime pokrovitelja, promotivne materijale i poveznicu na stranicu pokrovitelja. Ovaj entitet je u vezi \textit{više na više} s entitetom Konferencija.
+	Ovaj entitet sadržava sve važne informacije o pokrovitelju. Sadrži atribute: identifikator pokrovitelja, ime pokrovitelja, promotivne materijale i poveznicu na stranicu pokrovitelja. Ovaj entitet je u vezi \textit{više na više} s entitetom Konferencija.
 	
 	
 	\begin{longtblr}[
@@ -143,7 +143,8 @@ Dijelovi MVC obrazca su:
 			rowhead = 1,
 		} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 		\hline \SetCell[c=3]{c}{\textbf{Pokrovitelj}}	 \\ \hline[3pt]
-		\SetCell{LightGreen}ime\_ pokrovitelja & VARCHAR & jedinstveni identifikator pokrovitelja  	\\ \hline
+		\SetCell{LightGreen}id\_pokrovitelj & INT & jedinstveni brojčani identifikator pokrovitelja  	\\ \hline
+		ime\_ pokrovitelja & VARCHAR & jedinstveni identifikator pokrovitelja  	\\ \hline
 		promotivni\_ materijal & LONGBLOB & datoteka, promotivni materijal je logotip pokrovitelja   \\ \hline 
 		url\_promo & VARCHAR & poveznica na stranicu pokrovitelja \\ \hline 
 	\end{longtblr}
@@ -162,8 +163,7 @@ Dijelovi MVC obrazca su:
 			rowhead = 1,
 		} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 		\hline \SetCell[c=3]{c}{\textbf{Pokrovitelj-Konferencije}}	 \\ \hline[3pt]
-		\SetCell{LightBlue} ime\_
-		pokrovitelja	& VARCHAR & jedinstveni identifikator pokrovitelja (pokrovitelj.imePokrovitelja)     	\\ \hline
+		\SetCell{LightBlue} id\_pokrovitelj	& INT & jedinstveni brojčani identifikator pokrovitelja (pokrovitelj.id\_pokrovitelj)     	\\ \hline
 		\SetCell{LightBlue}id\_konferencija	& INT & jedinstveni brojčani identifikator konferencije (konferencija.id\_konferencija)  	\\ \hline 
 		
 	\end{longtblr}
@@ -193,7 +193,7 @@ Dijelovi MVC obrazca su:
 			\subsection{Dijagram baze podataka}
 				
 					\begin{figure} [h]
-						\includegraphics[width=\linewidth]{Slike/ERDijagram}
+						\includegraphics[width=\linewidth]{Slike/ERDijagramFinal}
 						\caption{E-R dijagram baze podataka}
 					\end{figure}
 			
