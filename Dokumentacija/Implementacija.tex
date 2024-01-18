@@ -34,8 +34,8 @@
 			\subsection{Ispitivanje komponenti}
 			\textit{Potrebno je provesti ispitivanje jedinica (engl. unit testing) nad razredima koji implementiraju temeljne funkcionalnosti. Razraditi \textbf{minimalno 6 ispitnih slučajeva} u kojima će se ispitati redovni slučajevi, rubni uvjeti te izazivanje pogreške (engl. exception throwing). Poželjno je stvoriti i ispitni slučaj koji koristi funkcionalnosti koje nisu implementirane. Potrebno je priložiti izvorni kôd svih ispitnih slučajeva te prikaz rezultata izvođenja ispita u razvojnom okruženju (prolaz/pad ispita). }
 			
-			Ispitivanje komponenti provedeno je pomoću Selenium WebDrivera\footnote{https://www.selenium.dev/documentation/webdriver/} unutar JUnit 4 testova kao podršku za pisanje ispita unutar programskog jezika Java. Ispitivanje je provedeno nad konferencijom naziva "TestKonferencija". U vrijeme izrade dokumentacije, konferencija se nalazila na drugom mjestu na listi konferencija. 
-			Izrađeno je 6 ispitnih slučajeva. Njihova uspješnost prikazana je na slici 5.1. 
+			Ispitivanje komponenti provedeno je pomoću Selenium WebDrivera\footnote{https://www.selenium.dev/documentation/webdriver/} unutar JUnit 4 testova kao podršku za pisanje ispita unutar programskog jezika Java. Ispitivanje je provedeno nad konferencijom naziva "TestKonferencija". U vrijeme izrade dokumentacije, konferencija se nalazila na drugom mjestu na listi doostupnih konferencija. 
+			Izrađeno je 7 ispitnih slučajeva. Uspješnost 6 slučajeve te izazivanje pogreške u jednom prikazni su slikom 5.1.
 			
 			\begin{figure} [hbt!]
 				\includegraphics[width=\linewidth]{Slike/testResults}
@@ -49,7 +49,7 @@
 @Test
 public void genericLogin() {
 	
-	System.setProperty("webdriver.chrome.driver", "C:\\Program Files (x86)\\Chrome Driver\\chromedriver.exe");
+	System.setProperty("webdriver.chrome.driver", "src\\test\\java\\chromedriver\\chromedriver.exe");
 	WebDriver driver = new ChromeDriver();
 	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	
@@ -63,7 +63,7 @@ public void genericLogin() {
 	driver.findElement(By.id("username")).click();
 	driver.findElement(By.id("username")).sendKeys("visitor.test@mail.hr");
 	driver.findElement(By.id("password")).click();
-	driver.findElement(By.id("password")).sendKeys("pass");
+	driver.findElement(By.id("password")).sendKeys("Lozinka1");
 	driver.findElement(By.cssSelector(".btn-primary")).click();
 	
 	driver.findElement(By.linkText("Konferencija")).click();
@@ -86,7 +86,7 @@ public void genericLogin() {
 			\begin{lstlisting}
 @Test
 public void correctSpecificLogin() {
-	System.setProperty("webdriver.chrome.driver", "C:\\Program Files (x86)\\Chrome Driver\\chromedriver.exe");
+	System.setProperty("webdriver.chrome.driver", "src\\test\\java\\chromedriver\\chromedriver.exe");
 	WebDriver driver = new ChromeDriver();
 	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	
@@ -96,7 +96,7 @@ public void correctSpecificLogin() {
 	driver.findElement(By.id("username")).click();
 	driver.findElement(By.id("username")).sendKeys("register.email@mail.hr");
 	driver.findElement(By.id("password")).click();
-	driver.findElement(By.id("password")).sendKeys("pass");
+	driver.findElement(By.id("password")).sendKeys("Lozinka1");
 	driver.findElement(By.cssSelector(".btn-primary")).click();
 	
 	driver.findElement(By.linkText("Konferencija")).click();
@@ -129,7 +129,7 @@ public void correctSpecificLogin() {
 			\begin{lstlisting}
 @Test
 public void incorrectLogin() {
-	System.setProperty("webdriver.chrome.driver", "C:\\Program Files (x86)\\Chrome Driver\\chromedriver.exe");
+	System.setProperty("webdriver.chrome.driver", "src\\test\\java\\chromedriver\\chromedriver.exe");
 	WebDriver driver = new ChromeDriver();
 	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	
@@ -145,11 +145,7 @@ public void incorrectLogin() {
 	driver.findElement(By.cssSelector(".btn-primary")).click();
 	
 	driver.findElement(By.cssSelector(".alert")).click();
-	{
-		WebElement element = driver.findElement(By.cssSelector(".alert"));
-		Actions builder = new Actions(driver);
-		builder.doubleClick(element).perform();
-	}
+
 	WebElement alert = driver.findElement(By.cssSelector(".alert"));
 	String errorMessage = alert.getText();
 	if(errorMessage.contains("email ili lozinka!")) {
@@ -172,7 +168,7 @@ public void incorrectLogin() {
 			\begin{lstlisting}
 	  @Test
 public void adminLogin() {
-	System.setProperty("webdriver.chrome.driver", "C:\\Program Files (x86)\\Chrome Driver\\chromedriver.exe");
+	System.setProperty("webdriver.chrome.driver", "src\\test\\java\\chromedriver\\chromedriver.exe");
 	WebDriver driver = new ChromeDriver();
 	driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 	// Vrijeme povecano zbog ucitavanja postera, koje je znatno sporije za administratora
@@ -183,7 +179,7 @@ public void adminLogin() {
 	driver.findElement(By.id("username")).click();
 	driver.findElement(By.id("username")).sendKeys("admin.test@mail.hr");
 	driver.findElement(By.id("password")).click();
-	driver.findElement(By.id("password")).sendKeys("pass");
+	driver.findElement(By.id("password")).sendKeys("Lozinka1");
 	driver.findElement(By.cssSelector(".btn-primary")).click();
 	driver.findElement(By.cssSelector(".conference-content")).click();
 	driver.findElement(By.linkText("Posteri")).click();
@@ -213,7 +209,7 @@ public void adminLogin() {
 	\begin{lstlisting}
 	  @Test
 public void navBar() {
-	System.setProperty("webdriver.chrome.driver", "C:\\Program Files (x86)\\Chrome Driver\\chromedriver.exe");
+	System.setProperty("webdriver.chrome.driver", "src\\test\\java\\chromedriver\\chromedriver.exe");
 	WebDriver driver = new ChromeDriver();
 	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);	
 	
@@ -227,7 +223,7 @@ public void navBar() {
 	driver.findElement(By.id("username")).click();
 	driver.findElement(By.id("username")).sendKeys("visitor.test@mail.hr");
 	driver.findElement(By.id("password")).click();
-	driver.findElement(By.id("password")).sendKeys("pass");
+	driver.findElement(By.id("password")).sendKeys("Lozinka1");
 	driver.findElement(By.cssSelector(".btn-primary")).click();
 	
 	driver.findElement(By.linkText("Konferencija")).click();
@@ -274,19 +270,19 @@ public void navBar() {
 			\begin{lstlisting}
 	  @Test
 public void incorrectRegister() {
-	System.setProperty("webdriver.chrome.driver", "C:\\Program Files (x86)\\Chrome Driver\\chromedriver.exe");
+	System.setProperty("webdriver.chrome.driver", "src\\test\\java\\chromedriver\\chromedriver.exe");
 	WebDriver driver = new ChromeDriver();
 	JavascriptExecutor js = (JavascriptExecutor) driver;
 	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	
 	driver.get("https://posterheimer.onrender.com/");
 	driver.manage().window().setSize(new Dimension(1552, 840));
-	driver.findElement(By.cssSelector(".list-group-item:nth-child(3) > .float-end")).click();
+	driver.findElement(By.cssSelector(".list-group-item:nth-child(2) > .float-end")).click();
 	driver.findElement(By.cssSelector("form")).click();
 	driver.findElement(By.id("username")).click();
 	driver.findElement(By.id("username")).sendKeys("visitor.test@mail.hr");
 	driver.findElement(By.id("password")).click();
-	driver.findElement(By.id("password")).sendKeys("pass");
+	driver.findElement(By.id("password")).sendKeys("Lozinka1");
 	driver.findElement(By.cssSelector(".btn-primary")).click();
 	driver.findElement(By.linkText("Registracija")).click();
 	js.executeScript("window.scrollTo(0,0)");
@@ -319,6 +315,61 @@ public void incorrectRegister() {
 }	  
 			\end{lstlisting}
 			
+		U \textbf{sedmon ispitnom slučaju} provjerena je funkcionalnost sučelja za dodavanje postera pri unosu datoteke netočnog formata. Prije dodavanje postera potrebna je prijava administratora. Predviđen rezultat je prikaz obavijesti "Izabrana datoteka nije PDF!". Rezultat je ostvaren.  
+		
+	\begin{lstlisting}
+@Test
+public void incorrectPosterFormat() {
+	System.setProperty("webdriver.chrome.driver", "src\\test\\java\\chromedriver\\chromedriver.exe");
+	WebDriver driver = new ChromeDriver();
+	JavascriptExecutor js = (JavascriptExecutor) driver;
+	File filepath = new File("src\\test\\java\\files\\example.pptx");
+	
+	
+	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	
+	
+	driver.get("https://posterheimer.onrender.com/");
+	driver.manage().window().setSize(new Dimension(1552, 840));
+	driver.findElement(By.cssSelector(".list-group-item:nth-child(2) > .float-end")).click();	  
+	
+	driver.findElement(By.id("username")).click();
+	driver.findElement(By.id("username")).sendKeys("admin.test@mail.hr");
+	driver.findElement(By.id("password")).click();
+	driver.findElement(By.id("password")).sendKeys("Lozinka1");
+	driver.findElement(By.cssSelector(".btn-primary")).click();
+	driver.findElement(By.linkText("Posteri")).click();
+	driver.findElement(By.cssSelector(".fa-solid")).click();
+	
+	WebElement fileInput = driver.findElement(By.cssSelector("input[type=file]"));
+	fileInput.sendKeys(filepath.getAbsolutePath());
+	
+	driver.findElement(By.name("imePoster")).click();
+	driver.findElement(By.name("imePoster")).sendKeys("Krivi format");
+	driver.findElement(By.name("imeAutor")).click();
+	driver.findElement(By.name("imeAutor")).sendKeys("Ime");
+	driver.findElement(By.name("prezimeAutor")).click();
+	driver.findElement(By.name("prezimeAutor")).sendKeys("Prezime");
+	driver.findElement(By.cssSelector("form")).click();
+	driver.findElement(By.name("posterEmail")).click();
+	driver.findElement(By.name("posterEmail")).sendKeys("test.poster@posterheimer.hr");
+	driver.findElement(By.cssSelector(".btn")).click();
+	
+	WebElement alert = driver.findElement(By.cssSelector(".alert"));
+	String errorMessage = alert.getText();
+	if(errorMessage.contains("Izabrana datoteka nije PDF!")) {
+		System.out.println("Prikaz prikladne obavijesti");
+	} else {
+		System.out.println("Error");
+	}		
+	
+	driver.findElement(By.cssSelector(".alert")).click();
+	driver.findElement(By.cssSelector(".btn-close")).click();
+	
+	
+	driver.quit();
+}
+	\end{lstlisting}
 			
 			\subsection{Ispitivanje sustava}
 			
