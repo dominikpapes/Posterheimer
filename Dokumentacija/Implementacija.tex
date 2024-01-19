@@ -168,7 +168,7 @@ public void incorrectLogin() {
 			U \textbf{četvrtom ispitnom slučaju} provjerena je funkcionalnost gumba za pristup konferenciji pri prijavi administratora. Predviđen rezultat je dozvoljen pristup konferenciji, te mogućnost dodavanja postera, fotografija i pokrovitelja. Ispitni slučaj je uspješan.
 			
 			\begin{lstlisting}
-	  @Test
+@Test
 public void adminLogin() {
 	System.setProperty("webdriver.chrome.driver", "src\\test\\java\\chromedriver\\chromedriver.exe");
 	WebDriver driver = new ChromeDriver();
@@ -210,7 +210,7 @@ public void adminLogin() {
 	U \textbf{petom ispitnom slučaju} provjerena je funkcionalnost navigacijske trake. Predviđen rezultat je otvaranje stranice konferencije nakon klika na "Konferencija", stranice postera nakon klika na "Posteri", stranice za fotografije nakon klika na "Fotografije" i stranice pokrovitelja nakon klika na "Pokrovitelji". Ispitni slučaj je uspješan.
 	
 	\begin{lstlisting}
-	  @Test
+@Test
 public void navBar() {
 	System.setProperty("webdriver.chrome.driver", "src\\test\\java\\chromedriver\\chromedriver.exe");
 	WebDriver driver = new ChromeDriver();
@@ -262,6 +262,14 @@ public void navBar() {
 		System.out.println("Pristupljeno pokroviteljima");
 	} else {
 		System.out.println("Error: pokrovitelji");
+	}
+	driver.findElement(By.linkText("Rezultati")).click();
+	redirURL = driver.getCurrentUrl();
+	comperRes = redirURL.contains("/results");
+	if(comperRes == true) {
+		System.out.println("Pristupljeno rezultatima");
+	} else {
+		System.out.println("Error: rezultati");
 	}
 	driver.quit();
 }

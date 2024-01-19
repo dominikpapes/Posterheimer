@@ -215,7 +215,17 @@ public class TestPosterheimer {
 		    } else {
 		    	System.out.println("Pogreška");
 		    }
-		    driver.quit();
+
+		driver.findElement(By.linkText("Rezultati")).click();
+		redirURL = driver.getCurrentUrl();
+		comperRes = redirURL.contains("/results");
+			if(comperRes == true) {
+			   System.out.println("Pristupljeno rezultatima");
+			} else {
+			   System.out.println("Pogreška");
+			}
+
+		driver.quit();
 	  }
 	  
 	  @Test
