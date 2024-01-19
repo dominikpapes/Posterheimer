@@ -2,10 +2,6 @@
 		
 		
 		\section{Korištene tehnologije i alati}
-		
-			\textbf{\textit{dio 2. revizije}}
-			
-			 \textit{Detaljno navesti sve tehnologije i alate koji su primijenjeni pri izradi dokumentacije i aplikacije. Ukratko ih opisati, te navesti njihovo značenje i mjesto primjene. Za svaki navedeni alat i tehnologiju je potrebno \textbf{navesti internet poveznicu} gdje se mogu preuzeti ili više saznati o njima}.
 			
 			\indent Pri izradi dokumentacije korišten je \textbf{LaTeX}\footnote{https://www.latex-project.org} - označni jezik korišten za uređivanje tekstualnih dokumenata najčešće znanstvene publikacije. Dokument je sastavljen u programu \textbf{TeXstudio}\footnote{https://www.texstudio.org} - uređivaču teksta prilagođen LaTeX-u. UML dijagrami nacrtani su uz pomoć alata \textbf{Astah UML}\footnote{https://astah.net/products/astah-uml}. Dijagrami koji nisu UML tipa nacrtani su u uređivaču \textbf{MS Word}\footnote{https://www.microsoft.com/en/microsoft-365/word}
 			
@@ -24,12 +20,7 @@
 			\eject 
 		
 	
-		\section{Ispitivanje programskog rješenja}
-			
-			\textbf{\textit{dio 2. revizije}}\\
-			
-			 \textit{U ovom poglavlju je potrebno opisati provedbu ispitivanja implementiranih funkcionalnosti na razini komponenti i na razini cijelog sustava s prikazom odabranih ispitnih slučajeva. Studenti trebaju ispitati temeljnu funkcionalnost i rubne uvjete.}
-			 
+		\section{Ispitivanje programskog rješenja}	 
 			
 			\subsection{Ispitivanje komponenti}
 			\textit{Potrebno je provesti ispitivanje jedinica (engl. unit testing) nad razredima koji implementiraju temeljne funkcionalnosti. Razraditi \textbf{minimalno 6 ispitnih slučajeva} u kojima će se ispitati redovni slučajevi, rubni uvjeti te izazivanje pogreške (engl. exception throwing). Poželjno je stvoriti i ispitni slučaj koji koristi funkcionalnosti koje nisu implementirane. Potrebno je priložiti izvorni kôd svih ispitnih slučajeva te prikaz rezultata izvođenja ispita u razvojnom okruženju (prolaz/pad ispita). }
@@ -41,6 +32,8 @@
 				\includegraphics[width=\linewidth]{Slike/testResults}
 				\caption{Prikaz uspješnosti ispitnih slučajeva}
 			\end{figure}
+			
+			\newpage
 			
 			U \textbf{prvom ispitnom slučaju} provjerena je funkcionalnost gumba za pristup konferenciji pri inicijalnom pristupu pomoću točnog generičkog korisničkog imena (adrese e-pošte predviđenu za generički račun) i odgovarajuće lozinke. Predviđen rezultat je dozvoljen pristup stranici konferencije. Ispitni slučaj je uspješan.
 			
@@ -212,6 +205,7 @@ public void adminLogin() {
 }
 			\end{lstlisting}
 			
+	\newpage
 			
 	U \textbf{petom ispitnom slučaju} provjerena je funkcionalnost navigacijske trake. Predviđen rezultat je otvaranje stranice konferencije nakon klika na "Konferencija", stranice postera nakon klika na "Posteri", stranice za fotografije nakon klika na "Fotografije" i stranice pokrovitelja nakon klika na "Pokrovitelji". Ispitni slučaj je uspješan.
 	
@@ -379,17 +373,10 @@ public void incorrectPosterFormat() {
 	driver.quit();
 }
 	\end{lstlisting}
+	
+			\newpage
 			
 			\subsection{Ispitivanje sustava}
-			
-			 \textit{Potrebno je provesti i opisati ispitivanje sustava koristeći radni okvir Selenium\footnote{\url{https://www.seleniumhq.org/}}. Razraditi \textbf{minimalno 4 ispitna slučaja} u kojima će se ispitati redovni slučajevi, rubni uvjeti te poziv funkcionalnosti koja nije implementirana/izaziva pogrešku kako bi se vidjelo na koji način sustav reagira kada nešto nije u potpunosti ostvareno. Ispitni slučaj se treba sastojati od ulaza (npr. korisničko ime i lozinka), očekivanog izlaza ili rezultata, koraka ispitivanja i dobivenog izlaza ili rezultata.\\ }
-			 
-			 \textit{Izradu ispitnih slučajeva pomoću radnog okvira Selenium moguće je provesti pomoću jednog od sljedeća dva alata:}
-			 \begin{itemize}
-			 	\item \textit{dodatak za preglednik \textbf{Selenium IDE} - snimanje korisnikovih akcija radi automatskog ponavljanja ispita	}
-			 	\item \textit{\textbf{Selenium WebDriver} - podrška za pisanje ispita u jezicima Java, C\#, PHP koristeći posebno programsko sučelje.}
-			 \end{itemize}
-		 	\textit{Detalji o korištenju alata Selenium bit će prikazani na posebnom predavanju tijekom semestra.}
 		 	
 		 	Ispitivanje sustava provedeno je pomoću dodatka za preglednik Selenium IDE\footnote{https://www.selenium.dev/selenium-ide/}. JUnit ispitni slučajevi generirani su pomoću Selenium IDE ispitnih slučajeva.
 		 	
@@ -450,7 +437,9 @@ public void deleteUser() {
 }
 		\end{lstlisting}
 		
-\textbf{Drugi ispitni slučaj} provjerava funkcionalnost gumba za registraciju pri unosu podataka točnog formata. Tijekom registracije odabrana je opcija "Prikaz lozinke" te prođen CAPTCHA test. Rezultat ispitnog slučaja je uspješan.
+\newpage
+		
+\textbf{Drugi ispitni slučaj} provjerava funkcionalnost gumba za registraciju pri unosu podataka ispravnog formata. Tijekom registracije odabrana je opcija "Prikaz lozinke" te prođen CAPTCHA test. Rezultat ispitnog slučaja je uspješan.
 
 \begin{figure} [hbt!]
 	\includegraphics[width=\linewidth]{Slike/Register}
@@ -555,7 +544,7 @@ public void deleteUser() {
 	}
 \end{lstlisting}
 		 	
-		\textbf{Četvrti ispitni slučaj} provjerava funkcionalnost glasovanja. Prije samog glasovanja potrebna je prijava registriranog korisnika te odlazak na postere. Korisnik odabire jedan od postera, glasuje za njega te potvrđuje svoj glas. Zatim otvara drugi poster te više nema mogućnost glasovanja. Ispitni slučaj je uspješan.
+		\textbf{Četvrti ispitni slučaj} provjerava funkcionalnost glasovanja. Prije samog glasovanja potrebna je prijava registriranog korisnika te otvaranje galerije postera. Korisnik odabire jedan od postera, glasuje za njega te potvrđuje svoj glas. Zatim otvara drugi poster te više nema mogućnost glasovanja. Ispitni slučaj je uspješan.
 		\begin{figure} [hbt!]
 			\includegraphics[width=\linewidth]{Slike/votingTest}
 			\caption{Prikaz uspješnosti ispitnog slučaja}
@@ -596,10 +585,6 @@ public void voting() {
 		
 		
 		\section{Dijagram razmještaja}
-			
-			\textbf{\textit{dio 2. revizije}}
-			
-			 \textit{Potrebno je umetnuti \textbf{specifikacijski} dijagram razmještaja i opisati ga. Moguće je umjesto specifikacijskog dijagrama razmještaja umetnuti dijagram razmještaja instanci, pod uvjetom da taj dijagram bolje opisuje neki važniji dio sustava.}
 			 
 			 \indent Dijagram razmještaja prikazuje odnos sklopovskih dijelova sustava međusobno i s programskim rješenjima koja su potrebna za korisnikovu interakciju s aplikacijom. Kao dio udaljene poslužiteljske infrastrukture postoje dva poslužiteljska računala: mrežni poslužitelj i poslužitelj baze podataka. Na mrežnom poslužitelju je aktivan proces programa aplikacije koji komunicira s bazom podataka koja je aktivna na vlastitom poslužitelju. Predviđeno je da korisnik koristi mrežni preglednik na vlastitom računalu za komunikaciju s aplikacijom na mrežnom poslužitelju.
 			 
@@ -613,26 +598,26 @@ public void voting() {
 		\section{Upute za puštanje u pogon}
 		
 			\subsubsection{Kreiranje baze podataka na serveru}
-			Pri postavljanju projekta korištena je Render usluga na računalnom oblaku. Nakon izrade korisničkog računa možemo pristupiti opciji Dashboard, zatim odabiremo opciju "New +" - PostgreSQL. Unese se ime baze, a ostalo se automatski generira. Odabire se plan plaćanja (besplatna verzija uz više plaćenih), zatim Create. Time je baza kreirana. Sada ulaskom u dashboard imamo opciju "imebaze-db". Klikom na bazu ulazimo u prozor s informacijama o bazi od kojih su nam neke ključne za spajanje baze s \textit{backend} servisom.
-			\newpage
-			\begin{figure} [h]
+			Pri postavljanju projekta korištena je usluga na računalnom oblaku Render. Nakon izrade korisničkog računa možemo pristupiti opciji "Dashboard", zatim odabiremo opciju "New +" - "PostgreSQL". Unese se ime baze, a ostalo se automatski generira. Odabire se plan plaćanja (besplatna verzija uz više plaćenih), zatim "Create". Time je baza kreirana. Sada ulaskom u dashboard imamo opciju "imebaze-db". Klikom na bazu ulazimo u prozor s informacijama o bazi od kojih su nam neke ključne za spajanje baze s \textit{backend} servisom.
+			
+			\begin{figure} [H]
 				\includegraphics[width=\linewidth]{Slike/Dashboard-New-PostgreSQL}
 				\caption{Dashboard-New-PostgreSQL}
 			\end{figure}
-			\newpage
-			\begin{figure} [h]
+			
+			\begin{figure} [H]
 				\includegraphics[width=\linewidth]{Slike/Izrada Baze Podataka}
 				\caption{Izrada Baze Podataka}
 			\end{figure}
-			\newpage
-			\begin{figure} [h]
+			
+			\begin{figure} [H]
 				\includegraphics[width=\linewidth]{Slike/Info o Bazi Podataka}
 				\caption{Info o Bazi Podataka}
 			\end{figure}
 			
 			\newpage
 			\subsubsection{Postavljanje backend servisa na server}
-			Prije svega treba pripremiti \textit{backend} za puštanje na server. Dodaje se Dockerfile u direktorij "docker". Sličnim postupkom kao i za bazu, u Dashboard kliknemo "New +", zatim Web Service, nakon povezivanja git računa, dobije se pristup svim repozitorijima kojima račun ima pravo pristupa. Stisnuti "connect" kraj odgovarajućeg projekta.
+			Prije svega treba pripremiti \textit{backend} za puštanje na server. Dodaje se Dockerfile u direktorij "docker". Sličnim postupkom kao i za bazu, u "Dashboard" kliknemo "New +", zatim "Web Service". Nakon povezivanja git računa dobije se pristup svim repozitorijima kojima račun ima pravo pristupa. Stisnuti "connect" kraj odgovarajućeg projekta.
 			\begin{itemize}
 			\item Postaviti ime servisa
 			\item Root directory postaviti na IzvorniKod/posterheimer-backend
@@ -643,69 +628,68 @@ public void voting() {
 			\item Stisnuti Create Web Service
 			\end{itemize}
 			Ako je sve dobro postavljeno, nakon što prođe potrebno vrijeme da se sve postavi na server, usluga bi trebala biti "live". 
-			\newpage
-			\begin{figure} [h]
+			
+			\begin{figure} [H]
 				\includegraphics[width=\linewidth]{Slike/Dashboard-New-Web Service}
 				\caption{Dashboard-New-Web Service }
 			\end{figure}
-			\newpage
-			\begin{figure} [h]
+			
+			\begin{figure} [H]
 				\includegraphics[width=\linewidth]{Slike/Stvaranje iz git repozitorija}
 				\caption{Stvaranje iz git repozitorija}
 			\end{figure}
-			\newpage
-			\begin{figure} [h]
+			
+			\begin{figure} [H]
 				\includegraphics[width=\linewidth]{Slike/Spajanje s repozitorijem}
 				\caption{Spajanje s repozitorijem}
 			\end{figure}
-			\newpage
-			\begin{figure} [h]
+			
+			\begin{figure} [H]
 				\includegraphics[width=\linewidth]{Slike/Polja za ispunjavanje}
 				\caption{Polja za ispunjavanje}
 			\end{figure}
-			\newpage
-			\begin{figure} [h]
+			
+			\begin{figure} [H]
 				\includegraphics[width=\linewidth]{Slike/Dodavanje Environment varijabli}
 				\caption{Dodavanje Environment varijabli}
 			\end{figure}
-			\newpage
-			\begin{figure} [h]
+			
+			\begin{figure} [H]
 				\includegraphics[width=\linewidth]{Slike/Advance-Docker path}
 				\caption{Advance-Docker path}
 			\end{figure}
-			\newpage
-			\begin{figure} [h]
+			
+			\begin{figure} [H]
 				\includegraphics[width=\linewidth]{Slike/Environment varijable}
 				\caption{Environment varijable }
 			\end{figure}
 			
+			\newpage
+			
 			\subsubsection{Puštanje frontenda u pogon}
 			Prije svega trebamo imati Github profil s repozitorijem koji sadrži naš kod. U ovom primjeru radi se o repozitoriju Posterheimer. Potom se trebamo prijaviti na Render s pripadajućim Github profilom. U Render Dashboardu odabiremo opciju "New" - "Web Service". 
 			
-			\newpage
-			\begin{figure} [h]
-			\includegraphics[width=\linewidth]{Slike/Render-Dashboard}
-			\caption{Render Dashboard}
+			\begin{figure} [H]
+				\includegraphics[width=\linewidth]{Slike/Render-Dashboard}
+				\caption{Render Dashboard}
 			\end{figure}
 			
 			\newpage
 			U sljedećem izborniku odabiremo opciju "Build and deploy from a Git repository"
 			
-			\begin{figure} [h]
+			\begin{figure} [H]
 				\includegraphics[width=\linewidth]{Slike/Build-and-deploy}
 				\caption{Build and deploy}
 			\end{figure}
 			
-			Iz izbornika izabiremo željeni repozitorij i odaberemo opciju "Connect". U sljedećem izborniku odaberemo željeno ime našeg servisa, regiju u kojoj će se servis pokretati, za europsko tržište odaberemo Frankfurt. Odabiremo granu s koje će se servis pokretati, u našem slučaju to je grana master. Specifično za pokretanje frontend koda želimo da se sve komande pokreću unutar direktorija IzvorniKod/posterheimer-frontend, stoga ćemo to upisati u polje Root directory. Runtime za naš servis je Node. Komanda izgradnje mora biti npm install \&\& npm run build. Kod samog pokretanja servisa treba se izvršiti naredba npm run start koju upisujemo u Start command polje.
+			Iz izbornika izabiremo željeni repozitorij i odaberemo opciju "Connect". U sljedećem izborniku odaberemo željeno ime našeg servisa, te regiju u kojoj će se servis pokretati (za europsko tržište odaberemo Frankfurt). Odabiremo granu s koje će se servis pokretati, u našem slučaju to je grana "master". Specifično za pokretanje \textit{frontend} koda želimo da se sve komande pokreću unutar direktorija "IzvorniKod/posterheimer-frontend", stoga ćemo to upisati u polje "Root directory". "Runtime" za naš servis je Node. Komanda izgradnje mora biti "npm install \&\& npm run build". Kod samog pokretanja servisa treba se izvršiti naredba "npm run" start koju upisujemo u Start command polje.
 			
-			\newpage
-			\begin{figure} [h]
-			\includegraphics[width=\linewidth]{Slike/Run-Commands}
-			\caption{Komande za pokretanje}
+			\begin{figure} [H]
+				\includegraphics[width=\linewidth]{Slike/Run-Commands}
+				\caption{Komande za pokretanje}
 			\end{figure}
 			
-			Možemo odabrati vrstu instance našeg servisa, postoji besplatna opcija koja nudi najlošije performanse te koju ćemo koristiti  za potrebe ovog projekta.
-			Potrebne su nam 3 varijable okoline, Environment variables.
+			Možemo odabrati vrstu instance našeg servisa. Postoji besplatna opcija koja nudi najlošije performanse i koju ćemo koristiti za potrebe projekta. Potrebne su nam tri varijable okoline ("Environment variables").
 			
 			\begin{itemize}
 				\item  API\_BASE\_URL = https://posterheimer-service.onrender.com - središnja ruta za sve API pozive prema serveru
@@ -713,10 +697,9 @@ public void voting() {
 				\item  PORT = 3000 - port na kojem računalo sluša
 			\end{itemize}
 			
-			Nakon što smo unijeli sve vrijednosti možemo kliknuti na "Create Web Service" gumb čime će se započeti puštanje aplikacije u pogon. Nakon kratkog čekanja trebali bismo vidjeti poruku "Your service is live!" nakon čega joj možemo pristupiti putem dodijeljenog linka, u ovom slučaju https://posterheimer-example.onrender.com/.
+			Nakon što smo unijeli sve vrijednosti možemo kliknuti na gumb "Create Web Service" čime će se započeti puštanje aplikacije u pogon. Nakon kratkog čekanja trebali bismo vidjeti poruku "Your service is live!" nakon čega joj možemo pristupiti putem dodijeljenog linka, u ovom slučaju: \textbf{https://posterheimer-example.onrender.com}.
 			
-			\newpage
-			\begin{figure} [h]
+			\begin{figure} [H]
 				\includegraphics[width=\linewidth]{Slike/Frontend-Deployed}
 				\caption{Aplikacija uspješno pokrenuta u pogon}
 			\end{figure}
