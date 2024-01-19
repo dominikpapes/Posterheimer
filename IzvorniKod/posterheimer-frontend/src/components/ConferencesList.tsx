@@ -52,8 +52,7 @@ function ConferencesList({
       console.log(error);
     } finally {
       setIsSending(false);
-      if (conferences.length === 1) setConfs([]);
-      else setConfs(conferences.filter((o) => o.idKonferencija !== id));
+      window.location.reload();
     }
   }
 
