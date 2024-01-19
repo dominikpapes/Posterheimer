@@ -18,8 +18,7 @@ const REGISTERED = import.meta.env.VITE_REGISTERED;
 const ADMIN = import.meta.env.VITE_ADMIN;
 const SUPERUSER = import.meta.env.VITE_SUPERUSER;
 
-/* const showResults = localStorage.getItem("votingOver"); */
-const showResults = true;
+const showResults = localStorage.getItem("votingOver") == "true";
 
 function ConferenceNavbar() {
   const conference = localStorage.getItem("conference");

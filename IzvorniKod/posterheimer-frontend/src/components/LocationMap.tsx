@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import Loading from "./Loading";
+import markerIconPng from "leaflet/dist/images/marker-icon.png";
+import { Icon } from "leaflet";
 
 interface Props {
   adresa: string;
@@ -59,9 +61,21 @@ function LocationMap({ adresa, grad, pbr, konfIme }: Props) {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Marker position={[location.latitude, location.longitude]}>
+          <Marker
+            position={[location.latitude, location.longitude]}
+            icon={
+              new Icon({
+                iconUrl: markerIconPng,
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+              })
+            }
+          >
             <Popup>{konfIme}</Popup>
           </Marker>
+          {/* <Marker position={[location.latitude, location.longitude]}>
+            <Popup>{konfIme}</Popup>
+          </Marker> */}
         </MapContainer>
       )}
     </>
