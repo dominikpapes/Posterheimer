@@ -263,6 +263,8 @@ public void navBar() {
 	} else {
 		System.out.println("Error: pokrovitelji");
 	}
+	
+	/* ukoliko je glasovanje gotovo
 	driver.findElement(By.linkText("Rezultati")).click();
 	redirURL = driver.getCurrentUrl();
 	comperRes = redirURL.contains("/results");
@@ -271,6 +273,7 @@ public void navBar() {
 	} else {
 		System.out.println("Error: rezultati");
 	}
+	*/
 	driver.quit();
 }
 	\end{lstlisting}
@@ -279,7 +282,7 @@ public void navBar() {
 	Ispitni slučaj je neuspješan u slučaju CAPTCHA Image testa 
 
 			\begin{lstlisting}
-	  @Test
+@Test
 public void incorrectRegister() {
 	System.setProperty("webdriver.chrome.driver", "src\\test\\java\\chromedriver\\chromedriver.exe");
 	WebDriver driver = new ChromeDriver();
