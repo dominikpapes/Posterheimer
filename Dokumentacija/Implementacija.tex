@@ -23,7 +23,6 @@
 		\section{Ispitivanje programskog rješenja}	 
 			
 			\subsection{Ispitivanje komponenti}
-			\textit{Potrebno je provesti ispitivanje jedinica (engl. unit testing) nad razredima koji implementiraju temeljne funkcionalnosti. Razraditi \textbf{minimalno 6 ispitnih slučajeva} u kojima će se ispitati redovni slučajevi, rubni uvjeti te izazivanje pogreške (engl. exception throwing). Poželjno je stvoriti i ispitni slučaj koji koristi funkcionalnosti koje nisu implementirane. Potrebno je priložiti izvorni kôd svih ispitnih slučajeva te prikaz rezultata izvođenja ispita u razvojnom okruženju (prolaz/pad ispita). }
 			
 			Ispitivanje komponenti provedeno je pomoću Selenium WebDrivera\footnote{https://www.selenium.dev/documentation/webdriver/} unutar JUnit 4 testova kao podršku za pisanje ispita unutar programskog jezika Java. Ispitivanje je provedeno nad konferencijom naziva "TestKonferencija". U vrijeme izrade dokumentacije, konferencija se nalazila na drugom mjestu na listi dostupnih konferencija. 
 			Izrađeno je 7 ispitnih slučajeva. Uspješnost 6 slučajeve te izazivanje pogreške u jednom prikazani su slikom 5.1.
@@ -277,6 +276,8 @@ public void navBar() {
 	driver.quit();
 }
 	\end{lstlisting}
+	
+	\newpage
 	
 	U \textbf{šestom ispitnom slučaju} provjerena je funkcionalnost gumba za registraciju pri unosu adrese e-pošte netočnog formata. Sva ostala polja su točno ispunjena, a reCAPTCHA test je prošao. Predviđen rezultat je neuspješna registracija te obavijest o netočnom unosu. Ispitni slučaj je uspješan.
 	Ispitni slučaj je neuspješan u slučaju CAPTCHA Image testa 
@@ -555,7 +556,7 @@ public void deleteUser() {
 	}
 \end{lstlisting}
 		 	
-		\textbf{Četvrti ispitni slučaj} provjerava funkcionalnost glasovanja. Prije samog glasovanja potrebna je prijava registriranog korisnika te otvaranje galerije postera. Korisnik odabire jedan od postera, glasuje za njega te potvrđuje svoj glas. Zatim otvara drugi poster te više nema mogućnost glasovanja. Ispitni slučaj je uspješan.
+		\textbf{Četvrti ispitni slučaj} provjerava funkcionalnost glasovanja. Prije samog glasovanja potrebna je prijava registriranog korisnika te otvaranje galerije postera. Korisnik odabire jedan od postera, glasuje za njega, te potvrđuje svoj glas. Zatim otvara drugi poster i više nema mogućnost glasovanja. Ispitni slučaj je uspješan.
 		\begin{figure} [hbt!]
 			\includegraphics[width=\linewidth]{Slike/votingTest}
 			\caption{Prikaz uspješnosti ispitnog slučaja}
