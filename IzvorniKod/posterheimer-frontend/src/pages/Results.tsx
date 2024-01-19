@@ -60,7 +60,7 @@ export default function Results() {
         >
           <h2 style={{ marginBottom: "20px" }}>Rezultati natjecanja</h2>
 
-          <div className="row" style={disableHorizontalScrollBar}>
+          <div className="row w-75 mx-auto" style={disableHorizontalScrollBar}>
             {results.slice(0, 3).map((result, index) => (
               <div
                 key={index}
