@@ -1,0 +1,72 @@
+CREATE TABLE Konferencija
+(
+  datum_vrijeme_početka DATETIME NOT NULL,
+  datum_vrijeme_završetka DATETIME NOT NULL,
+  mjesto VARCHAR NOT NULL,
+  id_konferencija INT NOT NULL,
+  ime_konferencija VARCHAR NOT NULL,
+  generic_username VARCHAR NOT NULL,
+  generic_password VARCHAR NOT NULL,
+  adresa VARCHAR NOT NULL,
+  zip_code VARCHAR NOT NULL,
+  video_url VARCHAR NOT NULL,
+  voting_reminder_sent BOOLEAN NOT NULL,
+  PRIMARY KEY (id_konferencija),
+  UNIQUE (ime_konferencija),
+  UNIQUE (generic_username)
+);
+
+CREATE TABLE Poster
+(
+  ime_poster VARCHAR NOT NULL,
+  file_path LONGBLOB NOT NULL,
+  ime_autor VARCHAR NOT NULL,
+  poster_email INT NOT NULL,
+  prezime_autor INT NOT NULL,
+  br_glasova INT NOT NULL,
+  id_konferencija INT NOT NULL,
+  PRIMARY KEY (ime_poster),
+  FOREIGN KEY (id_konferencija) REFERENCES Konferencija(id_konferencija)
+);
+
+CREATE TABLE Pokrovitelj
+(
+  ime_pokrovitelja VARCHAR NOT NULL,
+  promotivni_materijal LONGBLOB NOT NULL,
+  url_promo VARCHAR NOT NULL,
+  PRIMARY KEY (ime_pokrovitelja)
+);
+
+CREATE TABLE Fotografija
+(
+  file_path LONGBLOB NOT NULL,
+  id_fotografija INT NOT NULL,
+  id_konferencija INT NOT NULL,
+  PRIMARY KEY (id_fotografija),
+  FOREIGN KEY (id_konferencija) REFERENCES Konferencija(id_konferencija)
+);
+
+CREATE TABLE pokroviteljKonferencije
+(
+  imePokrovitelja VARCHAR NOT NULL,
+  id_konferencija INT NOT NULL,
+  PRIMARY KEY (imePokrovitelja, id_konferencija),
+  FOREIGN KEY (imePokrovitelja) REFERENCES Pokrovitelj(ime_pokrovitelja),
+  FOREIGN KEY (id_konferencija) REFERENCES Konferencija(id_konferencija)
+);
+
+CREATE TABLE Korisnik
+(
+  lozinka VARCHAR NOT NULL,
+  ime VARCHAR NOT NULL,
+  prezime VARCHAR NOT NULL,
+  email VARCHAR NOT NULL,
+  admin BOOLEAN NOT NULL,
+  visitor BOOLEAN NOT NULL,
+  voted BOOLEAN NOT NULL,
+  id_konferencija INT NOT NULL,
+  glasao_za VARCHAR,
+  PRIMARY KEY (email),
+  FOREIGN KEY (id_konferencija) REFERENCES Konferencija(id_konferencija),
+  FOREIGN KEY (glasao_za) REFERENCES Poster(ime_poster)
+);
